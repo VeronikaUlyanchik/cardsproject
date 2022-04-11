@@ -1,0 +1,40 @@
+
+.checkbox {
+
+}
+
+.spanClassName {
+
+}
+.checkboxContainer {
+    margin:10px;
+}
+
+.checkboxContainer .checkbox {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    padding-left: 25px;
+}
+
+.checkboxContainer .checkbox {
+    display: none;
+}
+
+.checkboxContainer .checkbox + span {
+    display: inline-block;
+    position: relative;
+    top: 0px; left: 0px;
+    width: 14px; height: 14px;
+    border: 2px solid #a53f3f66;
+    border-radius: 5px;
+}
+
+.checkboxContainer .checkbox:checked + span {
+    display: inline-block;
+    position: relative;
+    top: 0px; left: 0px;
+    width: 14px; height: 14px;
+    border: 2px solid #81cd60;
+    background: #81cd60;
+}
