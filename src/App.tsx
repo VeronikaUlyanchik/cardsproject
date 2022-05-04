@@ -1,13 +1,13 @@
 import React from 'react';
 import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
-import {Login} from './p1-main/m1-ui/component/com1-Login/Login';
-import {Profile} from './p1-main/m1-ui/component/com3-Profile/Profile';
-import {Register} from "./p1-main/m1-ui/component/com2-Register/Register";
-import {PasswordRecovery} from './p1-main/m1-ui/component/com5-PasswordRecovery/PasswordRecovery';
-import {NewPasswordSetting} from "./p1-main/m1-ui/component/com6-NewPasswordSetting/NewPasswordSetting";
-import {Test} from "./p1-main/m1-ui/component/com7-Test/NewPasswordSetting";
-import {Error404} from './p1-main/m1-ui/component/com4-Error404/Error404';
+import {Login} from './ui/components/LoginPage/Login';
+import {Profile} from './ui/components/ProfilePage/Profile';
+import {Register} from "./ui/components/RegisterPage/Register";
+import {PasswordRecovery} from './ui/components/PasswordRecoveryPage/PasswordRecovery';
+import {NewPasswordSetting} from "./ui/components/NewPasswordSettingPage/NewPasswordSetting";
+import {Test} from "./ui/components/Test/NewPasswordSetting";
+import {Error404} from './ui/components/ErrorPage/Error404';
 
 
 export const PATH = {
