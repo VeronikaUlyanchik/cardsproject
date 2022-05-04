@@ -8,6 +8,7 @@ import {PasswordRecovery} from './ui/components/PasswordRecoveryPage/PasswordRec
 import {NewPasswordSetting} from "./ui/components/NewPasswordSettingPage/NewPasswordSetting";
 import {Test} from "./ui/components/Test/NewPasswordSetting";
 import {Error404} from './ui/components/ErrorPage/Error404';
+import {AppWrapper} from "./common/global-styles/CommonStyles.style";
 
 
 export const PATH = {
@@ -22,6 +23,7 @@ export const PATH = {
 const App = () => {
     return (
         <div className="App">
+            <AppWrapper>
             <HashRouter>
                 <Routes>
                     <Route path={'/'} element={<Navigate to={PATH.LOGIN}/>}/>
@@ -34,6 +36,7 @@ const App = () => {
                     <Route path='*' element={<Error404/>}/>
                 </Routes>
             </HashRouter>
+            </AppWrapper>
         </div>
     );
 }
