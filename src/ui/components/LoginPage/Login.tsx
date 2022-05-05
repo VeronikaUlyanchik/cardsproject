@@ -60,7 +60,7 @@ export const Login = () => {
                 {formik.touched.password && formik.errors.password ?
                     <div style={{color: 'red'}}>{formik.errors.password}</div> : null}
                 <div><SuperCheckbox {...formik.getFieldProps("rememberMe")}/></div>
-                <div><SuperButton>  Log In </SuperButton></div>
+                <div><SuperButton type={'submit'} name={'Sign Up'}/></div>
             </form>
         </div>
     )

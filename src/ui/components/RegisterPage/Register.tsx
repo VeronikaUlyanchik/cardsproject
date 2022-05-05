@@ -66,9 +66,7 @@ export const Register = () => {
                    <SuperInputText type="password" {...formik.getFieldProps('repeatedPassword')}/>
                    {formik.touched.repeatedPassword && formik.errors.repeatedPassword && <div>{formik.errors.repeatedPassword}</div>}
                </div>
-                <SuperButton type={'submit'}>
-                    Sign Up
-                </SuperButton>
+                <SuperButton type={'submit'} name={'Sign Up'}/>
             </form>
             {registrationError ? registrationError : ''}
         </>

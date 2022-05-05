@@ -12,8 +12,7 @@ import {StyledInput} from "../../features/SuperInputText/SuperInputText.style";
 
 
 export const Profile = () => {
-    const isAuth = true
-    // const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
+    const isAuth = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const dispatch = useAppDispatch()
     const user = useAppSelector<GetMeResponseType | null>(state => state.profile.user)
 
@@ -21,7 +20,7 @@ export const Profile = () => {
     const [email, setEmail] = useState<string>(user ? user.email : '')
 
     useEffect(() => {
-        dispatch(getUserProfile)
+        dispatch(getUserProfile())
     }, [])
 
     const updateUser = () => {

@@ -29,3 +29,5 @@ export type AppAllActionsType =
 
 export default store
 
+// @ts-ignore
+window.store= store
