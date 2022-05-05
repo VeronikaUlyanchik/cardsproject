@@ -4,8 +4,6 @@ import styled from "styled-components";
 export const AppWrapper = styled.div`
   width: 100%;
   height: 100vh;
-  //background: radial-gradient(rgba(174, 118, 197, 0.85), #8454da);
-  //background: radial-gradient(rgba(174, 118, 197, 0.85), #8454da);
   background: linear-gradient(75deg, #1eb6b1, #c29aa7);
   box-sizing: border-box;
   display: flex;

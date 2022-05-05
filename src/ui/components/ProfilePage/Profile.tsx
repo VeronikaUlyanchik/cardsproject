@@ -7,12 +7,14 @@ import SuperInputText from "../../features/SuperInputText/SuperInputText";
 import SuperButton from "../../features/SuperButton/SuperButton";
 import {getUserProfile, updateUserProfile} from "../../../bll-redux/reducers/ProfileReducer";
 import {ContentWrapper} from "../../../common/global-styles/CommonStyles.style";
+import {GetMeResponseType} from "../../../api/Api";
 
 
 export const Profile = () => {
     const isAuth = true
+    // const isAuth = useAppSelector<boolean>(state => state.auth.)
     const dispatch = useAppDispatch()
-    const {user} = useAppSelector(state => state.profile)
+    const user = useAppSelector<GetMeResponseType | null>(state => state.profile.user)
 
     const [nickName, setNickName] = useState<string>(user ? user.name : '')
     const [email, setEmail] = useState<string>(user ? user.email : '')
