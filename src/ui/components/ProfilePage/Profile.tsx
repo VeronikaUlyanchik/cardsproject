@@ -2,17 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {PATH} from "../../../App";
 import {Navigate} from "react-router-dom";
-import {ImageBlock, InputBlock, ProfileWrapper, Title} from "./Profile.style";
+import {Image, ImageBlock, InputBlock, ProfileWrapper, Title} from "./Profile.style";
 import SuperInputText from "../../features/SuperInputText/SuperInputText";
 import SuperButton from "../../features/SuperButton/SuperButton";
 import {getUserProfile, updateUserProfile} from "../../../bll-redux/reducers/ProfileReducer";
 import {ContentWrapper} from "../../../common/global-styles/CommonStyles.style";
 import {GetMeResponseType} from "../../../api/Api";
+import {StyledInput} from "../../features/SuperInputText/SuperInputText.style";
 
 
 export const Profile = () => {
     const isAuth = true
-    // const isAuth = useAppSelector<boolean>(state => state.auth.)
+    // const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
     const dispatch = useAppDispatch()
     const user = useAppSelector<GetMeResponseType | null>(state => state.profile.user)
 
@@ -39,28 +40,27 @@ export const Profile = () => {
             <ProfileWrapper>
                 <Title>Personal Information</Title>
                 <ImageBlock>
-                    <img src={user?.avatar} alt=""/>
+                    <Image src={user?.avatar} alt=""/>
                 </ImageBlock>
                 <InputBlock>
-                    <SuperInputText
+                    <StyledInput
                         value={nickName ? nickName : ''}
                         onChangeText={updateNickname}
                     />
-                    <SuperInputText
+                    <StyledInput
                         value={email ? email : ''}
                         onChangeText={updateEmail}
                     />
                 </InputBlock>
                 <div style={{display: 'flex', justifyContent: 'space-around', width: '100%'}}>
-                    <SuperButton
-                        name={'Cancel'}
-                    >
+                    <SuperButton name={'Cancel'}>
                         Cancel
                     </SuperButton>
+
                     <SuperButton
                         name={'Save'}
                         onClick={updateUser}
-                    >
+                        bgColor={'#c48798'}>
                         Save
                     </SuperButton>
                 </div>

@@ -20,7 +20,7 @@ export const ImageBlock = styled.div`
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 3px solid #060D64FF;
+  border: 3px solid #1eb6b1;
   margin: 20px 0;
 `;
 
@@ -31,3 +31,10 @@ export const InputBlock = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
+
+export const Image = styled.img`
+  background-size: cover;
+  background-position: center;
+  vertical-align: middle;
+`;
+

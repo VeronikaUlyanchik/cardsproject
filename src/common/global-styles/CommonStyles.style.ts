@@ -1,5 +1,7 @@
-import styled from "styled-components";
+import styled, {createGlobalStyle} from "styled-components";
 
+
+export const GlobalStyle = createGlobalStyle({})
 
 export const AppWrapper = styled.div`
   width: 100%;
@@ -22,39 +24,4 @@ export const ContentWrapper = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.16);
 `;
 
-
-interface ButtonProps {
-    color?: string
-    bgColor?: string
-}
-
-export const Button = styled.button<ButtonProps>`
-  color: ${props => props.color || "#edeef1"};
-  background-color: ${props => props.bgColor || "#2336f3"};
-  width: 100px;
-  height: 30px;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-
-  &:hover {
-    background-color: #060D64FF;
-  }
-`;
-
-/*interface InputProps {
-    color?: string
-    bgColor?: string
-}
-export const StyledInput = styled.input<InputProps>`
-  color: ${props => props.color || "#edeef1"};
-  background-color: ${props => props.bgColor || "#2336f3"};
-  width: 100px;
-  height: 30px;
-  border-radius: 10px;
-
-  &:hover {
-    background-color: #060D64FF;
-  }
-`;*/
 
