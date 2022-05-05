@@ -1,14 +1,17 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import {Reducer} from "./reducers/reducer";
-import thunk from "redux-thunk";
+import thunk, { ThunkMiddleware } from "redux-thunk";
+import {RegistrationActionsType, registrationReducer} from "../bll-redux/reducers/RegisterReducer";
 
 const reducers = combineReducers({
-    reducer: Reducer,
+    registration: registrationReducer,
 })
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const store = createStore(reducers, applyMiddleware(
+    thunk as ThunkMiddleware<AppRootStateType, any>
+));
 
 export default store;
 
 export type AppRootStateType = ReturnType<typeof reducers>;
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
+export type AppAllActionsType = RegistrationActionsType;
