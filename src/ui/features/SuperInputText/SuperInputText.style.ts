@@ -12,11 +12,11 @@ export const StyledInput = styled(SuperInputText)<InputStyledProps>`
   font-family: inherit;
   font-size: 16px;
   line-height: inherit;
-  color: ${props => props.color || "#020717"};
+  color: ${props=>props.color || "#020717"};
   background-color: ${props => props.bgColor || "#fff"};
   min-width: 12em;
   margin: 10px 0;
-  padding: 8px 10px;
+  padding: 8px 10px;  
 
   &:focus {
     box-shadow: inset 0 0 0 3px #fff,
