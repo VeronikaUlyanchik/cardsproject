@@ -22,6 +22,15 @@ export const ImageBlock = styled.div`
   border-radius: 50%;
   border: 3px solid #1eb6b1;
   margin: 20px 0;
+  overflow: hidden;
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  vertical-align: middle;
 `;
 
 export const InputBlock = styled.div`
@@ -30,11 +39,5 @@ export const InputBlock = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  outline: none;
 `;
-
-export const Image = styled.img`
-  background-size: cover;
-  background-position: center;
-  vertical-align: middle;
-`;
-
