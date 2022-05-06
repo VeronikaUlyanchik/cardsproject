@@ -1,5 +1,5 @@
 import React from 'react';
-import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';
+import {HashRouter, Navigate, NavLink, Route, Routes} from 'react-router-dom';
 import './App.css';
 import {Login} from './ui/components/LoginPage/Login';
 import {Profile} from './ui/components/ProfilePage/Profile';
@@ -23,8 +23,14 @@ export const PATH = {
 const App = () => {
     return (
         <div className="App">
-            <AppWrapper>
             <HashRouter>
+            <div>
+                <NavLink to={PATH.LOGIN}>Login</NavLink>
+                <NavLink to={PATH.REGISTER}>Register</NavLink>
+                <NavLink to={PATH.PROFILE}>Profile</NavLink>
+                <NavLink to={PATH.PASSWORD_RECOVERY}>PasswordRecovery</NavLink>
+            </div>
+            <AppWrapper>
                 <Routes>
                     <Route path={'/'} element={<Navigate to={PATH.LOGIN}/>}/>
                     <Route path={PATH.LOGIN} element={<Login/>}/>
@@ -35,8 +41,9 @@ const App = () => {
                     <Route path={PATH.TEST} element={<Test/>}/>
                     <Route path='*' element={<Error404/>}/>
                 </Routes>
-            </HashRouter>
+
             </AppWrapper>
+            </HashRouter>
         </div>
     );
 }
