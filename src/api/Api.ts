@@ -9,8 +9,8 @@ export const profileAPI = {
     getMe () {
         return instance.post<GetMeResponseType>('auth/me')
     },
-    updateMe (name: string, avatar: string) {
-        return instance.put<PutMeResponseType>('auth/me', {name, avatar})
+    updateMe (name: string, email: string) {
+        return instance.put<PutMeResponseType>('auth/me', {name, email})
     }
 }
 

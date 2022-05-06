@@ -39,7 +39,10 @@ export const Profile = () => {
             <ProfileWrapper>
                 <Title>Personal Information</Title>
                 <ImageBlock>
-                    <Image src={user?.avatar} alt=""/>
+                    <Image
+                        // src={user?.avatar ? user.avatar : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowITdGdaY753M43p2ZDG39EYzq3LZu5VGMycNIqEdV4P8lHbpmpKMdrY32GwN3vaecb0&usqp=CAU'}
+                        src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowITdGdaY753M43p2ZDG39EYzq3LZu5VGMycNIqEdV4P8lHbpmpKMdrY32GwN3vaecb0&usqp=CAU'}
+                        alt=""/>
                 </ImageBlock>
                 <InputBlock>
                     <StyledInput
