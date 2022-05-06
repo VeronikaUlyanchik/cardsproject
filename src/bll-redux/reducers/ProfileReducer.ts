@@ -2,20 +2,19 @@ import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/t
 import {GetMeResponseType, profileAPI} from "../../api/Api";
 
 
-// export const getUserProfile = createAsyncThunk(
-//     'profile/getUserProfile',
-//     async (_, {dispatch}) => {
-//         try {
-//             const res = await profileAPI.getMe()
-//             dispatch(setUserProfile(res.data))
-//             console.log(res.data)
-//             return res.data
-//         } catch (e) {
-//         } finally {
-//         }
-//     }
-// )
-
+export const getUserProfile = createAsyncThunk(
+    'profile/getUserProfile',
+    async (_, {dispatch}) => {
+        try {
+            const res = await profileAPI.getMe()
+            dispatch(setUserProfile(res.data))
+            console.log(res.data)
+            return res.data
+        } catch (e) {
+        } finally {
+        }
+    }
+)
 
 export interface ProfileStateType {
     user: null | GetMeResponseType
@@ -46,21 +45,19 @@ export type ProfileActionsType = ReturnType<typeof setUserProfile>
 
 export default profileSlice.reducer;
 
-
-//thunk-old
-export const getUserProfile = () =>
-    async (dispatch: Dispatch) => {
-        try {
-            const res = await profileAPI.getMe()
-            dispatch(setUserProfile(res.data))
-            console.log(res.data)
-        } catch (e) {
-
-        } finally {
-
-        }
-    }
-
+// //thunk-old
+// export const getUserProfile = () =>
+//     async (dispatch: Dispatch) => {
+//         try {
+//             const res = await profileAPI.getMe()
+//             dispatch(setUserProfile(res.data))
+//             console.log(res.data)
+//         } catch (e) {
+//
+//         } finally {
+//
+//         }
+//     }
 
 export const updateUserProfile = (name: string, avatar: string) =>
     async (dispatch: Dispatch) => {
@@ -75,6 +72,9 @@ export const updateUserProfile = (name: string, avatar: string) =>
 
         }
     }
+
+
+
 
 
 /*import {Dispatch} from "redux";
