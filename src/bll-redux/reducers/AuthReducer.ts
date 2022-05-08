@@ -1,35 +1,51 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authAPI, LoginParamsType} from "../../api/Api";
+import {setAppStatus} from "./AppReducer";
 
 const slice = createSlice({
         name: "auth",
         initialState: {
             isLoggedIn: false,
+            status: 'idle',
+            error: null,
         },
         reducers: {
-            loggedIn(state, action: PayloadAction<{ value: boolean }>) {
-                state.isLoggedIn = action.payload.value;
+            loggedIn(state, action: PayloadAction<boolean>) {
+                state.isLoggedIn = action.payload;
             }
-        }
+        },
     }
 )
 
-export const fetchLogged = createAsyncThunk(
-    'auth/fetchLogged',
+export const fetchLogin = createAsyncThunk(
+    'auth/fetchLogin',
     async (data: LoginParamsType, {dispatch}) => {
         try {
-            const response = await authAPI.login(data);
-            if (response.status === 200) {
-                dispatch(loggedIn({value: true}))
-                console.log(response.data)
-                return response.data;
-            }
-        } catch (err: any) {
+            dispatch(setAppStatus({status: 'loading'}))
+            const res = await authAPI.login(data);
 
+        } catch (err: any) {
+            console.log(err)
+        } finally {
+            dispatch(loggedIn(true))
+            dispatch(setAppStatus({status: 'succeeded'}))
+        }
+    }
+);
+
+export const fetchLogout = createAsyncThunk(
+    'auth/fetchLogout',
+    async (_, {dispatch}) => {
+        try {
+            dispatch(setAppStatus({status: 'loading'}))
+            await authAPI.logout();
+            dispatch(loggedIn(false))
+            dispatch(setAppStatus({status: 'succeeded'}))
+        } catch (err: any) {
             console.log(err)
         }
     }
 );
 
-const {loggedIn} = slice.actions
+export const {loggedIn} = slice.actions
 export const authReducer = slice.reducer

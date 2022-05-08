@@ -1,7 +1,5 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {registrationApi, registrationDataType} from "../../api/Api";
-import {AppAllActionsType} from "../../bll-redux/store";
-import {Dispatch} from "react";
 
 const initialState = {
     isSignedUp: false,

@@ -1,68 +1,58 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-
-export interface AppStateType {
-    isLoading: boolean
-}
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { profileAPI} from "../../api/Api";
+import {loggedIn} from "./AuthReducer";
 
 const initialState = {
-    isLoading: false
+    IsInitialized: false,
+    status: 'idle',
+    error: '',
+    _id: ''
 }
 
+export const fetchInitialized = createAsyncThunk(
+    'auth/fetchInitialized',
+    async (_, {dispatch}) => {
+        try {
+            dispatch(setAppStatus({status: 'loading'}))
+            const {data, status} = await profileAPI.getMe();
+            if(status === 200) {
+                dispatch(loggedIn(true))
+            }
+
+            return {id: data._id}
+        } catch (err: any) {
+            console.log(err)
+        } finally {
+            dispatch(setIsInitialized(true))
+            dispatch(setAppStatus({status: 'succeeded'}))
+        }
+    })
 
 export const appSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        setIsLoading: (state: AppStateType, action: PayloadAction<boolean>) => {
-            state.isLoading = action.payload
+        setIsInitialized: (state, action: PayloadAction<boolean>) => {
+            state.IsInitialized = action.payload
+        },
+        setAppStatus: (state, action: PayloadAction<{ status: string }>) => {
+            state.status = action.payload.status
+        },
+        setAppError: (state, action: PayloadAction<{ error: string }>) => {
+            state.error = action.payload.error
         }
     },
+    extraReducers: builder => {
+        builder.addCase(fetchInitialized.fulfilled, (state, action) => {
+            if (action.payload) {
+                state._id = action.payload.id
+            }
+        })
+    }
 })
 
-export const {setIsLoading} = appSlice.actions
-
-export type AppActionsType = ReturnType<typeof setIsLoading>
+export const {setIsInitialized, setAppStatus} = appSlice.actions
 
 export default appSlice.reducer;
 
 
-// enum App {
-//     SET_IS_LOADING = "SET_IS_LOADING"
-// }
-//
-// const initialState = {
-//     isLoading: false
-// }
-//
-// export const appReducer = (state: InitialStateType = initialState, action: AppActionsType) => {
-//     switch (action.type) {
-//         case App.SET_IS_LOADING:
-//             return {
-//                 ...state,
-//                 ...action.payload
-//             }
-//
-//         default:
-//             return state
-//     }
-// }
-//
-// //actionCreators
-// const setIsLoading = (isLoading: boolean) => ({
-//     type: App.SET_IS_LOADING,
-//     payload: {
-//         isLoading
-//     }
-// } as const)
-//
-//
-// //thunk
-//
-//
-//
-// // types
-// type InitialStateType = {
-//     isLoading: boolean
-// }
-//
-// export type AppActionsType = ReturnType<typeof setIsLoading>

@@ -1,5 +1,5 @@
-import React from 'react';
-import {HashRouter, Navigate, NavLink, Route, Routes} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
 import {Login} from './ui/components/LoginPage/Login';
 import {Profile} from './ui/components/ProfilePage/Profile';
@@ -9,6 +9,10 @@ import {NewPasswordSetting} from "./ui/components/NewPasswordSettingPage/NewPass
 import {Test} from "./ui/components/Test/NewPasswordSetting";
 import {Error404} from './ui/components/ErrorPage/Error404';
 import {AppWrapper} from "./common/global-styles/CommonStyles.style";
+import {LinearProgress} from "@mui/material";
+import {useAppDispatch, useAppSelector} from "./hooks/ReduxHooks";
+import {fetchInitialized} from "./bll-redux/reducers/AppReducer";
+import {Header} from "./ui/components/Header/Header";
 
 
 export const PATH = {
@@ -21,29 +25,40 @@ export const PATH = {
 }
 
 const App = () => {
+
+    const isInitialized = useAppSelector<boolean>(state => state.app.IsInitialized)
+    const dispatch = useAppDispatch()
+    console.log(isInitialized)
+
+    useEffect(()=>{
+        dispatch(fetchInitialized())
+    },[])
+
+    if(!isInitialized){
+        return <div
+            style={{top: '30%', textAlign: 'center', width: '100%'}}>
+            <LinearProgress/>
+        </div>
+    }
+
+    console.log(isInitialized)
     return (
         <div className="App">
-            <HashRouter>
-            <div>
-                <NavLink to={PATH.LOGIN}>Login</NavLink>
-                <NavLink to={PATH.REGISTER}>Register</NavLink>
-                <NavLink to={PATH.PROFILE}>Profile</NavLink>
-                <NavLink to={PATH.PASSWORD_RECOVERY}>PasswordRecovery</NavLink>
-            </div>
-            <AppWrapper>
-                <Routes>
-                    <Route path={'/'} element={<Navigate to={PATH.LOGIN}/>}/>
-                    <Route path={PATH.LOGIN} element={<Login/>}/>
-                    <Route path={PATH.REGISTER} element={<Register/>}/>
-                    <Route path={PATH.PROFILE} element={<Profile/>}/>
-                    <Route path={PATH.PASSWORD_RECOVERY} element={<PasswordRecovery/>}/>
-                    <Route path={PATH.NEW_PASSWORD_RECOVERY} element={<NewPasswordSetting/>}/>
-                    <Route path={PATH.TEST} element={<Test/>}/>
-                    <Route path='*' element={<Error404/>}/>
-                </Routes>
 
-            </AppWrapper>
-            </HashRouter>
+                <Header/>
+
+                <AppWrapper>
+                    <Routes>
+                        <Route path={'/'} element={<Navigate to={PATH.LOGIN}/>}/>
+                        <Route path={PATH.LOGIN} element={<Login/>}/>
+                        <Route path={PATH.REGISTER} element={<Register/>}/>
+                        <Route path={PATH.PROFILE} element={<Profile/>}/>
+                        <Route path={PATH.PASSWORD_RECOVERY} element={<PasswordRecovery/>}/>
+                        <Route path={PATH.NEW_PASSWORD_RECOVERY} element={<NewPasswordSetting/>}/>
+                        <Route path={PATH.TEST} element={<Test/>}/>
+                        <Route path='*' element={<Error404/>}/>
+                    </Routes>
+                </AppWrapper>
         </div>
     );
 }

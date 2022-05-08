@@ -5,19 +5,19 @@ import reportWebVitals from './reportWebVitals';
 import {createRoot} from 'react-dom/client';
 import {Provider} from "react-redux";
 import store from "./bll-redux/store";
-import {BrowserRouter, Routes} from 'react-router-dom';
-
+import {HashRouter} from "react-router-dom";
 
 const root = createRoot(
     document.getElementById('root') as HTMLElement);
 
 root.render(
     <React.StrictMode>
-        <Provider store={store}>
-            <App/>
-        </Provider>
+        <HashRouter>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </HashRouter>
     </React.StrictMode>
 );
-
 
 reportWebVitals();

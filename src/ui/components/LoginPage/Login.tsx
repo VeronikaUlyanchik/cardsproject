@@ -1,11 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {useFormik} from "formik";
-import SuperButton from "../../features/SuperButton/SuperButton";
-import SuperCheckbox from "../../features/SuperCheckbox/SuperCheckbox";
-import {Navigate} from "react-router-dom";
-import SuperInputText from "../../features/SuperInputText/SuperInputText";
-import {fetchLogged} from "../../../bll-redux/reducers/AuthReducer";
+import {Navigate, useNavigate} from "react-router-dom";
+import {fetchLogin} from "../../../bll-redux/reducers/AuthReducer";
+import {PATH} from "../../../App";
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+import FormGroup from '@mui/material/FormGroup';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
 
 type FormikErrorType = {
     email?: string
@@ -13,15 +22,22 @@ type FormikErrorType = {
     rememberMe?: boolean
 }
 
+export interface StateType {
+    password: string;
+    showPassword: boolean;
+}
+
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+
+    const navigate = useNavigate()
 
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -33,34 +49,124 @@ export const Login = () => {
 
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length < 3) {
-                errors.password = 'Small password';
+            } else if (values.password.length < 6) {
+                errors.password = 'Must be 6 characters or more';
             }
             return errors;
         },
         onSubmit: values => {
-            console.log(values)
-            dispatch(fetchLogged(values))
+            dispatch(fetchLogin(values))
             formik.resetForm();
         },
     })
 
+
+
+    const [value, setValue] = useState<StateType>({
+        password: '',
+        showPassword: false,
+    });
+
+    const handleClickShowPassword = () => {
+        setValue({
+            ...value,
+            showPassword: !value.showPassword,
+        });
+    };
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
     if (isLoggedIn) {
-        console.log(isLoggedIn)
-        return <Navigate to={'/profile'}/>
+        return <Navigate to={PATH.PROFILE}/>
     }
 
     return (
         <div>
             <form onSubmit={formik.handleSubmit}>
-                <div>Login <SuperInputText {...formik.getFieldProps("email")}/></div>
-                {formik.touched.password && formik.errors.email &&
-                    <div style={{color: 'red'}}>{formik.errors.email}</div>}
-                <div>Password <SuperInputText  {...formik.getFieldProps('password')}/></div>
-                {formik.touched.password && formik.errors.password ?
-                    <div style={{color: 'red'}}>{formik.errors.password}</div> : null}
-                <div><SuperCheckbox {...formik.getFieldProps("rememberMe")}/></div>
-                <div><SuperButton type={'submit'} name={'Sign Up'}/></div>
+                <Box
+                    sx={{
+                        width: 300,
+                        height: 400,
+                        backgroundColor: 'white',
+                        opacity: [0.9, 0.8, 0.8],
+                        p: 10,
+                        borderRadius: '20px',
+                        boxShadow: '20',
+                    }}
+                > <Box sx={{fontSize: 35}}>CARDS</Box>
+                    <FormGroup>
+                        <TextField id="standard"
+                                   label="Login"
+                                   variant="standard"
+                                   margin="normal"
+                                   fullWidth
+                                   error={!!(formik.touched.email && formik.errors.email)}
+                                   helperText={formik.touched.email && formik.errors.email}
+                                   {...formik.getFieldProps("email")}/>
+                        <TextField id="standard-basic"
+                                   label="Password"
+                                   variant="standard"
+                                   margin="normal"
+                                   fullWidth
+                                   type={value.showPassword ? 'text' : 'password'}
+                                   error={!!(formik.touched.password && formik.errors.password)}
+                                   helperText={formik.touched.password && formik.errors.password}
+                                   {...formik.getFieldProps("password")}
+                                   InputProps={{
+                                       endAdornment: (
+                                           <InputAdornment position="end">
+                                               <IconButton
+                                                   aria-label="toggle password visibility"
+                                                   onClick={handleClickShowPassword}
+                                                   onMouseDown={handleMouseDownPassword}>
+                                                   {value.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                               </IconButton>
+                                           </InputAdornment>
+                                       )
+                                   }}
+                        />
+                        <FormControlLabel sx={{
+                            marginTop: '25px',
+
+                        }}
+                                          control={
+                                              <Checkbox
+                                                  defaultChecked color="default"
+                                                  {...formik.getFieldProps("rememberMe")} />
+                                          }
+                                          label="Remember me"
+                        />
+                        <Stack spacing={3} sx={{
+                            marginTop: '25px',
+                        }}>
+                            <Button type={'submit'}
+                                    variant={'contained'}
+                                    color={'primary'}>Log in</Button>
+                        </Stack>
+                        <Box sx={{
+                            marginTop: '20px'
+                        }}>
+
+                            <Link
+                                component="button"
+                                variant="body2"
+                                underline="hover"
+                                onClick={() => navigate(PATH.PASSWORD_RECOVERY)}
+                            > Forgot password
+                            </Link>
+                        </Box>
+                        <Box sx={{
+                            marginTop: '25px'
+                        }}>
+                            Don't have an account yet?
+                            <Button variant="text"
+                                    onClick={() => navigate(PATH.REGISTER)}>Register</Button>
+                        </Box>
+                    </FormGroup>
+                </Box>
+
             </form>
         </div>
     )

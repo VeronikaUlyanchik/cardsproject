@@ -3,16 +3,17 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {PATH} from "../../../App";
 import {Navigate} from "react-router-dom";
 import {Image, ImageBlock, InputBlock, ProfileWrapper, Title} from "./Profile.style";
-import SuperInputText from "../../features/SuperInputText/SuperInputText";
 import SuperButton from "../../features/SuperButton/SuperButton";
-import {getUserProfile, updateUserProfile} from "../../../bll-redux/reducers/ProfileReducer";
+import {updateUserProfile} from "../../../bll-redux/reducers/ProfileReducer";
 import {ContentWrapper} from "../../../common/global-styles/CommonStyles.style";
 import {GetMeResponseType} from "../../../api/Api";
 import {StyledInput} from "../../features/SuperInputText/SuperInputText.style";
+import {fetchInitialized} from "../../../bll-redux/reducers/AppReducer";
+import {fetchLogout} from "../../../bll-redux/reducers/AuthReducer";
 
 
 export const Profile = () => {
-    const isAuth = useAppSelector<boolean>(state => state.auth.isLoggedIn);
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const dispatch = useAppDispatch()
     const user = useAppSelector<GetMeResponseType | null>(state => state.profile.user)
 
@@ -20,17 +21,21 @@ export const Profile = () => {
     const [email, setEmail] = useState<string>(user ? user.email : '')
 
     useEffect(() => {
-        dispatch(getUserProfile())
+        dispatch(fetchInitialized())
     }, [])
 
     const updateUser = () => {
         dispatch(updateUserProfile(nickName, email))
     }
 
+    const logOut = () => {
+        dispatch(fetchLogout())
+    }
+
     const updateNickname = (nickname: string) => setNickName(nickname)
     const updateEmail = (email: string) => setEmail(email)
 
-    if (!isAuth) {
+    if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
 
@@ -64,6 +69,7 @@ export const Profile = () => {
                         bgColor={'#c48798'}>
                         Save
                     </SuperButton>
+                    <SuperButton name={'Log Out'} onClick={logOut}/>
                 </div>
             </ProfileWrapper>
         </ContentWrapper>
