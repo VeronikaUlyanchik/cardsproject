@@ -1,7 +1,8 @@
 import axios , {AxiosResponse} from "axios";
-
+// http://localhost:7542/2.0/
+//https://neko-back.herokuapp.com/2.0
 export const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0',
+    baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
     withCredentials: true,
 })
 
@@ -14,11 +15,19 @@ export const profileAPI = {
     }
 }
 
+export const cardsAPI = {
+    getAllCards (page:number) {
+        return instance.get<any>(`/cards/pack/?packName=english&min=3&max=9&sortPacks=0updated&page=${page}&pageCount=4`)
+    },
+}
+
 export const registrationApi = {
     singUp(data:registrationDataType) {
-        return instance.post<any, AxiosResponse<ResponseRegistrationData>, registrationDataType>("/auth/register", data )
+        return instance.post<any, AxiosResponse<ResponseRegistrationData & RejectedType>, registrationDataType>("/auth/register", data )
     }
 }
+
+export type RejectedType = any
 
 export const authAPI = {
     login(data: LoginParamsType) {
@@ -52,7 +61,7 @@ export type PutMeResponseType = {
     error?: string
 }
 
-type ResponseRegistrationData = {
+export type ResponseRegistrationData = {
     addedUser: {
         created: string
         email: string

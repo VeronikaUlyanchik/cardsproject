@@ -1,7 +1,7 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {registrationApi, registrationDataType} from "../../api/Api";
-import {AppAllActionsType} from "../../bll-redux/store";
-import {Dispatch} from "react";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {registrationApi, RejectedType} from "../../api/Api";
+
+
 
 const initialState = {
     isSignedUp: false,
@@ -18,47 +18,41 @@ const registration = createSlice({
     name: 'registration',
     initialState,
     reducers: {
-        // setSignedUpStatus(state: InitStateType, action: PayloadAction<boolean>) {
-        //     state.isSignedUp = action.payload
-        // },
-        // setRegistrationError(state: InitStateType, action: PayloadAction<string>) {
-        //     state.registrationError = action.payload
-        // }
     },
     extraReducers: (builder) => {
         builder.addCase(setSignUpThunk.fulfilled, (state, action) => {
-            state.isSignedUp = action.payload;
+            if (action.payload) state.isSignedUp = action.payload;
         });
         builder.addCase(setSignUpThunk.rejected, (state, action) => {
-            //@ts-ignore
-            state.registrationError = action.payload ? action.payload : '';
+
+           if (action.payload) {
+               state.registrationError = action.payload
+           }
         });
     },
 });
 
-// export const {setSignedUpStatus , setRegistrationError} = registration.actions;
+
 export const registrationReducer = registration.reducer;
 
-// export const setSignUpThunk = (data: registrationDataType) => (dispatch: Dispatch<AppAllActionsType>) => {
-//     registrationApi.singUp(data).then((res)=> {
-//         dispatch(setSignedUpStatus(true))
-//     }).catch((error)=> {
-//         dispatch(setRegistrationError(error.response.data.error))
-//     })
-// };
-
-export const setSignUpThunk = createAsyncThunk(
+export const setSignUpThunk = createAsyncThunk<
+    boolean,
+    {email:string, password:string},
+    {rejectValue: RejectedType}
+    >(
     'registration/setSignUpThunk',
-    async (data: registrationDataType, { rejectWithValue }) => {
+    async ({email, password}:{email:string, password:string}, { dispatch,rejectWithValue }) => {
         try {
-           const res =  await registrationApi.singUp(data)
+           const res =  await registrationApi.singUp({email, password})
             return true
         } catch (err: any) {
-            // console.log(err.response)
-            return rejectWithValue(err.response.data.error)
+            const error = err.response ? err.response.data.error : (err.message + ', Rejected')
+            return rejectWithValue(error)
         }
     }
 )
 
 export type RegistrationActionsType = ReturnType<typeof setSignUpThunk>
+
+
 
