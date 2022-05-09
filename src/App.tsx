@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
-import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';
-import React, {useEffect} from 'react';
-import { Navigate, Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
 import {Login} from './ui/components/LoginPage/Login';
 import {Profile} from './ui/components/ProfilePage/Profile';
@@ -11,8 +9,6 @@ import {NewPasswordSetting} from "./ui/components/NewPasswordSettingPage/NewPass
 import {Test} from "./ui/components/Test/NewPasswordSetting";
 import {Error404} from './ui/components/ErrorPage/Error404';
 import {AppWrapper} from "./common/global-styles/CommonStyles.style";
-import {getUserProfile} from "./bll-redux/reducers/ProfileReducer";
-import {useAppDispatch} from "./hooks/ReduxHooks";
 import {CardsTablePage} from "./ui/components/CardsTable/CardsTablePage";
 import {CardsPacksTablePage} from "./ui/components/CardsPackTable/CardsPacksTablePage";
 import {LinearProgress} from "@mui/material";

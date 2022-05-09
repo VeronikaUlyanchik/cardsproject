@@ -16,7 +16,6 @@ export const Profile = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const dispatch = useAppDispatch()
 
-    const isAuth = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const userName = useAppSelector(selectUserName)
     const userAvatar = useAppSelector(selectUserAvatar)
     const userEmail = useAppSelector(selectUserEmail)
@@ -27,7 +26,7 @@ export const Profile = () => {
     const [nickName, setNickName] = useState<string>(userName)
 
     const updateUser = () => {
-        dispatch(updateUserProfile(nickName))
+        dispatch(updateUserProfile(nickName, ''))
     }
 
     const logOut = () => {

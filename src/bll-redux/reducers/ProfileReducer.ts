@@ -37,8 +37,6 @@ export const updateUserProfile = (name: string, avatar: string) =>
     async (dispatch: Dispatch) => {
         try {
             const res = await profileAPI.updateMe(name)
-            dispatch(setAppStatus({status: 'loading'}))
-            const res = await profileAPI.updateMe(name, avatar)
             if (res.data.error === null) {
                 dispatch(setUserProfile(res.data.updatedUser))
             }

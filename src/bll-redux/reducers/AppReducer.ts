@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { profileAPI} from "../../api/Api";
 import {loggedIn} from "./AuthReducer";
+import {setUserProfile} from "./ProfileReducer";
 
 const initialState = {
     IsInitialized: false,
@@ -17,6 +18,7 @@ export const fetchInitialized = createAsyncThunk(
             const {data, status} = await profileAPI.getMe();
             if(status === 200) {
                 dispatch(loggedIn(true))
+                dispatch(setUserProfile(data))
             }
 
             return {id: data._id}
@@ -56,3 +58,4 @@ export const {setIsInitialized, setAppStatus} = appSlice.actions
 export default appSlice.reducer;
 
 
+export type AppActionsType = ReturnType<typeof setIsInitialized> | ReturnType<typeof setAppStatus>

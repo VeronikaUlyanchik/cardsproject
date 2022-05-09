@@ -1,8 +1,8 @@
 import axios, {AxiosResponse} from "axios";
 
 export const instance = axios.create({
-    // baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
-    baseURL: 'https://neko-back.herokuapp.com/2.0',
+    baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
+    // baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true,
 })
 
@@ -41,7 +41,7 @@ export const packsAPI = {
                      min,
                      max,
                      sortPacks,
-                     page = 1,
+                     page = 2,
                      pageCount = 10,
                      user_id,
                  }: CardsPackParamsType) {
@@ -92,14 +92,14 @@ export const cardsAPI = {
             }})
     },
     createCard(card: CardModelRequestType){
-        return instance.post<CardsAndPacksResponseType>('/cards/card', card)
+        return instance.post<CardsAndPacksResponseType>('/cards/card', {card})
     },
     deleteCard(id: string){
         return instance.delete('/cards/card', {params: {id} })
     },
     updateCard(card: CardModelRequestType){
         return instance.put<CardsAndPacksResponseType>('/cards/card', card)
-    }
+    },
     logout(){
         return instance.delete<ResponseType>('auth/me')
     },
