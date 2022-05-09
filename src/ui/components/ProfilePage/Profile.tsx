@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {PATH} from "../../../App";
 import {Navigate} from "react-router-dom";
@@ -8,9 +8,12 @@ import {updateUserProfile} from "../../../bll-redux/reducers/ProfileReducer";
 import {ContentWrapper} from "../../../common/global-styles/CommonStyles.style";
 import {StyledInput} from "../../features/SuperInputText/SuperInputText.style";
 import {selectUserAvatar, selectUserEmail, selectUserName} from "../../../selectors/UserSelectors";
+import {fetchInitialized} from "../../../bll-redux/reducers/AppReducer";
+import {fetchLogout} from "../../../bll-redux/reducers/AuthReducer";
 
 
 export const Profile = () => {
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const dispatch = useAppDispatch()
 
     const isAuth = useAppSelector<boolean>(state => state.auth.isLoggedIn);
@@ -18,15 +21,22 @@ export const Profile = () => {
     const userAvatar = useAppSelector(selectUserAvatar)
     const userEmail = useAppSelector(selectUserEmail)
 
+    useEffect(() => {
+        dispatch(fetchInitialized())
+    }, [])
     const [nickName, setNickName] = useState<string>(userName)
 
     const updateUser = () => {
         dispatch(updateUserProfile(nickName))
     }
 
+    const logOut = () => {
+        dispatch(fetchLogout())
+    }
+
     const updateNickname = (nickname: string) => setNickName(nickname)
 
-    if (!isAuth) {
+    if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
 
@@ -60,6 +70,7 @@ export const Profile = () => {
                         bgColor={'#c48798'}>
                         Save
                     </SuperButton>
+                    <SuperButton name={'Log Out'} onClick={logOut}/>
                 </div>
             </ProfileWrapper>
         </ContentWrapper>

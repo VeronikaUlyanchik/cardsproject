@@ -11,6 +11,8 @@ export const AppWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: black;
+ 
 `;
 
 export const ContentWrapper = styled.div`

@@ -7,6 +7,7 @@ import thunkMiddleware from "redux-thunk";
 import {authReducer} from "./reducers/AuthReducer";
 import {CardsPackReducerActionsType, packReducer} from "./reducers/CardsPackReducer";
 import {cardsReducer, CardsReducerActionsType} from "./reducers/CardsReducer";
+import {recoveryPasswordReducer} from "./reducers/RecoveryPasswordReducer";
 
 const reducers = combineReducers({
     reducer: Reducer,
@@ -16,6 +17,7 @@ const reducers = combineReducers({
     auth: authReducer,
     packList: packReducer,
     cards: cardsReducer,
+    recoveryPassword: recoveryPasswordReducer
 })
 
 const store = configureStore({
@@ -36,9 +38,7 @@ export type AppAllActionsType =
 export default store
 
 
-export type AppThunk<ReturnType = void> =
-// @ts-ignore
-    ThunkAction<ReturnType, AppRootStateType, unknown, AppAllActionsType>
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppAllActionsType>
 
 // @ts-ignore
 window.store= store

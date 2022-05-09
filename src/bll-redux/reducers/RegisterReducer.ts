@@ -54,5 +54,3 @@ export const setSignUpThunk = createAsyncThunk<
 
 export type RegistrationActionsType = ReturnType<typeof setSignUpThunk>
 
-
-

@@ -27,6 +27,12 @@ export const authAPI = {
     login(data: LoginParamsType) {
         return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', data)
     },
+    logout(){
+        return instance.delete<ResponseType>('auth/me')
+    },
+    forgot(data: ForgotDataType){
+        return instance.post<ForgotDataType, AxiosResponse<GetMeResponseType<{email: string}>>>('auth/forgot', data)
+    }
 }
 
 export const packsAPI = {
@@ -94,10 +100,16 @@ export const cardsAPI = {
     updateCard(card: CardModelRequestType){
         return instance.put<CardsAndPacksResponseType>('/cards/card', card)
     }
+    logout(){
+        return instance.delete<ResponseType>('auth/me')
+    },
+    forgot(data: ForgotDataType){
+        return instance.post<ForgotDataType, AxiosResponse<GetMeResponseType<{email: string}>>>('auth/forgot', data)
+    }
 }
 
 //types
-export type GetMeResponseType = {
+export type GetMeResponseType<D = {}> = {
     _id: string;
     email: string;
     name: string;
@@ -111,6 +123,7 @@ export type GetMeResponseType = {
     error?: string;
     token: string
     tokenDeathTime: number
+    data: D
 }
 
 export type PutMeResponseType = {
@@ -139,15 +152,16 @@ export type registrationDataType = {
     password: string
 }
 
-export type MeResponceType = {
-    id: number,
-    email: string,
-    login: string
-}
 export type LoginParamsType = {
     email: string
     password: string
     rememberMe?: boolean
+}
+
+export type ForgotDataType= {
+    email:string
+    info?: string
+    error?: string
 }
 
 export type ResponseType<D = {}> = {

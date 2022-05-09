@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
 import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
 import {Login} from './ui/components/LoginPage/Login';
 import {Profile} from './ui/components/ProfilePage/Profile';
@@ -13,6 +15,10 @@ import {getUserProfile} from "./bll-redux/reducers/ProfileReducer";
 import {useAppDispatch} from "./hooks/ReduxHooks";
 import {CardsTablePage} from "./ui/components/CardsTable/CardsTablePage";
 import {CardsPacksTablePage} from "./ui/components/CardsPackTable/CardsPacksTablePage";
+import {LinearProgress} from "@mui/material";
+import {useAppDispatch, useAppSelector} from "./hooks/ReduxHooks";
+import {fetchInitialized} from "./bll-redux/reducers/AppReducer";
+import {Header} from "./ui/components/Header/Header";
 
 
 export const PATH = {
@@ -28,15 +34,24 @@ export const PATH = {
 
 const App = () => {
     const dispatch = useAppDispatch()
+    const isInitialized = useAppSelector<boolean>(state => state.app.IsInitialized)
 
-    useEffect(() => {
-        dispatch(getUserProfile())
-    }, [])
+    useEffect(()=>{
+        dispatch(fetchInitialized())
+    },[])
+
+    if(!isInitialized){
+        return <div
+            style={{top: '30%', textAlign: 'center', width: '100%'}}>
+            <LinearProgress/>
+        </div>
+    }
+
 
     return (
         <div className="App">
+            <Header/>
             <AppWrapper>
-                <HashRouter>
                     <Routes>
                         <Route path={'/'} element={<Navigate to={PATH.LOGIN}/>}/>
                         <Route path={PATH.LOGIN} element={<Login/>}/>
@@ -49,7 +64,6 @@ const App = () => {
                         <Route path={PATH.CARDS} element={<CardsTablePage/>}/>
                         <Route path='*' element={<Error404/>}/>
                     </Routes>
-                </HashRouter>
             </AppWrapper>
         </div>
     );
