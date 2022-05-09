@@ -1,57 +1,52 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {PATH} from "../../../App";
 import {Navigate} from "react-router-dom";
 import {Image, ImageBlock, InputBlock, ProfileWrapper, Title} from "./Profile.style";
-import SuperInputText from "../../features/SuperInputText/SuperInputText";
 import SuperButton from "../../features/SuperButton/SuperButton";
-import {getUserProfile, updateUserProfile} from "../../../bll-redux/reducers/ProfileReducer";
+import {updateUserProfile} from "../../../bll-redux/reducers/ProfileReducer";
 import {ContentWrapper} from "../../../common/global-styles/CommonStyles.style";
-import {GetMeResponseType} from "../../../api/Api";
 import {StyledInput} from "../../features/SuperInputText/SuperInputText.style";
+import {selectUserAvatar, selectUserEmail, selectUserName} from "../../../selectors/UserSelectors";
 
 
 export const Profile = () => {
-    const isAuth = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const dispatch = useAppDispatch()
-    const user = useAppSelector<GetMeResponseType | null>(state => state.profile.user)
 
-    const [nickName, setNickName] = useState<string>(user ? user.name : '')
-    const [email, setEmail] = useState<string>(user ? user.email : '')
+    const isAuth = useAppSelector<boolean>(state => state.auth.isLoggedIn);
+    const userName = useAppSelector(selectUserName)
+    const userAvatar = useAppSelector(selectUserAvatar)
+    const userEmail = useAppSelector(selectUserEmail)
 
-    useEffect(() => {
-        dispatch(getUserProfile())
-    }, [])
+    const [nickName, setNickName] = useState<string>(userName)
 
     const updateUser = () => {
-        dispatch(updateUserProfile(nickName, email))
+        dispatch(updateUserProfile(nickName))
     }
 
     const updateNickname = (nickname: string) => setNickName(nickname)
-    const updateEmail = (email: string) => setEmail(email)
 
     if (!isAuth) {
         return <Navigate to={PATH.LOGIN}/>
     }
 
     return (
+        <>
         <ContentWrapper>
             <ProfileWrapper>
                 <Title>Personal Information</Title>
                 <ImageBlock>
                     <Image
-                        // src={user?.avatar ? user.avatar : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowITdGdaY753M43p2ZDG39EYzq3LZu5VGMycNIqEdV4P8lHbpmpKMdrY32GwN3vaecb0&usqp=CAU'}
-                        src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowITdGdaY753M43p2ZDG39EYzq3LZu5VGMycNIqEdV4P8lHbpmpKMdrY32GwN3vaecb0&usqp=CAU'}
+                        src={userAvatar}
                         alt=""/>
                 </ImageBlock>
                 <InputBlock>
                     <StyledInput
-                        value={nickName ? nickName : ''}
+                        value={userName}
                         onChangeText={updateNickname}
                     />
                     <StyledInput
-                        value={email ? email : ''}
-                        onChangeText={updateEmail}
+                        value={userEmail}
                     />
                 </InputBlock>
                 <div style={{display: 'flex', justifyContent: 'space-around', width: '100%'}}>
@@ -68,5 +63,6 @@ export const Profile = () => {
                 </div>
             </ProfileWrapper>
         </ContentWrapper>
+        </>
     )
 }
