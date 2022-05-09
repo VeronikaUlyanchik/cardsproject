@@ -1,29 +1,15 @@
-import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {GetMeResponseType, profileAPI} from "../../api/Api";
 
 
-export const getUserProfile = createAsyncThunk(
-    'profile/getUserProfile',
-    async (_, {dispatch}) => {
-        try {
-            const res = await profileAPI.getMe()
-            dispatch(setUserProfile(res.data))
-            console.log(res.data)
-            return res.data
-        } catch (e) {
-        } finally {
-        }
-    }
-)
-
 export interface ProfileStateType {
-    user: null | GetMeResponseType
+    user: GetMeResponseType
     status: null | string
     error: null | string
 }
 
 const initialState = {
-    user: null,
+    user: {} as GetMeResponseType,
     status: null,
     error: null,
 }
@@ -33,7 +19,7 @@ export const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        setUserProfile: (state: ProfileStateType, action: PayloadAction<GetMeResponseType | null>) => {
+        setUserProfile: (state: ProfileStateType, action: PayloadAction<GetMeResponseType>) => {
             state.user = action.payload
         }
     },
@@ -45,24 +31,26 @@ export type ProfileActionsType = ReturnType<typeof setUserProfile>
 
 export default profileSlice.reducer;
 
-// //thunk-old
-// export const getUserProfile = () =>
-//     async (dispatch: Dispatch) => {
-//         try {
-//             const res = await profileAPI.getMe()
-//             dispatch(setUserProfile(res.data))
-//             console.log(res.data)
-//         } catch (e) {
-//
-//         } finally {
-//
-//         }
-//     }
 
-export const updateUserProfile = (name: string, avatar: string) =>
+//thunk-old
+export const getUserProfile = () =>
     async (dispatch: Dispatch) => {
         try {
-            const res = await profileAPI.updateMe(name, avatar)
+            const res = await profileAPI.getMe()
+            dispatch(setUserProfile(res.data))
+            console.log(res.data)
+        } catch (e) {
+
+        } finally {
+
+        }
+    }
+
+
+export const updateUserProfile = (name: string) =>
+    async (dispatch: Dispatch) => {
+        try {
+            const res = await profileAPI.updateMe(name)
             if (res.data.error === null) {
                 dispatch(setUserProfile(res.data.updatedUser))
             }
@@ -72,9 +60,6 @@ export const updateUserProfile = (name: string, avatar: string) =>
 
         }
     }
-
-
-
 
 
 /*import {Dispatch} from "redux";
