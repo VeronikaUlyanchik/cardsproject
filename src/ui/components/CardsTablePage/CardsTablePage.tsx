@@ -3,15 +3,15 @@ import {useAppDispatch} from "../../../hooks/ReduxHooks";
 import {NavLink, useNavigate, useSearchParams} from "react-router-dom";
 import {CardsTable} from "../../features/TableCards/CardsTable";
 import {getCardsTC} from "../../../bll-redux/reducers/CardsReducer";
-import { ContentWrapper } from '../../../common/global-styles/CommonStyles.style';
-import {StyledSearchForm} from "./CardsTablePage.style";
+import {ContentWrapper} from '../../../common/global-styles/CommonStyles.style';
+import {StyledIcon, StyledSearchForm} from "./CardsTablePage.style";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import {PATH} from "../../../App";
 
 
 export const CardsTablePage = () => {
 
-    const navigate= useNavigate()
+    const navigate = useNavigate()
 
     const dispatch = useAppDispatch()
 
@@ -34,13 +34,16 @@ export const CardsTablePage = () => {
         <div>
             <ContentWrapper width={"1000px"} height={"750px"}>
                 <StyledSearchForm>
-                    <h1>
-                        <ArrowCircleLeftIcon fontSize={"medium"} onClick={goBackToPacks}/>
-                        Pack Name</h1>
+                    <span style={{padding: "10px", display: "inline-flex", alignItems: "center"}}>
+                        {/*<StyledIcon>*/}
+                            <ArrowCircleLeftIcon fontSize={"large"} onClick={goBackToPacks} style={{cursor: "pointer"}}/>
+                        {/*</StyledIcon>*/}
+                        <h1 style={{marginLeft: "20px"}}>Pack Name</h1>
+                    </span>
                     <input type="text"/>
                     <input type="text"/>
                 </StyledSearchForm>
-                <div style={{height: "75%"}}>
+                <div style={{maxHeight: "75%"}}>
                     <CardsTable id={id ? id : ''}/>
                 </div>
 

@@ -6,3 +6,11 @@ export const StyledSearchForm = styled.div`
   flex-direction: column;
   align-items: flex-start;
 `;
+
+export const StyledIcon = styled.span`
+  margin-right: 20px;
+  cursor: pointer;
+  //display: inline-flex;
+  //justify-content: flex-end;
+  //align-items: end;
+`;

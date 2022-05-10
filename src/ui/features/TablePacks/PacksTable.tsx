@@ -10,13 +10,13 @@ type PacksTablePropsType = {
     cardPacks: CardsPackType[]
 }
 export const PacksTable: FC<PacksTablePropsType> = ({cardPacks}) => {
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
 
     // const cardPacks = useAppSelector<CardsPackType[]>(state => state.packList.packList)
 
-    useEffect(() => {
-        dispatch(getPackList({}))
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getPackList({}))
+    // }, [dispatch])
 
     return (
         <StyledTable>

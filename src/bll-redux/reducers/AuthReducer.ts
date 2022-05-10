@@ -27,7 +27,6 @@ export const fetchLogin = createAsyncThunk(
         } catch (err: any) {
             console.log(err)
         } finally {
-
             dispatch(setAppStatus({status: 'succeeded'}))
         }
     }
