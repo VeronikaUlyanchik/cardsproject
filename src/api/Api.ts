@@ -10,8 +10,8 @@ export const profileAPI = {
     getMe() {
         return instance.post<GetMeResponseType>('auth/me')
     },
-    updateMe(name: string) {
-        return instance.put<PutMeResponseType>('auth/me', {name})
+    updateMe(name?: string, avatar?: string) {
+        return instance.put<PutMeResponseType>('auth/me', {name, avatar})
     }
 }
 
@@ -41,8 +41,8 @@ export const packsAPI = {
                      min,
                      max,
                      sortPacks,
-                     page = 2,
-                     pageCount = 10,
+                     page,
+                     pageCount = 7,
                      user_id,
                  }: CardsPackParamsType) {
         return instance.get<GetCardsPackResponse>(`/cards/pack`, {
@@ -80,7 +80,8 @@ export const cardsAPI = {
                  page,
                  pageCount = 10,
              }: GetCardsParamsType) {
-        return instance.get<GetCardsResponseType>('/cards/card', {params: {
+        return instance.get<GetCardsResponseType>('/cards/card', {
+            params: {
                 cardAnswer,
                 cardQuestion,
                 cardsPack_id,
@@ -89,23 +90,18 @@ export const cardsAPI = {
                 sortCards,
                 page,
                 pageCount,
-            }})
+            }
+        })
     },
-    createCard(card: CardModelRequestType){
+    createCard(card: CardModelRequestType) {
         return instance.post<CardsAndPacksResponseType>('/cards/card', {card})
     },
-    deleteCard(id: string){
-        return instance.delete('/cards/card', {params: {id} })
+    deleteCard(id: string) {
+        return instance.delete('/cards/card', {params: {id}})
     },
-    updateCard(card: CardModelRequestType){
+    updateCard(card: CardModelRequestType) {
         return instance.put<CardsAndPacksResponseType>('/cards/card', card)
     },
-    logout(){
-        return instance.delete<ResponseType>('auth/me')
-    },
-    forgot(data: ForgotDataType){
-        return instance.post<ForgotDataType, AxiosResponse<GetMeResponseType<{email: string}>>>('auth/forgot', data)
-    }
 }
 
 //types

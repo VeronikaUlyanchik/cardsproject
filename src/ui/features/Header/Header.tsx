@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../hooks/ReduxHooks";
+import {selectUserAvatar} from "../../../selectors/UserSelectors";
 
 const PATH = {
     LOGIN: '/login',
@@ -21,9 +22,10 @@ const PATH = {
     PASSWORD_RECOVERY: '/password-recovery',
     NEW_PASSWORD_RECOVERY: '/new-password-recovery',
     TEST: '/test',
+    PACKS: '/packs',
 }
 
-const pages = [ PATH.PROFILE, PATH.REGISTER, PATH.PASSWORD_RECOVERY];
+const pages = [ PATH.PROFILE, PATH.REGISTER, PATH.PASSWORD_RECOVERY, PATH.PACKS];
 const settings = [PATH.PROFILE, 'Logout'];
 
 export const Header = () => {
@@ -31,6 +33,7 @@ export const Header = () => {
     const navigate = useNavigate()
     const isInitialized = useAppSelector<boolean>(state => state.app.IsInitialized)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    const avatar = useAppSelector(selectUserAvatar)
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -102,7 +105,7 @@ export const Header = () => {
 
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+                                    <Avatar alt="Remy Sharp" src={avatar ?? "/static/images/avatar/2.jpg"}/>
                                 </IconButton>
                             </Tooltip>
                             <Menu

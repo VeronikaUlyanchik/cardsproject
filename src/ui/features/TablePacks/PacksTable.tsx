@@ -1,17 +1,21 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {getPackList} from "../../../bll-redux/reducers/CardsPackReducer";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {CardsPackType} from "../../../api/Api";
 import {PackHeader, PackHeaderItem, StyledTable} from "./PacksTable.style";
 import {PackItem} from "./packItem/PackItem";
 
-export const PacksTable = () => {
+
+type PacksTablePropsType = {
+    cardPacks: CardsPackType[]
+}
+export const PacksTable: FC<PacksTablePropsType> = ({cardPacks}) => {
     const dispatch = useAppDispatch()
 
-    const cardPacks = useAppSelector<CardsPackType[]>(state => state.packList.packList)
+    // const cardPacks = useAppSelector<CardsPackType[]>(state => state.packList.packList)
 
     useEffect(() => {
-        dispatch(getPackList())
+        dispatch(getPackList({}))
     }, [dispatch])
 
     return (
@@ -25,8 +29,8 @@ export const PacksTable = () => {
             </PackHeader>
 
             {
-                cardPacks.map(item => {
-                        return <PackItem key={item._id} packId={item._id}/>
+                cardPacks.map((item, i) => {
+                        return <PackItem key={item._id} packId={item._id} index={i}/>
                     }
                 )}
 

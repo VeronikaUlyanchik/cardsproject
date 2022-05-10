@@ -23,11 +23,11 @@ export const fetchLogin = createAsyncThunk(
         try {
             dispatch(setAppStatus({status: 'loading'}))
             const res = await authAPI.login(data);
-
+            dispatch(loggedIn(true))
         } catch (err: any) {
             console.log(err)
         } finally {
-            dispatch(loggedIn(true))
+
             dispatch(setAppStatus({status: 'succeeded'}))
         }
     }

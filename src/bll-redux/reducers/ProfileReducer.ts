@@ -19,7 +19,7 @@ export const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        setUserProfile: (state: ProfileStateType, action: PayloadAction<GetMeResponseType >) => {
+        setUserProfile: (state: ProfileStateType, action: PayloadAction<GetMeResponseType>) => {
             state.user = action.payload
         }
     },
@@ -31,15 +31,12 @@ export type ProfileActionsType = ReturnType<typeof setUserProfile>
 
 export default profileSlice.reducer;
 
-
-//thunk-old
-export const updateUserProfile = (name: string, avatar: string) =>
+//thunk
+export const updateUserProfile = (name?: string, avatar?: string) =>
     async (dispatch: Dispatch) => {
         try {
             const res = await profileAPI.updateMe(name)
-            if (res.data.error === null) {
                 dispatch(setUserProfile(res.data.updatedUser))
-            }
         } catch (e) {
             console.log(e)
         } finally {
