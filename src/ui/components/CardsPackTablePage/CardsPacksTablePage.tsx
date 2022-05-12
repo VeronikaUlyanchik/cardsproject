@@ -53,7 +53,7 @@ export const CardsPacksTablePage = () => {
                     </StyledRange>
                 </StyledSettings>
                 <StyledCardPacksBlock>
-                    <h1 style={{height: "25%"}}>Packs list</h1>
+                    <h1 style={{height: "20%"}}>Packs list</h1>
                     <PacksTable cardPacks={isMyPacks ? myCardPacks : allCardPacks}/>
                     <h1 style={{height: "10%"}}>Pagination</h1>
                 </StyledCardPacksBlock>

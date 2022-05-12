@@ -12,14 +12,14 @@ const root = createRoot(
     document.getElementById('root') as HTMLElement);
 
 root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <HashRouter>
             <Provider store={store}>
                 <GlobalStyle/>
                 <App/>
             </Provider>
         </HashRouter>
-    </React.StrictMode>
+    // </React.StrictMode>
 );
 
 reportWebVitals();
