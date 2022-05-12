@@ -1,5 +1,5 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {CardsPackType, packsAPI} from "../../api/PacksAPI";
+import {CardsPackParamsType, CardsPackType, GetCardsPackResponse, packsAPI} from "../../api/PacksAPI";
 import {AppRootStateType, AppThunk} from "../store";
 
 const slice = createSlice({

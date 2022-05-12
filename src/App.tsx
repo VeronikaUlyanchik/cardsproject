@@ -9,12 +9,12 @@ import {NewPasswordSetting} from "./ui/components/NewPasswordSettingPage/NewPass
 import {Test} from "./ui/components/Test/NewPasswordSetting";
 import {Error404} from './ui/components/ErrorPage/Error404';
 import {AppWrapper} from "./common/global-styles/CommonStyles.style";
-import {CardsTablePage} from "./ui/components/CardsTable/CardsTablePage";
-import {CardsPacksTablePage} from "./ui/components/CardsPackTable/CardsPacksTablePage";
 import {LinearProgress} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "./hooks/ReduxHooks";
 import {fetchInitialized} from "./bll-redux/reducers/AppReducer";
 import {Header} from "./ui/features/Header/Header";
+import {CardsPacksTablePage} from "./ui/components/CardsPackTablePage/CardsPacksTablePage";
+import {CardsTablePage} from "./ui/components/CardsTablePage/CardsTablePage";
 
 
 export const PATH = {

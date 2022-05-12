@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {PATH} from "../../../App";
 import {Navigate} from "react-router-dom";
@@ -8,6 +8,7 @@ import {ContentWrapper} from "../../../common/global-styles/CommonStyles.style";
 import {selectUserAvatar, selectUserEmail, selectUserName} from "../../../selectors/UserSelectors";
 import {fetchLogout} from "../../../bll-redux/reducers/AuthReducer";
 import Button from '@mui/material/Button';
+import {fetchInitialized} from "../../../bll-redux/reducers/AppReducer";
 
 
 export const Profile = () => {
@@ -19,6 +20,10 @@ export const Profile = () => {
     const userEmail = useAppSelector(selectUserEmail)
 
     const [nickName, setNickName] = useState<string>(userName)
+
+    useEffect(() => {
+        dispatch(fetchInitialized())
+    }, [])
 
     const updateUser = () => {
         dispatch(updateUserProfile(nickName))
@@ -50,7 +55,7 @@ export const Profile = () => {
                     <InputBlock>
 
                         <StyledInput
-                            value={nickName}
+                            value={nickName || userName}
                             onChange={updateNickname}
                         />
                         <StyledInput

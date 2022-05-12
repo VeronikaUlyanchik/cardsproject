@@ -10,7 +10,7 @@ export const cardsAPI = {
                  max,
                  sortCards,
                  page,
-                 pageCount = 10,
+                 pageCount = 7,
              }: GetCardsParamsType) {
         return instance.get<GetCardsResponseType>('/cards/card', {
             params: {

@@ -32,7 +32,6 @@ const settings = [PATH.PROFILE, 'Logout'];
 export const Header = () => {
 
     const navigate = useNavigate()
-    const isInitialized = useAppSelector<boolean>(state => state.app.IsInitialized)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const avatar = useAppSelector(selectUserAvatar)
 

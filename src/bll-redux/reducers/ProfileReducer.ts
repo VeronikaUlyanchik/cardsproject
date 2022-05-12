@@ -22,23 +22,23 @@ export const profileSlice = createSlice({
         setUserProfile: (state: ProfileStateType, action: PayloadAction<GetMeResponseType>) => {
             state.user = action.payload
         },
-        setNewPassword: (state, action: PayloadAction<string>) => {
-            state.password = action.payload
-        }
+        // setNewPassword: (state, action: PayloadAction<string>) => {
+        //     state.password = action.payload
+        // }
     },
 })
 
-export const {setUserProfile, setNewPassword} = profileSlice.actions
+export const {setUserProfile} = profileSlice.actions
 
 export type ProfileActionsType = ReturnType<typeof setUserProfile>
 
 export default profileSlice.reducer;
 
 //thunk
-export const updateUserProfile = (name?: string, avatar?: string) =>
+export const updateUserProfile = (name?: string , avatar?: string) =>
     async (dispatch: Dispatch) => {
         try {
-            const res = await profileAPI.updateMe(name)
+            const res = await profileAPI.updateMe(name || '')
                 dispatch(setUserProfile(res.data.updatedUser))
         } catch (e) {
             console.log(e)
@@ -53,7 +53,7 @@ export const fetchUpdatePassword = createAsyncThunk(
         try {
             dispatch(setAppStatus({status: 'loading'}))
             const res = await profileAPI.updatePassword({password, resetPasswordToken});
-            dispatch(setNewPassword(res.data.token))
+            // dispatch(setNewPassword(res.data.token))
             console.log(res.data.token)
         } catch (err: any) {
             console.log(err)

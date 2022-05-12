@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {getPackList} from "../../../bll-redux/reducers/CardsPackReducer";
-import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
+import {useAppDispatch} from "../../../hooks/ReduxHooks";
 import {PackHeader, PackHeaderItem, StyledTable} from "./PacksTable.style";
 import {PackItem} from "./packItem/PackItem";
 import {CardsPackType} from "../../../api/PacksAPI";
@@ -10,9 +10,10 @@ type PacksTablePropsType = {
     cardPacks: CardsPackType[]
 }
 export const PacksTable: FC<PacksTablePropsType> = ({cardPacks}) => {
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(getPackList())
+        dispatch(getPackList({}))
     }, [dispatch])
 
     return (

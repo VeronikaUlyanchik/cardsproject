@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
-import {NavLink, useNavigate} from "react-router-dom";
+import {Navigate, NavLink, useNavigate} from "react-router-dom";
 import {PATH} from "../../../App";
 import SuperButton from "../../features/SuperButton/SuperButton";
 import {createCardsPack, getPackList} from "../../../bll-redux/reducers/CardsPackReducer";
@@ -20,7 +20,7 @@ export const CardsPacksTablePage = () => {
     const [isMyPacks, setIsMyPacks] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
-    // const isAuth = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const userId = useAppSelector(selectUserId)
     const allCardPacks = useAppSelector(state => state.packList.packList)
     const myCardPacks = useAppSelector(state => state.packList.packList.filter(p => p.user_id === userId))
@@ -61,9 +61,10 @@ export const CardsPacksTablePage = () => {
             ?dispatch(getPackList({user_id: userId, page:1, packName , pageCount:packPerPage, min: min, max:max }))
             :dispatch(getPackList({page:1, packName , pageCount:packPerPage, min: min, max:max}))
     }
-    // if (!isAuth) {
-    //     return <NavLink to={PATH.LOGIN}/>
-    // }
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.LOGIN}/>
+
+    }
 
     return (
         <ContentWrapper flex={"flex"} width={"1000px"} height={"750px"}>
