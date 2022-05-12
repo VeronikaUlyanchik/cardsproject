@@ -1,6 +1,7 @@
 import Slider from '@mui/material/Slider/Slider';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import React from 'react';
+import {useAppSelector} from "../../../hooks/ReduxHooks";
 
 function valuetext(value: number) {
     return `${value}`;
@@ -11,7 +12,7 @@ const minDistance = 1;
 const CustomizedSlider = styled(Slider)`
   color: #20b2aa;
   width: 100%;
-  
+
   :hover {
     color: #2e8b57;
   }
@@ -21,8 +22,14 @@ const CustomizedSlider = styled(Slider)`
   }
 `;
 
-export const Range = () => {
-    const [value, setValue] = React.useState<number[]>([20, 37]);
+type RangePropsType = {
+    searchWithMinMax: ([min, max]: number[]) => void
+}
+export const Range = ({searchWithMinMax}: RangePropsType) => {
+    const max = useAppSelector(state => state.packList.maxCardsCount)
+    const min = useAppSelector(state => state.packList.minCardsCount)
+
+    const [value, setValue] = React.useState<number[]>([min, max]);
 
     const handleChange = (
         event: Event,
@@ -35,8 +42,10 @@ export const Range = () => {
 
         if (activeThumb === 0) {
             setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
+            searchWithMinMax([Math.min(newValue[0], value[1] - minDistance), value[1]]);
         } else {
             setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
+            searchWithMinMax([value[0], Math.max(newValue[1], value[0] + minDistance)]);
         }
     };
     return (
@@ -46,9 +55,10 @@ export const Range = () => {
                 getAriaLabel={() => 'Minimum distance shift'}
                 value={value}
                 onChange={handleChange}
-                valueLabelDisplay="auto"
+                valueLabelDisplay="on"
                 getAriaValueText={valuetext}
                 disableSwap
+                max={max}
             />
         </div>
     );

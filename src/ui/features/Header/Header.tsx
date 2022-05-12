@@ -45,7 +45,6 @@ export const Header = () => {
         setAnchorElUser(null);
     };
 
-    console.log(isInitialized, isLoggedIn)
 
     return (
         <AppBar position="static">

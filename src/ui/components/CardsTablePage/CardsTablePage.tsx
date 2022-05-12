@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
-import {useAppDispatch} from "../../../hooks/ReduxHooks";
-import {NavLink, useNavigate, useSearchParams} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {CardsTable} from "../../features/TableCards/CardsTable";
 import {getCardsTC} from "../../../bll-redux/reducers/CardsReducer";
 import {ContentWrapper} from '../../../common/global-styles/CommonStyles.style';
-import {StyledIcon, StyledSearchForm} from "./CardsTablePage.style";
+import {StyledPaginationBox, StyledSearchForm} from "./CardsTablePage.style";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import {PATH} from "../../../App";
+import {PaginationComponent} from "../../features/Pagination/Pagination";
+import {SelectPageCount} from "../../features/SelectPageCount/SelectPageCount";
 
 
 export const CardsTablePage = () => {
@@ -17,17 +19,27 @@ export const CardsTablePage = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const id = searchParams.get('cardsPack_id')
-
+    const totalCountCards = useAppSelector(state => state.cards.totalCountCards)
+    const packPerPage =  useAppSelector(state => state.cards.packPerPage)
+    const totalPage = Math.ceil(totalCountCards/packPerPage)
 
     useEffect(() => {
         if (id) {
             dispatch(getCardsTC(id))
         }
 
-    }, [])
+    }, [dispatch, id])
 
     const goBackToPacks = () => {
         return navigate(`${PATH.PACKS}`)
+    }
+
+    const paginateCards = (page:number) => {
+        id && dispatch(getCardsTC(id, page ))
+    }
+
+    const changeItemPerPage = (pageCount:number) => {
+        id && dispatch(getCardsTC(id, 1,pageCount ))
     }
 
     return (
@@ -46,7 +58,10 @@ export const CardsTablePage = () => {
                 <div style={{maxHeight: "75%"}}>
                     <CardsTable id={id ? id : ''}/>
                 </div>
-
+                <StyledPaginationBox>
+                    <div> Show <SelectPageCount onChangeHandler ={changeItemPerPage}/> packs per page</div>
+                    <PaginationComponent onClickHandler={paginateCards} totalPage={totalPage}/>
+                </StyledPaginationBox>
             </ContentWrapper>
         </div>
     );

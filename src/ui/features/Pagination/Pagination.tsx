@@ -1,16 +1,20 @@
 import React, { ChangeEvent } from 'react';
 import {Pagination} from "@mui/material";
 
+type PaginationPropsType = {
+    onClickHandler: (page:number) => void
+    totalPage:number
+    currentPage?: number
+}
 
+export const PaginationComponent = ({onClickHandler, totalPage , currentPage}: PaginationPropsType) => {
 
-export const PaginationPage = () => {
-    // const dispatch = useAppDispatch()
     const pageHandler = (event: ChangeEvent<unknown>, page: number) => {
-        // dispatch(setCardsThunk(page))
+        onClickHandler(page)
     }
     return (
         <div>
-            <Pagination count={112} shape="rounded" onChange={pageHandler}/>
+            <Pagination count={totalPage} shape="rounded" onChange={pageHandler} page={currentPage}/>
         </div>
     );
 };

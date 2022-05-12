@@ -1,16 +1,32 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {CardsPackParamsType, CardsPackType, packsAPI} from "../../api/Api";
+import {CardsPackParamsType, CardsPackType, GetCardsPackResponse, packsAPI} from "../../api/Api";
 import {AppRootStateType, AppThunk} from "../store";
 
 const slice = createSlice({
         name: "cardsPacks",
         initialState: {
             packList: [] as CardsPackType[],
+            totalCountPacks: 0,
+            packPerPage: 7,
+            packName: '',
+            page: 1,
+            maxCardsCount: 10000,
+            minCardsCount: 0,
         },
         reducers: {
             getPack(state, action: PayloadAction<CardsPackType[]>) {
                 state.packList = action.payload;
             },
+            getPackInformation(state, action: PayloadAction<GetCardsPackResponse>) {
+                state.totalCountPacks = action.payload.cardPacksTotalCount;
+                state.packPerPage = action.payload.pageCount;
+                state.page = action.payload.page;
+                state.maxCardsCount = action.payload.maxCardsCount;
+                state.minCardsCount = action.payload.minCardsCount;
+            },
+            getPackName(state,action: PayloadAction<string>){
+                state.packName = action.payload
+            }
         }
     }
 )
@@ -21,6 +37,8 @@ export const getPackList = (params: CardsPackParamsType) => async (dispatch: Dis
     try {
         const response = await packsAPI.getCardsPack(params);
         dispatch(getPack(response.data.cardPacks))
+        dispatch(getPackInformation(response.data))
+        dispatch(getPackName(params.packName || ''))
 
         console.log(response.data)
     } catch (err: any) {
@@ -69,7 +87,7 @@ export const updateCardsPack = (id: string, title: string):AppThunk =>
     }
 
 
-const {getPack} = slice.actions
+const {getPack,getPackInformation, getPackName} = slice.actions
 export const packReducer = slice.reducer
 
-export type CardsPackReducerActionsType = ReturnType<typeof getPack>
+export type CardsPackReducerActionsType = ReturnType<typeof getPack> | ReturnType<typeof getPackInformation>

@@ -14,3 +14,9 @@ export const StyledIcon = styled.span`
   //justify-content: flex-end;
   //align-items: end;
 `;
+
+export const StyledPaginationBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    height: 5%;
+`;

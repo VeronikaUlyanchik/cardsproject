@@ -17,4 +17,8 @@ export const StyledCardPacksBlock = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
+  & .paginationBox{
+    display: flex;
+    flex-direction: row;
+  }
 `;
