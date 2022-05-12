@@ -18,10 +18,12 @@ export const PasswordRecovery = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate()
+    const error = useAppSelector<string>(state => state.app.error)
 
     const formik = useFormik({
             initialValues: {
                 email: '',
+                error: ''
             },
             validate: (values) => {
                 const errors: FormikErrorType = {};
@@ -30,6 +32,7 @@ export const PasswordRecovery = () => {
                 } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                     errors.email = 'Invalid email address';
                 }
+
                 return errors;
             },
             onSubmit: values => {
@@ -54,6 +57,7 @@ export const PasswordRecovery = () => {
                 <Box sx={{fontSize: 35}}>
                     Can't login?
                 </Box>
+                {error && <Box sx={{color: 'red', fontSize: 25}}>Email address not found</Box>}
                 <Box sx={{color: 'text.secondary'}}>
                     Enter your email address and we will
                     send you a link to restore access to

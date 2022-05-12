@@ -11,8 +11,8 @@ import {selectUserAvatar, selectUserEmail, selectUserName} from "../../../select
 import {fetchInitialized} from "../../../bll-redux/reducers/AppReducer";
 import {fetchLogout} from "../../../bll-redux/reducers/AuthReducer";
 
-
 export const Profile = () => {
+
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const dispatch = useAppDispatch()
 
@@ -31,6 +31,7 @@ export const Profile = () => {
 
     const logOut = () => {
         dispatch(fetchLogout())
+        return <Navigate to={PATH.LOGIN}/>
     }
 
     const updateNickname = (nickname: string) => setNickName(nickname)
@@ -51,7 +52,7 @@ export const Profile = () => {
                 </ImageBlock>
                 <InputBlock>
                     <StyledInput
-                        value={userName}
+                        value={nickName}
                         onChangeText={updateNickname}
                     />
                     <StyledInput

@@ -1,26 +1,16 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { profileAPI} from "../../api/Api";
+import { profileAPI} from "../../api/ProfileAPI";
 import {loggedIn} from "./AuthReducer";
 import {setUserProfile} from "./ProfileReducer";
-
-const initialState = {
-    IsInitialized: false,
-    status: 'idle',
-    error: '',
-    _id: ''
-}
 
 export const fetchInitialized = createAsyncThunk(
     'auth/fetchInitialized',
     async (_, {dispatch}) => {
         try {
             dispatch(setAppStatus({status: 'loading'}))
-            const {data, status} = await profileAPI.getMe();
-            if(status === 200) {
+            const {data} = await profileAPI.getMe();
                 dispatch(loggedIn(true))
                 dispatch(setUserProfile(data))
-            }
-
             return {id: data._id}
         } catch (err: any) {
             console.log(err)
@@ -32,7 +22,12 @@ export const fetchInitialized = createAsyncThunk(
 
 export const appSlice = createSlice({
     name: 'profile',
-    initialState,
+    initialState: {
+        IsInitialized: false,
+        status: 'idle',
+        error: '',
+        _id: ''
+    },
     reducers: {
         setIsInitialized: (state, action: PayloadAction<boolean>) => {
             state.IsInitialized = action.payload
@@ -40,22 +35,14 @@ export const appSlice = createSlice({
         setAppStatus: (state, action: PayloadAction<{ status: string }>) => {
             state.status = action.payload.status
         },
-        setAppError: (state, action: PayloadAction<{ error: string }>) => {
-            state.error = action.payload.error
+        setAppError: (state, action: PayloadAction<string>) => {
+            state.error = action.payload
         }
-    },
-    extraReducers: builder => {
-        builder.addCase(fetchInitialized.fulfilled, (state, action) => {
-            if (action.payload) {
-                state._id = action.payload.id
-            }
-        })
     }
 })
 
-export const {setIsInitialized, setAppStatus} = appSlice.actions
+export const {setIsInitialized, setAppStatus, setAppError} = appSlice.actions
 
 export default appSlice.reducer;
-
 
 export type AppActionsType = ReturnType<typeof setIsInitialized> | ReturnType<typeof setAppStatus>

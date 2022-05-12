@@ -28,9 +28,10 @@ export interface StateType {
 }
 
 export const Login = () => {
+
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-
+    const error = useAppSelector<string>(state => state.app.error)
     const navigate = useNavigate()
 
     const formik = useFormik({
@@ -59,8 +60,6 @@ export const Login = () => {
             formik.resetForm();
         },
     })
-
-
 
     const [value, setValue] = useState<StateType>({
         password: '',
@@ -95,7 +94,7 @@ export const Login = () => {
                         borderRadius: '20px',
                         boxShadow: '20',
                     }}
-                > <Box sx={{fontSize: 35}}>CARDS</Box>
+                > {error && <Box sx={{fontSize: 25, color: 'red'}}>Email address not found or incorrect password</Box>}
                     <FormGroup>
                         <TextField id="standard"
                                    label="Login"

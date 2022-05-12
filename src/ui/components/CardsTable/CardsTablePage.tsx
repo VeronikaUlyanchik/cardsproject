@@ -17,7 +17,6 @@ export const CardsTablePage = () => {
         if (id) {
             dispatch(getCardsTC(id))
         }
-
     }, [])
 
 

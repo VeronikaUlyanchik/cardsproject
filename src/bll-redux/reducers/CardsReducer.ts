@@ -1,5 +1,5 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {cardsAPI, CardType} from "../../api/Api";
+import {cardsAPI, CardType} from "../../api/CardsAPI";
 import {AppThunk} from "../store";
 
 

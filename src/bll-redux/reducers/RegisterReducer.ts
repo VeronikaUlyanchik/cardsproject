@@ -1,17 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {registrationApi, RejectedType} from "../../api/Api";
-
-
+import {registrationApi, RejectedType} from "../../api/RegisterAPI";
 
 const initialState = {
     isSignedUp: false,
     registrationError: ''
 
-};
-
-type InitStateType = {
-    isSignedUp: boolean
-    registrationError: string
 };
 
 const registration = createSlice({

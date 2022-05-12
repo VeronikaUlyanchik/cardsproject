@@ -21,9 +21,11 @@ const PATH = {
     PASSWORD_RECOVERY: '/password-recovery',
     NEW_PASSWORD_RECOVERY: '/new-password-recovery',
     TEST: '/test',
+    PACKS: '/packs',
+    CARDS: '/cards',
 }
 
-const pages = [ PATH.PROFILE, PATH.REGISTER, PATH.PASSWORD_RECOVERY];
+const pages = [ PATH.PROFILE, PATH.REGISTER, PATH.PASSWORD_RECOVERY, PATH.PACKS, PATH.NEW_PASSWORD_RECOVERY];
 const settings = [PATH.PROFILE, 'Logout'];
 
 export const Header = () => {
@@ -42,7 +44,7 @@ export const Header = () => {
         setAnchorElUser(null);
     };
 
-    console.log(isInitialized, isLoggedIn)
+
 
     return (
         <AppBar position="static">

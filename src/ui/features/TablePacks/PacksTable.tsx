@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {getPackList} from "../../../bll-redux/reducers/CardsPackReducer";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
-import {CardsPackType} from "../../../api/Api";
 import {PackHeader, PackHeaderItem, StyledTable} from "./PacksTable.style";
 import {PackItem} from "./packItem/PackItem";
+import {CardsPackType} from "../../../api/PacksAPI";
 
 export const PacksTable = () => {
     const dispatch = useAppDispatch()
@@ -12,7 +12,7 @@ export const PacksTable = () => {
 
     useEffect(() => {
         dispatch(getPackList())
-    }, [dispatch])
+    }, [])
 
     return (
         <StyledTable>

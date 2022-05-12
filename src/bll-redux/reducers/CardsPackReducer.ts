@@ -1,5 +1,5 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {CardsPackType, packsAPI} from "../../api/Api";
+import {CardsPackType, packsAPI} from "../../api/PacksAPI";
 import {AppRootStateType, AppThunk} from "../store";
 
 const slice = createSlice({
@@ -16,11 +16,10 @@ const slice = createSlice({
     }
 )
 
-export const getPackList = () => async (dispatch: Dispatch, getState: ()=>AppRootStateType ) => {
-    const userId = getState().profile.user?._id
-
+export const getPackList = () => async (dispatch: Dispatch) => {
     try {
         const response = await packsAPI.getCardsPack({});
+
         dispatch(getPack(response.data.cardPacks))
 
         console.log(response.data)
@@ -31,19 +30,19 @@ export const getPackList = () => async (dispatch: Dispatch, getState: ()=>AppRoo
 
 }
 
-export const createCardsPack = (title: string):AppThunk =>
+export const createCardsPack = (title: string): AppThunk =>
     async (dispatch) => {
 
-    try {
-        const response = await packsAPI.createCardsPack(title);
-        await dispatch(getPackList())
-        console.log(response.data)
-    } catch (err: any) {
-        console.log(err)
+        try {
+            const response = await packsAPI.createCardsPack(title);
+            await dispatch(getPackList())
+            console.log(response.data)
+        } catch (err: any) {
+            console.log(err)
+        }
     }
-}
 
-export const deleteCardsPack = (id: string):AppThunk =>
+export const deleteCardsPack = (id: string): AppThunk =>
     async (dispatch) => {
 
         try {
@@ -56,7 +55,7 @@ export const deleteCardsPack = (id: string):AppThunk =>
         }
     }
 
-export const updateCardsPack = (id: string, title: string):AppThunk =>
+export const updateCardsPack = (id: string, title: string): AppThunk =>
     async (dispatch) => {
 
         try {

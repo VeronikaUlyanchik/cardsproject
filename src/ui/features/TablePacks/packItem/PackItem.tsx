@@ -40,7 +40,6 @@ export const PackItem: FC<PackItemPropsType> = ({packId}) => {
     }
 
     const addCard = () => {
-        debugger
         dispatch(createCard(packId, 'Ololo'))
     }
 

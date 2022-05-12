@@ -1,5 +1,5 @@
 import {AppRootStateType} from "../bll-redux/store";
-import {CardsPackType} from "../api/Api";
+import {CardsPackType} from "../api/PacksAPI";
 
 
 export const selectPack = (state: AppRootStateType, packId: string):CardsPackType => {

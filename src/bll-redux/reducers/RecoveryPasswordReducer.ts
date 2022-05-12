@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {authAPI, ForgotDataType, GetMeResponseType} from "../../api/Api";
-import {setAppStatus} from "./AppReducer";
-import {PATH} from "../../App";
+import {setAppError, setAppStatus} from "./AppReducer";
+import {authAPI, ForgotDataType} from "../../api/AuthAPI";
 
 const slice = createSlice({
         name: "recovery",
@@ -24,10 +23,11 @@ export const fetchRecoveryPassword = createAsyncThunk(
         try {
             dispatch(setAppStatus({status: 'loading'}))
             const res = await authAPI.forgot(data);
+
             dispatch(recoveryPassword(res.data.email))
             dispatch(setAppStatus({status: 'succeeded'}))
-        } catch (err: any) {
-            console.log(err)
+        } catch (err) {
+           dispatch(setAppError('Email address not found'))
         }
     }
 );
