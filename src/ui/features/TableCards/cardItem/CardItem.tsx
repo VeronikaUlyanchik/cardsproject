@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../../hooks/ReduxHooks";
-import {CardItem, CardLine} from "../CardsTable.style";
+import {CardLine, CardLineItem} from "../CardsTable.style";
 import {
     selectCardAnswer,
     selectCardGrade,
@@ -11,8 +11,9 @@ import {
 
 type CardItemPropsType = {
     cardId: string
+    index: number
 }
-export const CardTableItem: FC<CardItemPropsType> = ({cardId}) => {
+export const CardTableItem: FC<CardItemPropsType> = ({cardId, index}) => {
     const dispatch = useAppDispatch()
 
     const question = useAppSelector(state => selectCardQuestion(state, cardId))
@@ -26,10 +27,10 @@ export const CardTableItem: FC<CardItemPropsType> = ({cardId}) => {
 
     const deleteCard = () => {}
 
-    return <CardLine>
-        <CardItem width={'30%'}>{question}</CardItem>
-        <CardItem width={'30%'}>{answer}</CardItem>
-        <CardItem>{updatedTime}</CardItem>
-        <CardItem>{starsGrade}</CardItem>
+    return <CardLine bgColor={ index%2 !== 0 ? '#0760b869' : '#77b2ebb0' }>
+        <CardLineItem width={'30%'}>{question}</CardLineItem>
+        <CardLineItem width={'30%'}>{answer}</CardLineItem>
+        <CardLineItem>{updatedTime}</CardLineItem>
+        <CardLineItem>{starsGrade}</CardLineItem>
            </CardLine>
 }

@@ -12,11 +12,15 @@ import {deleteCardsPack} from "../../../../bll-redux/reducers/CardsPackReducer";
 import {useNavigate} from "react-router-dom";
 import {PATH} from "../../../../App";
 import {createCard} from "../../../../bll-redux/reducers/CardsReducer";
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
+
 
 type PackItemPropsType = {
     packId: string
+    index: number
 }
-export const PackItem: FC<PackItemPropsType> = ({packId}) => {
+export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
@@ -43,7 +47,7 @@ export const PackItem: FC<PackItemPropsType> = ({packId}) => {
         dispatch(createCard(packId, 'Ololo'))
     }
 
-    return <CardLine>
+    return <CardLine bgColor={index%2 !== 0 ? '#0760b869' : '#77b2ebb0'}>
         <CardItem onClick={showCards}>{packName}</CardItem>
         <CardItem width={'10%'}>{cardsCount}</CardItem>
         <CardItem>{updatedDate}</CardItem>
@@ -51,13 +55,13 @@ export const PackItem: FC<PackItemPropsType> = ({packId}) => {
         <CardItem width={'30%'}>
             {
                 isMyCards
-                    ? <span>
-                            <button onClick={deletePack}>Delete</button>
-                            <button>Edit</button>
-                            <button>Learn</button>
-                            <button onClick={addCard}>Add Card</button>
-                        </span>
-                    : <button>Learn</button>
+                    ? <ButtonGroup color={"primary"}  size="small"  variant="contained" aria-label="small button group">
+                            <Button onClick={deletePack}>Delete</Button>
+                            <Button>Edit</Button>
+                            <Button>Learn</Button>
+                            {/*<button onClick={addCard}>Add Card</button>*/}
+                    </ButtonGroup>
+                    : <Button color={"primary"} variant="contained" size={"small"}>Learn</Button>
             }
         </CardItem>
     </CardLine>

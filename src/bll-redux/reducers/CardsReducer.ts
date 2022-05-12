@@ -1,5 +1,5 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {cardsAPI, CardType} from "../../api/CardsAPI";
+import {cardsAPI, CardType, GetCardsResponseType} from "../../api/CardsAPI";
 import {AppThunk} from "../store";
 
 
@@ -7,23 +7,29 @@ const slice = createSlice({
         name: "cards",
         initialState: {
             cards: [] as CardType[],
+            totalCountCards: 0,
+            packPerPage: 0,
         },
         reducers: {
             setCards(state, action: PayloadAction<CardType[]>) {
                 state.cards = action.payload;
             },
-
+            setCardsInformation(state, action: PayloadAction<GetCardsResponseType>) {
+                state.totalCountCards = action.payload.cardsTotalCount;
+                state.packPerPage = action.payload.pageCount;
+            },
         }
     }
 )
 
-export const getCardsTC = (cardsPack_id: string) => async (dispatch: Dispatch) => {
+export const getCardsTC = (cardsPack_id: string, page?:number, pageCount?:number) => async (dispatch: Dispatch) => {
 
     // let cardsPack_id = '5eb6a2f72f849402d46c6ac7 '
 
     try {
-        const response = await cardsAPI.getCards({cardsPack_id})
+        const response = await cardsAPI.getCards({cardsPack_id , page, pageCount})
         dispatch(setCards(response.data.cards))
+        dispatch(setCardsInformation(response.data))
 
     } catch (err: any) {
         console.log(err)
@@ -73,7 +79,7 @@ export const updateCardsPack = (id: string, title: string):AppThunk =>
     }*/
 
 
-const {setCards} = slice.actions
+const {setCards, setCardsInformation} = slice.actions
 export const cardsReducer = slice.reducer
 
 export type CardsReducerActionsType = ReturnType<typeof setCards>

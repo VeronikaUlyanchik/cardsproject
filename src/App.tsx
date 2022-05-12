@@ -11,10 +11,10 @@ import {Error404} from './ui/components/ErrorPage/Error404';
 import {AppWrapper} from "./common/global-styles/CommonStyles.style";
 import {CardsTablePage} from "./ui/components/CardsTable/CardsTablePage";
 import {CardsPacksTablePage} from "./ui/components/CardsPackTable/CardsPacksTablePage";
+import {LinearProgress} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "./hooks/ReduxHooks";
 import {fetchInitialized} from "./bll-redux/reducers/AppReducer";
-import {Header} from "./ui/components/Header/Header";
-import {LinearProgress} from "@mui/material";
+import {Header} from "./ui/features/Header/Header";
 
 
 export const PATH = {

@@ -4,14 +4,12 @@ import {setAppStatus} from "./AppReducer";
 
 export interface ProfileStateType {
     user: GetMeResponseType
-    password: string
     status: null | string
     error: null | string
 }
 
 const initialState = {
     user: {} as GetMeResponseType,
-    password: '',
     status: 'idle',
     error: '',
 }
@@ -28,7 +26,6 @@ export const profileSlice = createSlice({
             state.password = action.payload
         }
     },
-
 })
 
 export const {setUserProfile, setNewPassword} = profileSlice.actions
@@ -37,15 +34,12 @@ export type ProfileActionsType = ReturnType<typeof setUserProfile>
 
 export default profileSlice.reducer;
 
-
-//thunk-old
-export const updateUserProfile = (name: string, avatar: string) =>
+//thunk
+export const updateUserProfile = (name?: string, avatar?: string) =>
     async (dispatch: Dispatch) => {
         try {
             const res = await profileAPI.updateMe(name)
-
-            dispatch(setUserProfile(res.data.updatedUser))
-
+                dispatch(setUserProfile(res.data.updatedUser))
         } catch (e) {
             console.log(e)
         } finally {
