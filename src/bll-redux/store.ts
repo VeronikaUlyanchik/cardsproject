@@ -1,8 +1,7 @@
 import {combineReducers, configureStore, ThunkAction} from '@reduxjs/toolkit'
-import {Reducer} from "./reducers/reducer";
 import profileReducer, {ProfileActionsType} from "./reducers/ProfileReducer";
 import appReducer, {AppActionsType} from "./reducers/AppReducer";
-import {RegistrationActionsType, registrationReducer} from "../bll-redux/reducers/RegisterReducer";
+import {RegistrationActionsType, registrationReducer} from "./reducers/RegisterReducer";
 import thunkMiddleware from "redux-thunk";
 import {authReducer} from "./reducers/AuthReducer";
 import {CardsPackReducerActionsType, packReducer} from "./reducers/CardsPackReducer";
@@ -10,7 +9,6 @@ import {cardsReducer, CardsReducerActionsType} from "./reducers/CardsReducer";
 import {recoveryPasswordReducer} from "./reducers/RecoveryPasswordReducer";
 
 const reducers = combineReducers({
-    reducer: Reducer,
     app: appReducer,
     profile: profileReducer,
     registration: registrationReducer,

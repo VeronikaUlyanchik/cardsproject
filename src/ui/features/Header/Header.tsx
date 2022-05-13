@@ -15,6 +15,7 @@ import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../hooks/ReduxHooks";
 import {selectUserAvatar} from "../../../selectors/UserSelectors";
 import {PATH} from "../../../enum/Path";
+import {selectIsLoggedIn} from "../../../selectors/AuthSelectors";
 
 
 const pages = [ PATH.PROFILE, PATH.REGISTER, PATH.PASSWORD_RECOVERY, PATH.PACKS, PATH.NEW_PASSWORD_RECOVERY];
@@ -22,7 +23,7 @@ const settings = [PATH.PROFILE, 'Logout'];
 
 export const Header = () => {
     const navigate = useNavigate()
-    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useAppSelector(selectIsLoggedIn)
     const avatar = useAppSelector(selectUserAvatar)
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
