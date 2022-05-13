@@ -14,23 +14,13 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../hooks/ReduxHooks";
 import {selectUserAvatar} from "../../../selectors/UserSelectors";
+import {PATH} from "../../../enum/Path";
 
-const PATH = {
-    LOGIN: '/login',
-    REGISTER: '/register',
-    PROFILE: '/profile',
-    PASSWORD_RECOVERY: '/password-recovery',
-    NEW_PASSWORD_RECOVERY: '/new-password-recovery',
-    TEST: '/test',
-    PACKS: '/packs',
-    CARDS: '/cards',
-}
 
 const pages = [ PATH.PROFILE, PATH.REGISTER, PATH.PASSWORD_RECOVERY, PATH.PACKS, PATH.NEW_PASSWORD_RECOVERY];
 const settings = [PATH.PROFILE, 'Logout'];
 
 export const Header = () => {
-
     const navigate = useNavigate()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const avatar = useAppSelector(selectUserAvatar)
@@ -44,7 +34,6 @@ export const Header = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
 
     return (
         <AppBar position="static">

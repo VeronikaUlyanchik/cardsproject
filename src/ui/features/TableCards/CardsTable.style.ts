@@ -1,11 +1,38 @@
 import styled from "styled-components";
 
 export const StyledTable = styled.div`
-  margin: 0 auto;
+  margin: 20px 0;
   width: 100%;
+  height: 70%;
+  overflow: scroll;
   border-radius: 10px;
   font-size: 18px;
   box-shadow: 21px 30px 52px 18px rgba(16, 54, 82, 0.22);
+
+  ::-webkit-scrollbar {
+    width: 4px; /* ширина для вертикального скролла */
+    height: 90%; /* высота для горизонтального скролла */
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    height: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background: #09173f;
+    position: relative;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+    -webkit-border-radius: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+  }
+  
 `;
 
 export const CardHeader = styled.div`

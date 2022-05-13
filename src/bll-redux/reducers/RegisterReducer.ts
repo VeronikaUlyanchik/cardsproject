@@ -4,7 +4,6 @@ import {registrationApi, RejectedType} from "../../api/RegisterAPI";
 const initialState = {
     isSignedUp: false,
     registrationError: ''
-
 };
 
 const registration = createSlice({

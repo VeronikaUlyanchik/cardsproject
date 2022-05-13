@@ -1,10 +1,11 @@
 import React from 'react';
 import {Box, Button, FormGroup, Link, Stack, TextField} from "@mui/material";
-import {PATH} from "../../../App";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
-import {fetchRecoveryPassword, recoveryPassword} from "../../../bll-redux/reducers/RecoveryPasswordReducer";
+import {fetchRecoveryPassword} from "../../../bll-redux/reducers/RecoveryPasswordReducer";
+import {PATH} from "../../../enum/Path";
+import {selectError} from "../../../selectors/AppSelectors";
 
 type FormikErrorType = {
     email?: string
@@ -18,7 +19,7 @@ export const PasswordRecovery = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate()
-    const error = useAppSelector<string>(state => state.app.error)
+    const error = useAppSelector(selectError)
 
     const formik = useFormik({
             initialValues: {

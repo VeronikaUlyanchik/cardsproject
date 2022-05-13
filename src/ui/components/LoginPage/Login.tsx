@@ -3,7 +3,6 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {useFormik} from "formik";
 import {Navigate, useNavigate} from "react-router-dom";
 import {fetchLogin} from "../../../bll-redux/reducers/AuthReducer";
-import {PATH} from "../../../App";
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
@@ -15,6 +14,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
+import {PATH} from "../../../enum/Path";
+import {selectIsLoggedIn} from "../../../selectors/AuthSelectors";
+import {selectError} from "../../../selectors/AppSelectors";
 
 type FormikErrorType = {
     email?: string
@@ -30,8 +32,8 @@ export interface StateType {
 export const Login = () => {
 
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-    const error = useAppSelector<string>(state => state.app.error)
+    const isLoggedIn = useAppSelector(selectIsLoggedIn)
+    const error = useAppSelector(selectError)
     const navigate = useNavigate()
 
     const formik = useFormik({

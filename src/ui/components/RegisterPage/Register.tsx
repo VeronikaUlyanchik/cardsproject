@@ -3,10 +3,10 @@ import {useFormik} from "formik";
 import {setSignUpThunk} from "../../../bll-redux/reducers/RegisterReducer";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {Navigate, useNavigate} from 'react-router-dom';
-import {PATH} from "../../../App";
 import {Box, Button, FormGroup, IconButton, InputAdornment, Stack, TextField} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {StateType} from "../LoginPage/Login";
+import {PATH} from "../../../enum/Path";
 
 type FormikErrorType = {
     email: string

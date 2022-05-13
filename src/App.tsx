@@ -15,22 +15,12 @@ import {fetchInitialized} from "./bll-redux/reducers/AppReducer";
 import {Header} from "./ui/features/Header/Header";
 import {CardsPacksTablePage} from "./ui/components/CardsPackTablePage/CardsPacksTablePage";
 import {CardsTablePage} from "./ui/components/CardsTablePage/CardsTablePage";
-
-
-export const PATH = {
-    LOGIN: '/login',
-    REGISTER: '/register',
-    PROFILE: '/profile',
-    PASSWORD_RECOVERY: '/password-recovery',
-    NEW_PASSWORD_RECOVERY: '/new-password-recovery',
-    TEST: '/test',
-    PACKS: '/packs',
-    CARDS: '/cards',
-}
+import {selectIsInitialized} from "./selectors/AppSelectors";
+import { PATH } from './enum/Path';
 
 const App = () => {
     const dispatch = useAppDispatch()
-    const isInitialized = useAppSelector<boolean>(state => state.app.IsInitialized)
+    const isInitialized = useAppSelector(selectIsInitialized)
 
     useEffect(()=>{
         dispatch(fetchInitialized())

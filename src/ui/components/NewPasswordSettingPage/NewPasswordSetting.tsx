@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {Navigate, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
-import {PATH} from "../../../App";
 import Box from "@mui/material/Box";
 import FormGroup from "@mui/material/FormGroup";
 import TextField from "@mui/material/TextField";
@@ -14,6 +13,9 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import {StateType} from "../LoginPage/Login";
 import {fetchUpdatePassword} from "../../../bll-redux/reducers/ProfileReducer";
+import {PATH} from "../../../enum/Path";
+import {selectIsLoggedIn, selectResetPasswordToken} from "../../../selectors/AuthSelectors";
+import {selectError} from "../../../selectors/AppSelectors";
 
 type FormikErrorType = {
     password?: string
@@ -22,11 +24,11 @@ type FormikErrorType = {
 
 export const NewPasswordSetting = () => {
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-    const error = useAppSelector<string>(state => state.app.error)
-    const resetPasswordToken = useAppSelector<string>(state => state.auth.token)
     const navigate = useNavigate()
 
+    const isLoggedIn = useAppSelector(selectIsLoggedIn)
+    const error = useAppSelector(selectError)
+    const resetPasswordToken = useAppSelector(selectResetPasswordToken)
 
     const formik = useFormik({
         initialValues: {

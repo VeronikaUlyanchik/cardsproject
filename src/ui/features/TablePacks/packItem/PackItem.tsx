@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../../hooks/ReduxHooks";
 import {
     selectCardsCount, selectCreatedTime,
-    selectPackName,
+    selectUserPackName,
     selectUpdatedTime,
     selectUserPackId
 } from "../../../../selectors/PackSelectors";
@@ -10,10 +10,9 @@ import {selectUserId} from "../../../../selectors/UserSelectors";
 import {CardItem, CardLine} from "../PacksTable.style";
 import {deleteCardsPack} from "../../../../bll-redux/reducers/CardsPackReducer";
 import {useNavigate} from "react-router-dom";
-import {PATH} from "../../../../App";
-import {createCard} from "../../../../bll-redux/reducers/CardsReducer";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
+import {PATH} from "../../../../enum/Path";
 
 
 type PackItemPropsType = {
@@ -24,7 +23,7 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
-    const packName = useAppSelector(state => selectPackName(state, packId))
+    const packName = useAppSelector(state => selectUserPackName(state, packId))
     const userId = useAppSelector(selectUserId)
     const userPackId = useAppSelector(state => selectUserPackId(state, packId))
     const cardsCount = useAppSelector(state => selectCardsCount(state, packId))
@@ -43,12 +42,8 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
         navigate(`${PATH.CARDS}?cardsPack_id=${packId}`)
     }
 
-    const addCard = () => {
-        dispatch(createCard(packId, 'Ololo'))
-    }
-
     return <CardLine bgColor={index%2 !== 0 ? '#0760b869' : '#77b2ebb0'}>
-        <CardItem onClick={showCards}>{packName}</CardItem>
+        <CardItem onClick={showCards} style={{cursor: "pointer"}}>{packName}</CardItem>
         <CardItem width={'10%'}>{cardsCount}</CardItem>
         <CardItem>{updatedDate}</CardItem>
         <CardItem>{createdDate}</CardItem>

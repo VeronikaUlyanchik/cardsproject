@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
-import {PATH} from "../../../App";
 import {Navigate} from "react-router-dom";
 import {Image, ImageBlock, InputBlock, ProfileWrapper, StyledInput, Title} from "./Profile.style";
 import {updateUserProfile} from "../../../bll-redux/reducers/ProfileReducer";
@@ -9,17 +8,18 @@ import {selectUserAvatar, selectUserEmail, selectUserName} from "../../../select
 import {fetchLogout} from "../../../bll-redux/reducers/AuthReducer";
 import Button from '@mui/material/Button';
 import {fetchInitialized} from "../../../bll-redux/reducers/AppReducer";
+import {PATH} from "../../../enum/Path";
+import {selectIsLoggedIn} from "../../../selectors/AuthSelectors";
 
 
 export const Profile = () => {
-    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const dispatch = useAppDispatch()
-
+    const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const userName = useAppSelector(selectUserName)
     const userAvatar = useAppSelector(selectUserAvatar)
     const userEmail = useAppSelector(selectUserEmail)
 
-    const [nickName, setNickName] = useState<string>(userName)
+    const [nickName, setNickName] = useState<undefined | string>(undefined)
 
     useEffect(() => {
         dispatch(fetchInitialized())
@@ -55,7 +55,7 @@ export const Profile = () => {
                     <InputBlock>
 
                         <StyledInput
-                            value={nickName || userName}
+                            value={nickName ? nickName : userName}
                             onChange={updateNickname}
                         />
                         <StyledInput

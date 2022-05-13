@@ -52,11 +52,14 @@ interface ContentWrapperProps {
     flex?: string
     width?: string
     height?: string
+    direction?: string
 }
 export const ContentWrapper = styled.div<ContentWrapperProps>`
   width: ${props => props.width};
   height: ${props => props.height};
   display: ${props => props.flex};
+  flex-direction: ${props => props.direction};
+  justify-content: space-between;
   padding: 30px;
 
   //background: rgba(255, 255, 255, 0.18);
