@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {useFormik} from "formik";
 import Box from "@mui/material/Box";
 import FormGroup from "@mui/material/FormGroup";
@@ -12,10 +12,12 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import {StateType} from "../LoginPage/Login";
-import {fetchUpdatePassword} from "../../../bll-redux/reducers/ProfileReducer";
 import {PATH} from "../../../enum/Path";
 import {selectIsLoggedIn, selectResetPasswordToken} from "../../../selectors/AuthSelectors";
 import {selectError} from "../../../selectors/AppSelectors";
+import {fetchChangePassword} from "../../../bll-redux/reducers/RecoveryPasswordReducer";
+import {useSelector} from "react-redux";
+import {selectPasswordChange} from "../../../selectors/PasswordSelectors";
 
 type FormikErrorType = {
     password?: string
@@ -26,9 +28,9 @@ export const NewPasswordSetting = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    const isLoggedIn = useAppSelector(selectIsLoggedIn)
+    const changePassword = useSelector(selectPasswordChange)
     const error = useAppSelector(selectError)
-    const resetPasswordToken = useAppSelector(selectResetPasswordToken)
+    const {token} = useParams()
 
     const formik = useFormik({
         initialValues: {
@@ -52,8 +54,7 @@ export const NewPasswordSetting = () => {
             return errors;
         },
         onSubmit: values => {
-            console.log(values.repeatPassword)
-            dispatch(fetchUpdatePassword({password: values.repeatPassword, resetPasswordToken}))
+            dispatch(fetchChangePassword({password: values.repeatPassword, resetPasswordToken: token}))
             formik.resetForm();
         },
     })
@@ -75,7 +76,7 @@ export const NewPasswordSetting = () => {
         event.preventDefault();
     };
 
-    if (!isLoggedIn) {
+    if (changePassword){
         return <Navigate to={PATH.LOGIN}/>
     }
 
@@ -111,7 +112,7 @@ export const NewPasswordSetting = () => {
                                                    aria-label="toggle password visibility"
                                                    onClick={handleClickShowPassword}
                                                    onMouseDown={handleMouseDownPassword}>
-                                                   {value.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                   {value.showPassword ?<Visibility/> : <VisibilityOff/>}
                                                </IconButton>
                                            </InputAdornment>
                                        )

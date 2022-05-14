@@ -4,8 +4,9 @@ export enum PATH {
     REGISTER = '/register',
     PROFILE = '/profile',
     PASSWORD_RECOVERY = '/password-recovery',
-    NEW_PASSWORD_RECOVERY = '/new-password-recovery',
+    CREATE_PASS = '/create-pass',
     TEST = '/test',
     PACKS = '/packs',
     CARDS = '/cards',
+    SEND_MESSAGE = '/send-message'
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Button, FormGroup, Link, Stack, TextField} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import {fetchRecoveryPassword} from "../../../bll-redux/reducers/RecoveryPasswordReducer";
 import {PATH} from "../../../enum/Path";
@@ -27,7 +27,7 @@ export const PasswordRecovery = () => {
                 error: ''
             },
             validate: (values) => {
-                const errors: FormikErrorType = {};
+                const errors: Partial<FormikErrorType> = {};
                 if (!values.email) {
                     errors.email = 'Email field should be filled';
                 } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -37,7 +37,7 @@ export const PasswordRecovery = () => {
                 return errors;
             },
             onSubmit: values => {
-                dispatch(fetchRecoveryPassword(values))
+                dispatch(fetchRecoveryPassword(values.email))
             }
         },
     )
@@ -82,7 +82,8 @@ export const PasswordRecovery = () => {
                         <Button type={'submit'}
                                 variant={'contained'}
                                 color={'primary'}
-                                endIcon={<SendIcon/>}>
+                                endIcon={<SendIcon/>}
+                        onClick={()=>navigate(PATH.SEND_MESSAGE)}>
                             Send
                         </Button>
 

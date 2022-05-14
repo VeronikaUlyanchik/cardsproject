@@ -1,4 +1,3 @@
-import {AxiosResponse} from "axios";
 import {instance} from "./Api";
 
 export const profileAPI = {
@@ -7,9 +6,6 @@ export const profileAPI = {
     },
     updateMe(name: string) {
         return instance.put<PutMeResponseType>('auth/me', {name})
-    },
-    updatePassword(data: any){
-        return instance.post<NewPasswordResponseType, AxiosResponse<GetMeResponseType>, any>(`auth/set-new-password`, data)
     }
 }
 
@@ -36,13 +32,3 @@ export type PutMeResponseType = {
     error?: string
 }
 
-export type NewPasswordResponseType <D = {}>= {
-    info?: string
-    error?: string
-    data?: D
-}
-
-export type NewPasswordDataType = {
-    password: string
-    resetPasswordToken: string
-}

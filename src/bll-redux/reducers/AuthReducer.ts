@@ -27,8 +27,8 @@ export const fetchLogin = createAsyncThunk(
         try {
             dispatch(setAppStatus({status: 'loading'}))
             const res = await authAPI.login(data);
-            console.log(res.data.token)
             dispatch(loggedIn(true))
+            dispatch(getToken(res.data.token))
         } catch (e: any) {
             const error = e.response
                 ? e.response.data.error
@@ -47,12 +47,13 @@ export const fetchLogout = createAsyncThunk(
             dispatch(setAppStatus({status: 'loading'}))
             await authAPI.logout();
             dispatch(loggedIn(false))
-            dispatch(setAppStatus({status: 'succeeded'}))
         } catch (err: any) {
             console.log(err)
+        } finally {
+            dispatch(setAppStatus({status: 'succeeded'}))
         }
     }
 );
 
-export const {loggedIn} = slice.actions
+export const {loggedIn, getToken} = slice.actions
 export const authReducer = slice.reducer

@@ -112,7 +112,7 @@ export const Register = () => {
                                                    aria-label="toggle password visibility"
                                                    onClick={handleClickShowPassword}
                                                    onMouseDown={handleMouseDownPassword}>
-                                                   {value.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                   {value.showPassword ? <Visibility/> : <VisibilityOff/>}
                                                </IconButton>
                                            </InputAdornment>
                                        )
@@ -135,7 +135,7 @@ export const Register = () => {
                                                    aria-label="toggle password visibility"
                                                    onClick={handleClickShowPassword}
                                                    onMouseDown={handleMouseDownPassword}>
-                                                   {value.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                   {value.showPassword ? <Visibility/> : <VisibilityOff/>}
                                                </IconButton>
                                            </InputAdornment>
                                        )

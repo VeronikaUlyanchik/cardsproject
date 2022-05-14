@@ -7,9 +7,6 @@ export const authAPI = {
     },
     logout(){
         return instance.delete<ResponseType>('auth/me')
-    },
-    forgot(data: ForgotDataType){
-        return instance.post<ForgotDataType, AxiosResponse<GetMeResponseType<{email: string}>>>('auth/forgot', data)
     }
 }
 
@@ -35,13 +32,6 @@ export type LoginParamsType = {
     email: string
     password: string
     rememberMe: boolean
-}
-
-export type ForgotDataType<D = {}>= {
-    email:string
-    info?: string
-    error?: string
-    data?: D
 }
 
 export type ResponseType<D = {}> = {

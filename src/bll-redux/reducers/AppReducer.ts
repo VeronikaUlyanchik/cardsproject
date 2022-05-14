@@ -11,6 +11,7 @@ export const fetchInitialized = createAsyncThunk(
             const {data} = await profileAPI.getMe();
                 dispatch(loggedIn(true))
                 dispatch(setUserProfile(data))
+            dispatch(setAppStatus({status: 'succeeded'}))
             return {id: data._id}
         } catch (err: any) {
             console.log(err)

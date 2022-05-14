@@ -17,6 +17,7 @@ import {CardsPacksTablePage} from "./ui/components/CardsPackTablePage/CardsPacks
 import {CardsTablePage} from "./ui/components/CardsTablePage/CardsTablePage";
 import {selectIsInitialized} from "./selectors/AppSelectors";
 import { PATH } from './enum/Path';
+import SendMessage from "./ui/components/SendMessage/SendMessage";
 
 const App = () => {
     const dispatch = useAppDispatch()
@@ -43,7 +44,8 @@ const App = () => {
                         <Route path={PATH.REGISTER} element={<Register/>}/>
                         <Route path={PATH.PROFILE} element={<Profile/>}/>
                         <Route path={PATH.PASSWORD_RECOVERY} element={<PasswordRecovery/>}/>
-                        <Route path={PATH.NEW_PASSWORD_RECOVERY} element={<NewPasswordSetting/>}/>
+                        <Route path={PATH.CREATE_PASS + '/:token'} element={<NewPasswordSetting/>}/>
+                        <Route path={PATH.SEND_MESSAGE} element={<SendMessage/>}/>
                         <Route path={PATH.TEST} element={<Test/>}/>
                         <Route path={PATH.PACKS} element={<CardsPacksTablePage/>}/>
                         <Route path={PATH.CARDS} element={<CardsTablePage/>}/>

@@ -1,5 +1,5 @@
-import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {GetMeResponseType, NewPasswordDataType, NewPasswordResponseType, profileAPI} from "../../api/ProfileAPI";
+import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {GetMeResponseType, profileAPI} from "../../api/ProfileAPI";
 import {setAppStatus} from "./AppReducer";
 
 export interface ProfileStateType {
@@ -14,17 +14,13 @@ const initialState = {
     error: '',
 }
 
-
 export const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
         setUserProfile: (state: ProfileStateType, action: PayloadAction<GetMeResponseType>) => {
             state.user = action.payload
-        },
-        // setNewPassword: (state, action: PayloadAction<string>) => {
-        //     state.password = action.payload
-        // }
+        }
     },
 })
 
@@ -47,20 +43,6 @@ export const updateUserProfile = (name?: string , avatar?: string) =>
         }
     }
 
-export const fetchUpdatePassword = createAsyncThunk(
-    'profile/fetchUpdatePassword',
-    async ({password, resetPasswordToken}: { password: string, resetPasswordToken: string }, {dispatch}) => {
-        try {
-            dispatch(setAppStatus({status: 'loading'}))
-            const res = await profileAPI.updatePassword({password, resetPasswordToken});
-            // dispatch(setNewPassword(res.data.token))
-            console.log(res.data.token)
-        } catch (err: any) {
-            console.log(err)
-        } finally {
-            dispatch(setAppStatus({status: 'succeeded'}))
-        }
-    }
-)
+
 
 
