@@ -17,7 +17,7 @@ export const SelectPageCount = ({onChangeHandler, packPerPage}: SelectPageCountT
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             onChange={handleChange}
-            defaultValue={packPerPage ? packPerPage.toString() : '7'}
+            defaultValue={packPerPage ? packPerPage.toString() : '10'}
         >
             <MenuItem value={4}>4</MenuItem>
             <MenuItem value={7}>7</MenuItem>

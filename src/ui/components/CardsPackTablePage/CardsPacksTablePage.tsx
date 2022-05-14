@@ -22,7 +22,7 @@ import {PATH} from "../../../enum/Path";
 import {selectIsLoggedIn} from "../../../selectors/AuthSelectors";
 import {
     selectAllCardPacks,
-    selectMyCardPacks, selectUserPackName,
+    selectMyCardPacks,
     selectPackPerPage,
     selectTotalCountPacks, selectPackName, selectCurrentPage
 } from "../../../selectors/PackSelectors";
