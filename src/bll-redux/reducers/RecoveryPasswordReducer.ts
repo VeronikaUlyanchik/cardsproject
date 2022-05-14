@@ -40,6 +40,7 @@ export const fetchRecoveryPassword = createAsyncThunk(
                                             <a href='http://localhost:3000/cardsproject#${PATH.CREATE_PASS}/$token$'>
                                             link</a></div>\``
             });
+
             dispatch(setAppStatus({status: 'succeeded'}))
             return {success: res.data.success, email}
 
