@@ -163,7 +163,7 @@ export const Login = () => {
                         }}>
                             Don't have an account yet?
                             <Button variant="text"
-                                    onClick={() => navigate(PATH.REGISTER)}>Register</Button>
+                                    onClick={() => navigate(PATH.REGISTER)}>Sign Up</Button>
                         </Box>
                     </FormGroup>
                 </Box>
