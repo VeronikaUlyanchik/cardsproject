@@ -6,6 +6,8 @@ import {useFormik} from "formik";
 import {fetchRecoveryPassword} from "../../../bll-redux/reducers/RecoveryPasswordReducer";
 import {PATH} from "../../../enum/Path";
 import {selectError} from "../../../selectors/AppSelectors";
+import {useSelector} from "react-redux";
+import {selectPasswordChange, selectSuccess} from "../../../selectors/PasswordSelectors";
 
 type FormikErrorType = {
     email?: string
@@ -20,6 +22,7 @@ export const PasswordRecovery = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate()
     const error = useAppSelector(selectError)
+    const success = useSelector(selectSuccess)
 
     const formik = useFormik({
             initialValues: {
@@ -41,6 +44,10 @@ export const PasswordRecovery = () => {
             }
         },
     )
+
+    if(success){
+        return <Navigate to={PATH.SEND_MESSAGE}/>
+    }
 
     return (<>
         <form onSubmit={formik.handleSubmit}>
@@ -83,7 +90,7 @@ export const PasswordRecovery = () => {
                                 variant={'contained'}
                                 color={'primary'}
                                 endIcon={<SendIcon/>}
-                        onClick={()=>navigate(PATH.SEND_MESSAGE)}>
+                        >
                             Send
                         </Button>
 

@@ -4,7 +4,6 @@ import Link from "@mui/material/Link";
 import {PATH} from "../../../enum/Path";
 import {useNavigate} from "react-router-dom";
 import Email from "../../../common/image/New-email.jpg";
-
 const SendMessage = () => {
 
     const navigate = useNavigate()
