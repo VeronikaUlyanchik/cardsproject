@@ -1,14 +1,13 @@
-import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {CardsPackParamsType, CardsPackType, GetCardsPackResponse, packsAPI} from "../../api/PacksAPI";
-import {AppRootStateType, AppThunk} from "../store";
-import {setAppStatus} from "./AppReducer";
+import {setAppStatus, setIsError, setIsSuccessful} from "./AppReducer";
 
 const slice = createSlice({
         name: "cardsPacks",
         initialState: {
             packList: [] as CardsPackType[],
             totalCountPacks: 0,
-            packPerPage: 7,
+            packPerPage: 10,
             packName: '',
             page: 1,
             maxCardsCount: 10000,
@@ -32,62 +31,73 @@ const slice = createSlice({
     }
 )
 
-export const getPackList = (params: CardsPackParamsType) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const getPackList = createAsyncThunk(
+    'cardPacks/getPackList',
+    async (params: CardsPackParamsType, {dispatch}) => {
+        dispatch(setAppStatus({status: 'loading'}))
+        try {
+            const response = await packsAPI.getCardsPack(params);
+            dispatch(getPack(response.data.cardPacks))
+            dispatch(getPackInformation(response.data))
+            dispatch(getPackName(params.packName || ''))
+            dispatch(setIsSuccessful(true))
+        } catch (err: any) {
+            console.warn(err)
+            dispatch(setIsError(true))
+        } finally {
+            dispatch(setAppStatus({status: 'idle'}))
+        }
+    })
 
-    try {
-        const response = await packsAPI.getCardsPack(params);
-        dispatch(getPack(response.data.cardPacks))
-        dispatch(getPackInformation(response.data))
-        dispatch(getPackName(params.packName || ''))
-
-        console.log(response.data)
-    } catch (err: any) {
-        console.log(err)
-    }
-
-
-}
-
-export const createCardsPack = (title: string): AppThunk =>
-    async (dispatch) => {
+export const createCardsPack = createAsyncThunk(
+    'cardPacks/createCardsPack',
+    async (title: string, {dispatch}) => {
         dispatch(setAppStatus({status: 'loading'}))
         try {
             const response = await packsAPI.createCardsPack(title);
             await dispatch(getPackList({}))
             console.log(response.data)
+            dispatch(setIsSuccessful(true))
         } catch (err: any) {
-            console.log(err)
-            dispatch(setAppStatus({status: 'failed'}))
+            console.warn(err)
+            dispatch(setIsError(true))
         } finally {
-            dispatch(setAppStatus({status: 'succeeded'}))
+            dispatch(setAppStatus({status: 'idle'}))
         }
-    }
+    })
 
-export const deleteCardsPack = (id: string): AppThunk =>
-    async (dispatch) => {
-
+export const deleteCardsPack = createAsyncThunk(
+    'cardPacks/deleteCardsPack',
+    async (id: string, {dispatch}) => {
+        dispatch(setAppStatus({status: 'loading'}))
         try {
             const response = await packsAPI.deleteCardsPack(id)
             await dispatch(getPackList({}))
-            debugger
-            console.log(response.data)
+            dispatch(setIsSuccessful(true))
         } catch (err: any) {
-            console.log(err)
+            console.warn(err)
+            dispatch(setIsError(true))
+        } finally {
+            dispatch(setAppStatus({status: 'idle'}))
         }
-    }
+    })
 
-export const updateCardsPack = (id: string, title: string): AppThunk =>
-    async (dispatch) => {
-
+export const updateCardsPack = createAsyncThunk(
+    'cardPacks/updateCardsPack',
+    async (data: { _id: string, title: string }, {dispatch}) => {
+        const {_id, title} = data
+        dispatch(setAppStatus({status: 'loading'}))
         try {
-            const response = await packsAPI.updateCardsPack(id, title)
+            const response = await packsAPI.updateCardsPack(_id, title)
             await dispatch(getPackList({}))
-            debugger
-            console.log(response.data)
+            dispatch(setIsSuccessful(true))
         } catch (err: any) {
-            console.log(err)
+            console.warn(err)
+            dispatch(setIsError(true))
+        } finally {
+            dispatch(setAppStatus({status: 'idle'}))
         }
-    }
+    })
 
 
 const {getPack, getPackInformation, getPackName} = slice.actions

@@ -15,13 +15,14 @@ import {fetchInitialized} from "./bll-redux/reducers/AppReducer";
 import {Header} from "./ui/features/Header/Header";
 import {CardsPacksTablePage} from "./ui/components/CardsPackTablePage/CardsPacksTablePage";
 import {CardsTablePage} from "./ui/components/CardsTablePage/CardsTablePage";
-import {selectIsInitialized} from "./selectors/AppSelectors";
+import {selectIsInitialized, selectStatus} from "./selectors/AppSelectors";
 import { PATH } from './enum/Path';
 import SendMessage from "./ui/components/SendMessage/SendMessage";
 
 const App = () => {
     const dispatch = useAppDispatch()
     const isInitialized = useAppSelector(selectIsInitialized)
+    const isLoading = useAppSelector(selectStatus)
 
     useEffect(()=>{
         dispatch(fetchInitialized())
@@ -29,7 +30,7 @@ const App = () => {
 
     if(!isInitialized){
         return <div
-            style={{top: '30%', textAlign: 'center', width: '100%'}}>
+            style={{top: '30%', width: '100%'}}>
             <LinearProgress/>
         </div>
     }
@@ -37,6 +38,11 @@ const App = () => {
     return (
         <div className="App">
             <Header/>
+            {
+                isLoading === 'loading' && <div style={{position: 'absolute', top: '0', width: '100%'}}>
+                <LinearProgress/>
+            </div>
+            }
             <AppWrapper>
                     <Routes>
                         <Route path={'/'} element={<Navigate to={PATH.LOGIN}/>}/>

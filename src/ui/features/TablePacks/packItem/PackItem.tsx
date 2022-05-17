@@ -13,7 +13,6 @@ import {useNavigate} from "react-router-dom";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import {PATH} from "../../../../enum/Path";
 import {ModalLearningCard} from "../../modal/ModalLearning/ModalLearningCard";
-import {ModalDeleteCard} from "../../modal/ModalCards/ModalDeleteCard";
 import {ModalEditPack} from "../../modal/ModalPacks/ModalEditPack";
 import {ModalDeletePack} from "../../modal/ModalPacks/ModalDeletePack";
 
@@ -42,10 +41,10 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
         dispatch(deleteCardsPack(packId))
     }
     const updatePack = (title: string) => {
-        dispatch(updateCardsPack(packId, title))
+        dispatch(updateCardsPack({_id: packId, title}))
     }
     const showCards = () => {
-        navigate(`${PATH.CARDS}?cardsPack_id=${packId}`)
+        navigate(`${PATH.CARDS}?cardsPack_id=${packId}&page=1`)
     }
 
     return <CardLine bgColor={index % 2 !== 0 ? '#0760b869' : '#77b2ebb0'}>
