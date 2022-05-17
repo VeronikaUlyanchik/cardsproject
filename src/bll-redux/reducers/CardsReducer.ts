@@ -40,43 +40,41 @@ export const getCardsTC = (cardsPack_id: string, page?:number, pageCount?:number
 
 export const createCard = (cardsPack_id: string, question?: string, answer?: string, grade?: number):AppThunk =>
     async (dispatch) => {
-
+debugger
     try {
-        const response = await cardsAPI.createCard({cardsPack_id, question, answer, grade})
+        const response = await cardsAPI.createCard(cardsPack_id, question, answer, grade)
+        debugger
         await dispatch(getCardsTC(cardsPack_id))
         console.log(response.data)
-        debugger
     } catch (error) {
         debugger
         console.log(error)
     }
 }
-/*
-export const deleteCardsPack = (id: string):AppThunk =>
+
+export const deleteCardTC = (packId: string, id: string):AppThunk =>
     async (dispatch) => {
 
         try {
-            const response = await packsAPI.deleteCardsPack(id)
-            await dispatch(getPackList())
-            debugger
-            console.log(response.data)
+            const response = await cardsAPI.deleteCard(id)
+            await dispatch(getCardsTC(packId))
+            // debugger
+            // console.log(response.data)
         } catch (err: any) {
             console.log(err)
         }
     }
 
-export const updateCardsPack = (id: string, title: string):AppThunk =>
+export const updateCardTC = (cardsPackId: string, cardId: string, question: string, answer: string):AppThunk =>
     async (dispatch) => {
 
         try {
-            const response = await packsAPI.updateCardsPack(id, title)
-            await dispatch(getPackList())
-            debugger
-            console.log(response.data)
+            const response = await cardsAPI.updateCard({_id: cardId, question, answer})
+            await dispatch(getCardsTC(cardsPackId))
         } catch (err: any) {
             console.log(err)
         }
-    }*/
+    }
 
 
 const {setCards, setCardsInformation} = slice.actions

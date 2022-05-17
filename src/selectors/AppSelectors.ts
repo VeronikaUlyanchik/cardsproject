@@ -7,3 +7,7 @@ export const selectIsInitialized = (state: AppRootStateType):boolean => {
 export const selectError = (state: AppRootStateType):string => {
     return state.app.error
 }
+
+export const selectStatus = (state: AppRootStateType):string => {
+    return state.app.status
+}

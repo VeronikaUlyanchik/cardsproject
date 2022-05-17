@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {Navigate} from "react-router-dom";
-import {getPackList} from "../../../bll-redux/reducers/CardsPackReducer";
+import {createCardsPack, getPackList} from "../../../bll-redux/reducers/CardsPackReducer";
 import {PacksTable} from "../../features/TablePacks/PacksTable";
 import {ContentWrapper} from "../../../common/global-styles/CommonStyles.style";
 import Button from "@mui/material/Button"
@@ -26,6 +26,8 @@ import {
     selectPackPerPage,
     selectTotalCountPacks, selectPackName, selectCurrentPage
 } from "../../../selectors/PackSelectors";
+import {ModalAddPack} from "../../features/modal/ModalPacks/ModalAddPack";
+import {ModalSuccess} from "../../features/modal/ModalErrorAndSuccess/ModalSuccess";
 
 export const CardsPacksTablePage = () => {
     const [isMyPacks, setIsMyPacks] = useState<boolean>(false)
@@ -75,12 +77,16 @@ export const CardsPacksTablePage = () => {
             ? dispatch(getPackList({user_id: userId, page: 1, packName, pageCount: packPerPage, min: min, max: max}))
             : dispatch(getPackList({page: 1, packName, pageCount: packPerPage, min: min, max: max}))
     }
+    const addCardsPack = (title: string) => {
+        dispatch(createCardsPack(title))
+    }
+
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
 
     return (
-        <ContentWrapper flex={"flex"} direction={"row"} width={"1000px"} height={"750px"}>
+        <ContentWrapper flex={"flex"} direction={"row"} width={"65%"} height={"85%"}>
             <StyledSettings>
                 <StyledButtons>
                     <h3>Show packs cards</h3>
@@ -103,9 +109,7 @@ export const CardsPacksTablePage = () => {
                 <StyledTitle>Packs list</StyledTitle>
                 <StyledSearchBlock>
                     <SearchComponent onClickHandler={searchItemByName}/>
-                    <Button variant={"contained"} color={"success"} onClick={() => alert("Add Card")}>
-                        Add Cards
-                    </Button>
+                    <ModalAddPack addPack={addCardsPack}/>
                 </StyledSearchBlock>
 
                 <PacksTable cardPacks={isMyPacks ? myCardPacks : allCardPacks}/>

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {CardsTable} from "../../features/TableCards/CardsTable";
-import {getCardsTC} from "../../../bll-redux/reducers/CardsReducer";
+import {createCard, getCardsTC} from "../../../bll-redux/reducers/CardsReducer";
 import {ContentWrapper} from '../../../common/global-styles/CommonStyles.style';
 import {StyledPaginationBox, StyledSearchForm} from "./CardsTablePage.style";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -10,6 +10,8 @@ import {PaginationComponent} from "../../features/Pagination/Pagination";
 import {SelectPageCount} from "../../features/SelectPageCount/SelectPageCount";
 import {PATH} from "../../../enum/Path";
 import {selectPackPerPage, selectTotalCountCards} from "../../../selectors/CardsSelectors";
+import Button from "@mui/material/Button";
+import {ModalAddCard} from "../../features/modal/ModalCards/ModalAddCard";
 
 
 export const CardsTablePage = () => {
@@ -40,8 +42,14 @@ export const CardsTablePage = () => {
         id && dispatch(getCardsTC(id, 1, pageCount))
     }
 
+    const addCardHandler = (question: string) => {
+        if (id) {
+            dispatch(createCard(id, question))
+        }
+    }
+
     return (
-        <ContentWrapper width={"1000px"} height={"750px"} flex={"flex"} direction={"column"}>
+        <ContentWrapper width={"65%"} height={"85%"} flex={"flex"} direction={"column"}>
 
             <StyledSearchForm>
                     <span style={{padding: "10px", display: "inline-flex", alignItems: "center"}}>
@@ -50,6 +58,7 @@ export const CardsTablePage = () => {
                     </span>
                 <input type="text"/>
                 <input type="text"/>
+                <ModalAddCard addCard={addCardHandler}/>
             </StyledSearchForm>
 
             <CardsTable id={id ? id : ''}/>

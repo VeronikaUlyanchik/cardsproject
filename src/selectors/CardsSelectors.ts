@@ -33,3 +33,11 @@ export const selectTotalCountCards = (state: AppRootStateType): number => {
 export const selectPackPerPage = (state: AppRootStateType): number => {
     return state.cards.packPerPage
 }
+
+export const selectCardUserId = (state: AppRootStateType, cardId: string): string => {
+    return selectCardItem(state, cardId).user_id
+}
+
+export const selectCardPackID = (state: AppRootStateType, cardId: string): string => {
+    return selectCardItem(state, cardId).cardsPack_id
+}

@@ -59,6 +59,7 @@ export const Profile = () => {
                             onChange={updateNickname}
                         />
                         <StyledInput
+                            readOnly
                             value={userEmail}
                         />
 

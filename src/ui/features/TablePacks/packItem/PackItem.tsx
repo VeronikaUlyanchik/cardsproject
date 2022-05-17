@@ -8,11 +8,14 @@ import {
 } from "../../../../selectors/PackSelectors";
 import {selectUserId} from "../../../../selectors/UserSelectors";
 import {CardItem, CardLine} from "../PacksTable.style";
-import {deleteCardsPack} from "../../../../bll-redux/reducers/CardsPackReducer";
+import {deleteCardsPack, updateCardsPack} from "../../../../bll-redux/reducers/CardsPackReducer";
 import {useNavigate} from "react-router-dom";
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Button from '@mui/material/Button';
 import {PATH} from "../../../../enum/Path";
+import {ModalLearningCard} from "../../modal/ModalLearning/ModalLearningCard";
+import {ModalDeleteCard} from "../../modal/ModalCards/ModalDeleteCard";
+import {ModalEditPack} from "../../modal/ModalPacks/ModalEditPack";
+import {ModalDeletePack} from "../../modal/ModalPacks/ModalDeletePack";
 
 
 type PackItemPropsType = {
@@ -38,11 +41,14 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
     const deletePack = () => {
         dispatch(deleteCardsPack(packId))
     }
+    const updatePack = (title: string) => {
+        dispatch(updateCardsPack(packId, title))
+    }
     const showCards = () => {
         navigate(`${PATH.CARDS}?cardsPack_id=${packId}`)
     }
 
-    return <CardLine bgColor={index%2 !== 0 ? '#0760b869' : '#77b2ebb0'}>
+    return <CardLine bgColor={index % 2 !== 0 ? '#0760b869' : '#77b2ebb0'}>
         <CardItem onClick={showCards} style={{cursor: "pointer"}}>{packName}</CardItem>
         <CardItem width={'10%'}>{cardsCount}</CardItem>
         <CardItem>{updatedDate}</CardItem>
@@ -50,13 +56,18 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
         <CardItem width={'30%'}>
             {
                 isMyCards
-                    ? <ButtonGroup color={"primary"}  size="small"  variant="contained" aria-label="small button group">
-                            <Button onClick={deletePack}>Delete</Button>
-                            <Button>Edit</Button>
-                            <Button>Learn</Button>
-                            {/*<button onClick={addCard}>Add Card</button>*/}
+                    ? <ButtonGroup color={"primary"} size="small" variant="contained" aria-label="small button group">
+                        <ModalDeletePack deletePack={deletePack} packName={packName} />
+                        <ModalEditPack packName={packName} updatePack={updatePack}/>
+                        <ModalLearningCard
+                            packName={packName}
+                            question={'Blablabla'}
+                        />
                     </ButtonGroup>
-                    : <Button color={"primary"} variant="contained" size={"small"}>Learn</Button>
+                    : <ModalLearningCard
+                        packName={packName}
+                        question={'Blablabla'}
+                    />
             }
         </CardItem>
     </CardLine>

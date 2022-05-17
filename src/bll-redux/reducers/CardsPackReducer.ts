@@ -1,6 +1,7 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {CardsPackParamsType, CardsPackType, GetCardsPackResponse, packsAPI} from "../../api/PacksAPI";
 import {AppRootStateType, AppThunk} from "../store";
+import {setAppStatus} from "./AppReducer";
 
 const slice = createSlice({
         name: "cardsPacks",
@@ -24,14 +25,14 @@ const slice = createSlice({
                 state.maxCardsCount = action.payload.maxCardsCount;
                 state.minCardsCount = action.payload.minCardsCount;
             },
-            getPackName(state,action: PayloadAction<string>){
+            getPackName(state, action: PayloadAction<string>) {
                 state.packName = action.payload
             }
         }
     }
 )
 
-export const getPackList = (params: CardsPackParamsType) => async (dispatch: Dispatch, getState: ()=>AppRootStateType ) => {
+export const getPackList = (params: CardsPackParamsType) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
 
     try {
         const response = await packsAPI.getCardsPack(params);
@@ -47,19 +48,22 @@ export const getPackList = (params: CardsPackParamsType) => async (dispatch: Dis
 
 }
 
-export const createCardsPack = (title: string):AppThunk =>
+export const createCardsPack = (title: string): AppThunk =>
     async (dispatch) => {
-
-    try {
-        const response = await packsAPI.createCardsPack(title);
-        await dispatch(getPackList({}))
-        console.log(response.data)
-    } catch (err: any) {
-        console.log(err)
+        dispatch(setAppStatus({status: 'loading'}))
+        try {
+            const response = await packsAPI.createCardsPack(title);
+            await dispatch(getPackList({}))
+            console.log(response.data)
+        } catch (err: any) {
+            console.log(err)
+            dispatch(setAppStatus({status: 'failed'}))
+        } finally {
+            dispatch(setAppStatus({status: 'succeeded'}))
+        }
     }
-}
 
-export const deleteCardsPack = (id: string):AppThunk =>
+export const deleteCardsPack = (id: string): AppThunk =>
     async (dispatch) => {
 
         try {
@@ -72,7 +76,7 @@ export const deleteCardsPack = (id: string):AppThunk =>
         }
     }
 
-export const updateCardsPack = (id: string, title: string):AppThunk =>
+export const updateCardsPack = (id: string, title: string): AppThunk =>
     async (dispatch) => {
 
         try {
@@ -86,7 +90,7 @@ export const updateCardsPack = (id: string, title: string):AppThunk =>
     }
 
 
-const {getPack,getPackInformation, getPackName} = slice.actions
+const {getPack, getPackInformation, getPackName} = slice.actions
 export const packReducer = slice.reducer
 
 export type CardsPackReducerActionsType = ReturnType<typeof getPack> | ReturnType<typeof getPackInformation>

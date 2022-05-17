@@ -25,14 +25,14 @@ export const cardsAPI = {
             }
         })
     },
-    createCard(card: CardModelRequestType) {
-        return instance.post<CardsAndPacksResponseType>('/cards/card', {card})
+    createCard(cardsPack_id: string, question?: string, answer?: string, grade?: number) {
+        return instance.post<CardsAndPacksResponseType>('/cards/card', {card: {cardsPack_id, question, answer, grade}})
     },
     deleteCard(id: string) {
-        return instance.delete('/cards/card', {params: {id}})
+        return instance.delete<CardsAndPacksResponseType>('/cards/card', {params: {id}})
     },
     updateCard(card: CardModelRequestType) {
-        return instance.put<CardsAndPacksResponseType>('/cards/card', card)
+        return instance.put<CardsAndPacksResponseType>('/cards/card', {card})
     },
 }
 
@@ -73,7 +73,7 @@ export type CardType = {
 }
 
 export type CardModelRequestType = {
-    cardsPack_id: string
+    _id: string
     question?: string
     answer?: string
     grade?: number

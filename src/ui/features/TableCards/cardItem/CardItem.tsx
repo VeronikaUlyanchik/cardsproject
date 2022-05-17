@@ -3,10 +3,15 @@ import {useAppDispatch, useAppSelector} from "../../../../hooks/ReduxHooks";
 import {CardLine, CardLineItem} from "../CardsTable.style";
 import {
     selectCardAnswer,
-    selectCardGrade,
+    selectCardGrade, selectCardPackID,
     selectCardQuestion,
-    selectCardUpdatedTime
+    selectCardUpdatedTime, selectCardUserId
 } from "../../../../selectors/CardsSelectors";
+import {selectUserId} from "../../../../selectors/UserSelectors";
+import Button from "@mui/material/Button";
+import {ModalEditCard} from "../../modal/ModalCards/ModalEditCard";
+import {deleteCardTC, updateCardTC} from "../../../../bll-redux/reducers/CardsReducer";
+import {ModalDeleteCard} from "../../modal/ModalCards/ModalDeleteCard";
 
 
 type CardItemPropsType = {
@@ -20,17 +25,35 @@ export const CardTableItem: FC<CardItemPropsType> = ({cardId, index}) => {
     const answer = useAppSelector(state => selectCardAnswer(state, cardId))
     const updated = useAppSelector(state => selectCardUpdatedTime(state, cardId))
     const grade = useAppSelector(state => selectCardGrade(state, cardId))
+    const cardUserId = useAppSelector(state => selectCardUserId(state, cardId))
+    const userId = useAppSelector(selectUserId)
+    const cardsPackID = useAppSelector(state => selectCardPackID(state, cardId))
 
     const updatedTime = new Date(updated).toLocaleDateString()
     const starsGrade = Math.ceil(grade)
 
 
-    const deleteCard = () => {}
+    const deleteCard = () => {
+        dispatch(deleteCardTC(cardsPackID, cardId))
+    }
 
-    return <CardLine bgColor={ index%2 !== 0 ? '#0760b869' : '#77b2ebb0' }>
-        <CardLineItem width={'30%'}>{question}</CardLineItem>
-        <CardLineItem width={'30%'}>{answer}</CardLineItem>
-        <CardLineItem>{updatedTime}</CardLineItem>
-        <CardLineItem>{starsGrade}</CardLineItem>
-           </CardLine>
+    const updateCard = (question: string, answer: string) => {
+        dispatch(updateCardTC(cardsPackID, cardId, question, answer))
+    }
+
+    return (
+        <CardLine bgColor={index % 2 !== 0 ? '#0760b869' : '#77b2ebb0'}>
+            <CardLineItem width={'30%'}>{question}</CardLineItem>
+            <CardLineItem width={'30%'}>{answer}</CardLineItem>
+            <CardLineItem>{updatedTime}</CardLineItem>
+            <CardLineItem>{starsGrade}</CardLineItem>
+            {
+                cardUserId === userId &&
+                <CardLineItem>
+                    <ModalEditCard question={question} answer={answer} updateCard={updateCard}/>
+                    <ModalDeleteCard deleteCard={deleteCard} />
+                </CardLineItem>
+            }
+        </CardLine>
+    )
 }
