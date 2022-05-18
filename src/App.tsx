@@ -49,6 +49,7 @@ const App = () => {
                         <Route path={PATH.TEST} element={<Test/>}/>
                         <Route path={PATH.PACKS} element={<CardsPacksTablePage/>}/>
                         <Route path={PATH.CARDS} element={<CardsTablePage/>}/>
+                        <Route path={PATH.LEARN} element={<CardsTablePage/>}/>
                         <Route path='*' element={<Error404/>}/>
                     </Routes>
             </AppWrapper>

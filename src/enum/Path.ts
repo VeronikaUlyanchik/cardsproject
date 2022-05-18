@@ -8,5 +8,6 @@ export enum PATH {
     TEST = '/test',
     PACKS = '/packs',
     CARDS = '/cards',
-    SEND_MESSAGE = '/send-message'
+    SEND_MESSAGE = '/send-message',
+    LEARN = '/learn',
 }
