@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../../hooks/ReduxHooks";
 import {
     selectCardsCount, selectCreatedTime,
@@ -16,6 +16,7 @@ import {ModalLearningCard} from "../../modal/ModalLearning/ModalLearningCard";
 import {ModalDeleteCard} from "../../modal/ModalCards/ModalDeleteCard";
 import {ModalEditPack} from "../../modal/ModalPacks/ModalEditPack";
 import {ModalDeletePack} from "../../modal/ModalPacks/ModalDeletePack";
+import Button from "@mui/material/Button";
 
 
 type PackItemPropsType = {
@@ -32,6 +33,7 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
     const cardsCount = useAppSelector(state => selectCardsCount(state, packId))
     const updated = useAppSelector(state => selectUpdatedTime(state, packId))
     const created = useAppSelector(state => selectCreatedTime(state, packId))
+    const [openModal, setOpenModal] = useState<boolean>(false)
 
     const updatedDate = new Date(updated).toLocaleDateString()
     const createdDate = new Date(created).toLocaleDateString()
@@ -47,6 +49,9 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
     const showCards = () => {
         navigate(`${PATH.CARDS}?cardsPack_id=${packId}`)
     }
+    const openModalHandler = (value: boolean) => {
+        setOpenModal(value)
+    }
 
     return <CardLine bgColor={index % 2 !== 0 ? '#0760b869' : '#77b2ebb0'}>
         <CardItem onClick={showCards} style={{cursor: "pointer"}}>{packName}</CardItem>
@@ -57,17 +62,25 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
             {
                 isMyCards
                     ? <ButtonGroup color={"primary"} size="small" variant="contained" aria-label="small button group">
-                        <ModalDeletePack deletePack={deletePack} packName={packName} />
+                        <ModalDeletePack deletePack={deletePack} packName={packName}/>
                         <ModalEditPack packName={packName} updatePack={updatePack}/>
-                        <ModalLearningCard
+                        <Button color={"primary"} variant="contained" size={"small"} disabled={cardsCount === 0}
+                                onClick={() => openModalHandler(true)}>Learn</Button>
+                        {openModal && <ModalLearningCard
+                            openModalHandler={openModalHandler}
+                            packId={packId}
                             packName={packName}
-                            question={'Blablabla'}
-                        />
+                        />}
                     </ButtonGroup>
-                    : <ModalLearningCard
-                        packName={packName}
-                        question={'Blablabla'}
-                    />
+                    : <>
+                        <Button color={"primary"} variant="contained" size={"small"} disabled={cardsCount === 0}
+                                onClick={() => openModalHandler(true)}>Learn</Button>
+                        {openModal && <ModalLearningCard
+                            openModalHandler={openModalHandler}
+                            packId={packId}
+                            packName={packName}
+                        />}
+                    </>
             }
         </CardItem>
     </CardLine>

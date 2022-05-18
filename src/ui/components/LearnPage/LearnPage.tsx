@@ -1,4 +1,5 @@
 import React from 'react';
+import {StyledLearnPage} from "./LearnPage.style";
 
 
 
@@ -6,9 +7,8 @@ export const LearnPage = () => {
 
 
     return (
-        <></>
-        // <ContentWrapper width={"65%"} height={"85%"} flex={"flex"} direction={"column"}>
-        //
-        // </ContentWrapper>
+        <StyledLearnPage>
+
+        </StyledLearnPage>
     );
 };

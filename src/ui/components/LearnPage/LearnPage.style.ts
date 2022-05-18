@@ -1,17 +1,15 @@
 import styled from "styled-components";
 
-export const StyledSearchForm = styled.div`
-  height: 20%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
+export const StyledLearnPage = styled.div`
+  width: 350px;
+  min-height: 200px;
+  padding: 20px 30px;
+  background-color: white;
+  border-radius: 10px;
 
-export const StyledPaginationBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 7%;
   font-size: 18px;
-  padding-bottom: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;

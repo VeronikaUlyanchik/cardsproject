@@ -6,6 +6,10 @@ export const selectCards = (state: AppRootStateType, packId: string): CardType[]
     return state.cards.cards.filter(cards => cards.cardsPack_id === packId)
 }
 
+export const selectAllCards = (state: AppRootStateType): CardType[] => {
+    return state.cards.cards
+}
+
 export const selectCardItem = (state: AppRootStateType, cardId: string): CardType => {
     return state.cards.cards.filter(item => item._id === cardId)[0]
 }

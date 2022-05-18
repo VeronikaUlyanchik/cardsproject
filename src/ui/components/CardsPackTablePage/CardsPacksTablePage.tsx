@@ -132,7 +132,7 @@ export const CardsPacksTablePage = () => {
                 </StyledButtons>
 
                 <StyledRange>
-                    <Range searchWithMinMax={searchWithMinMax}/>
+                   <Range searchWithMinMax={searchWithMinMax}/>
                 </StyledRange>
             </StyledSettings>
 
