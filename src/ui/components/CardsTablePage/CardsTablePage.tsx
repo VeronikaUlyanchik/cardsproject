@@ -11,6 +11,8 @@ import {SelectPageCount} from "../../features/SelectPageCount/SelectPageCount";
 import {PATH} from "../../../enum/Path";
 import {selectPackPerPage, selectTotalCountCards} from "../../../selectors/CardsSelectors";
 import {ModalAddCard} from "../../features/modal/ModalCards/ModalAddCard";
+import {ModalSuccess} from "../../features/modal/ModalErrorAndSuccess/ModalSuccess";
+import {ModalError} from "../../features/modal/ModalErrorAndSuccess/ModalError";
 
 
 export const CardsTablePage = () => {
@@ -19,54 +21,66 @@ export const CardsTablePage = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const id = searchParams.get('cardsPack_id')
+    const page = searchParams.get('page')
     const totalCountCards = useAppSelector(selectTotalCountCards)
     const packPerPage = useAppSelector(selectPackPerPage)
     const totalPage = Math.ceil(totalCountCards / packPerPage)
 
+
     useEffect(() => {
-        if (id) {
-            dispatch(getCardsTC(id))
+        if (id && page) {
+            dispatch(getCardsTC({cardsPack_id: id, page: +page}))
         }
-    }, [dispatch, id])
+    }, [dispatch, id, page])
 
     const goBackToPacks = () => {
         return navigate(`${PATH.PACKS}`)
     }
 
     const paginateCards = (page: number) => {
-        id && dispatch(getCardsTC(id, page))
+        // id && dispatch(getCardsTC({cardsPack_id: id, page}))
+        if (id) {
+            setSearchParams({ cardsPack_id: id.toString(), page: page.toString() });
+            dispatch(getCardsTC({cardsPack_id: id, page: page}))
+        } else {
+            setSearchParams({});
+        }
     }
 
     const changeItemPerPage = (pageCount: number) => {
-        id && dispatch(getCardsTC(id, 1, pageCount))
+        id && dispatch(getCardsTC({cardsPack_id: id, page: 1, pageCount}))
     }
 
     const addCardHandler = (question: string) => {
         if (id) {
-            dispatch(createCard(id, question))
+            dispatch(createCard({cardsPack_id: id, question}))
         }
     }
 
     return (
-        <ContentWrapper width={"65%"} height={"85%"} flex={"flex"} direction={"column"}>
+        <>
+            <ModalSuccess/>
+            <ModalError/>
+            <ContentWrapper width={"65%"} height={"85%"} flex={"flex"} direction={"column"}>
 
-            <StyledSearchForm>
+                <StyledSearchForm>
                     <span style={{padding: "10px", display: "inline-flex", alignItems: "center"}}>
                         <ArrowCircleLeftIcon fontSize={"large"} onClick={goBackToPacks} style={{cursor: "pointer"}}/>
                         <h2 style={{marginLeft: "20px"}}>Pack Name</h2>
                     </span>
-                <input type="text"/>
-                <input type="text"/>
-                <ModalAddCard addCard={addCardHandler}/>
-            </StyledSearchForm>
+                    <input type="text"/>
+                    <input type="text"/>
+                    <ModalAddCard addCard={addCardHandler}/>
+                </StyledSearchForm>
 
-            <CardsTable id={id ? id : ''}/>
+                <CardsTable id={id ? id : ''}/>
 
-            <StyledPaginationBox>
-                <div> Show <SelectPageCount onChangeHandler={changeItemPerPage}/> packs per page</div>
-                <PaginationComponent onClickHandler={paginateCards} totalPage={totalPage}/>
-            </StyledPaginationBox>
+                <StyledPaginationBox>
+                    <div> Show <SelectPageCount onChangeHandler={changeItemPerPage}/> packs per page</div>
+                    <PaginationComponent currentPage={page ? +page: 1} onClickHandler={paginateCards} totalPage={totalPage}/>
+                </StyledPaginationBox>
 
-        </ContentWrapper>
+            </ContentWrapper>
+        </>
     );
 };

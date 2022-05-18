@@ -11,6 +11,7 @@ export const PaginationComponent = ({onClickHandler, totalPage , currentPage}: P
 
     const pageHandler = (event: ChangeEvent<unknown>, page: number) => {
         onClickHandler(page)
+
     }
     return (
         <div>
