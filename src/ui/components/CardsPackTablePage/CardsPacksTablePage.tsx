@@ -1,7 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {Navigate} from "react-router-dom";
-import {createCardsPack, getPackList} from "../../../bll-redux/reducers/CardsPackReducer";
+import {
+    changeMinMax,
+    changePacksPerPage,
+    changePage,
+    createCardsPack,
+    getPackList,
+    searchPackName
+} from "../../../bll-redux/reducers/CardsPackReducer";
 import {PacksTable} from "../../features/TablePacks/PacksTable";
 import {ContentWrapper} from "../../../common/global-styles/CommonStyles.style";
 import Button from "@mui/material/Button"
@@ -24,7 +31,13 @@ import {
     selectAllCardPacks,
     selectMyCardPacks,
     selectPackPerPage,
-    selectTotalCountPacks, selectPackName, selectCurrentPage
+    selectTotalCountPacks,
+    selectPackName,
+    selectCurrentPage,
+    selectMinCards,
+    selectMaxCards,
+    selectMinSelectedCards,
+    selectMaxSelectedCards
 } from "../../../selectors/PackSelectors";
 import {ModalAddPack} from "../../features/modal/ModalPacks/ModalAddPack";
 import {ModalSuccess} from "../../features/modal/ModalErrorAndSuccess/ModalSuccess";
@@ -41,6 +54,10 @@ export const CardsPacksTablePage = () => {
     const packPerPage = useAppSelector(selectPackPerPage)
     const packName = useAppSelector(selectPackName)
     const currentPage = useAppSelector(selectCurrentPage)
+    const min = useAppSelector(selectMinCards)
+    const max = useAppSelector(selectMaxCards)
+    const minSelected = useAppSelector(selectMinSelectedCards)
+    const maxSelected = useAppSelector(selectMaxSelectedCards)
 
     const totalPage = Math.ceil(totalCountPacks / packPerPage)
 
@@ -48,34 +65,48 @@ export const CardsPacksTablePage = () => {
         dispatch(getPackList({}))
     }, [])
 
+    useEffect(() => {
+        isMyPacks
+            ? dispatch(getPackList(
+                {
+                    user_id: userId,
+                    page: currentPage,
+                    packName,
+                    pageCount: packPerPage,
+                    min:minSelected > max ? min : minSelected,
+                    max:maxSelected,
+                }))
+            : dispatch(getPackList(
+                {
+                    page: currentPage,
+                    packName,
+                    pageCount: packPerPage,
+                    min:minSelected,
+                    max:maxSelected,
+                }))
+    }, [dispatch, userId, packPerPage,minSelected, maxSelected, min, max, currentPage, isMyPacks, packName])
+
     const setMyPacks = () => {
         setIsMyPacks(true)
-        dispatch(getPackList({user_id: userId, pageCount: packPerPage}))
     }
     const setAllPacks = () => {
         setIsMyPacks(false)
-        dispatch(getPackList({pageCount: packPerPage, packName}))
     }
+
     const paginatePacks = (page: number) => {
-        console.log(packName)
-        isMyPacks
-            ? dispatch(getPackList({user_id: userId, page, pageCount: packPerPage, packName}))
-            : dispatch(getPackList({page, pageCount: packPerPage, packName}))
+        dispatch(changePage(page))
     }
+
     const changeItemPerPage = (pageCount: number) => {
-        isMyPacks
-            ? dispatch(getPackList({user_id: userId, page: 1, pageCount, packName}))
-            : dispatch(getPackList({page: 1, pageCount, packName}))
+        dispatch(changePacksPerPage(pageCount))
     }
+
     const searchItemByName = (packName: string) => {
-        isMyPacks
-            ? dispatch(getPackList({user_id: userId, page: 1, packName, pageCount: packPerPage}))
-            : dispatch(getPackList({page: 1, packName, pageCount: packPerPage}))
+        dispatch(searchPackName(packName))
     }
+
     const searchWithMinMax = ([min, max]: number[]) => {
-        isMyPacks
-            ? dispatch(getPackList({user_id: userId, page: 1, packName, pageCount: packPerPage, min: min, max: max}))
-            : dispatch(getPackList({page: 1, packName, pageCount: packPerPage, min: min, max: max}))
+        dispatch(changeMinMax([min,max]))
     }
     const addCardsPack = (title: string) => {
         dispatch(createCardsPack(title))

@@ -8,7 +8,7 @@ export const packsAPI = {
                      max,
                      sortPacks,
                      page = 1,
-                     pageCount = 10,
+                     pageCount = 7,
                      user_id,
                  }: CardsPackParamsType) {
         return instance.get<GetCardsPackResponse>(`/cards/pack`, {

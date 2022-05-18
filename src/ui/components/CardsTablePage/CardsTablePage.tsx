@@ -10,7 +10,6 @@ import {PaginationComponent} from "../../features/Pagination/Pagination";
 import {SelectPageCount} from "../../features/SelectPageCount/SelectPageCount";
 import {PATH} from "../../../enum/Path";
 import {selectPackPerPage, selectTotalCountCards} from "../../../selectors/CardsSelectors";
-import Button from "@mui/material/Button";
 import {ModalAddCard} from "../../features/modal/ModalCards/ModalAddCard";
 
 

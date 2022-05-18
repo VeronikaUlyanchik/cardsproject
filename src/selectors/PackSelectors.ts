@@ -52,3 +52,15 @@ export const selectPackName = (state: AppRootStateType):string=> {
 export const selectCurrentPage = (state: AppRootStateType):number=> {
     return state.packList.page
 }
+export const selectMinCards = (state: AppRootStateType):number=> {
+    return state.packList.minCardsCount
+}
+export const selectMaxCards = (state: AppRootStateType):number=> {
+    return state.packList.maxCardsCount
+}
+export const selectMinSelectedCards = (state: AppRootStateType):number=> {
+    return state.packList.minCardSelected
+}
+export const selectMaxSelectedCards = (state: AppRootStateType):number=> {
+    return state.packList.maxCardSelected
+}

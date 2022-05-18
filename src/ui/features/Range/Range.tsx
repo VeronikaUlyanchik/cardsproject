@@ -31,6 +31,10 @@ export const Range = ({searchWithMinMax}: RangePropsType) => {
 
     const [value, setValue] = React.useState<number[]>([min, max]);
 
+    const onMouseLeaveHandler = ()=> {
+        searchWithMinMax([value[0], value[1]]);
+    }
+
     const handleChange = (
         event: Event,
         newValue: number | number[],
@@ -42,10 +46,8 @@ export const Range = ({searchWithMinMax}: RangePropsType) => {
 
         if (activeThumb === 0) {
             setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
-            searchWithMinMax([Math.min(newValue[0], value[1] - minDistance), value[1]]);
         } else {
             setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
-            searchWithMinMax([value[0], Math.max(newValue[1], value[0] + minDistance)]);
         }
     };
     return (
@@ -55,9 +57,11 @@ export const Range = ({searchWithMinMax}: RangePropsType) => {
                 getAriaLabel={() => 'Minimum distance shift'}
                 value={value}
                 onChange={handleChange}
+                onMouseUp = {onMouseLeaveHandler}
                 valueLabelDisplay="on"
                 getAriaValueText={valuetext}
                 disableSwap
+                min={min}
                 max={max}
             />
         </div>

@@ -13,6 +13,9 @@ const slice = createSlice({
             page: 1,
             maxCardsCount: 10000,
             minCardsCount: 0,
+            maxCardSelected: 10000,
+            minCardSelected: 0,
+
         },
         reducers: {
             getPack(state, action: PayloadAction<CardsPackType[]>) {
@@ -27,7 +30,23 @@ const slice = createSlice({
             },
             getPackName(state, action: PayloadAction<string>) {
                 state.packName = action.payload
-            }
+            },
+            changePacksPerPage(state, action: PayloadAction<number>){
+                state.packPerPage = action.payload
+                state.page = 1
+            },
+            changePage(state, action: PayloadAction<number>){
+                state.page = action.payload
+            },
+            searchPackName(state, action: PayloadAction<string>){
+                state.packName = action.payload
+                state.page = 1
+            },
+            changeMinMax(state, action: PayloadAction<number[]>){
+                state.maxCardSelected = action.payload[1]
+                state.minCardSelected = action.payload[0]
+                state.page = 1
+            },
         }
     }
 )
@@ -90,7 +109,7 @@ export const updateCardsPack = (id: string, title: string): AppThunk =>
     }
 
 
-const {getPack, getPackInformation, getPackName} = slice.actions
+export const {getPack, getPackInformation, getPackName, changePacksPerPage, changePage, searchPackName, changeMinMax} = slice.actions
 export const packReducer = slice.reducer
 
 export type CardsPackReducerActionsType = ReturnType<typeof getPack> | ReturnType<typeof getPackInformation>
