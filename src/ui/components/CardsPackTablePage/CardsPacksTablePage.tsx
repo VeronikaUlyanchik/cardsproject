@@ -62,10 +62,6 @@ export const CardsPacksTablePage = () => {
     const totalPage = Math.ceil(totalCountPacks / packPerPage)
 
     useEffect(() => {
-        dispatch(getPackList({}))
-    }, [])
-
-    useEffect(() => {
         isMyPacks
             ? dispatch(getPackList(
                 {

@@ -61,7 +61,7 @@ export const ModalLearningAnswer: FC<ModalLearningAnswerPropsType> =
                     <BtnsBlock>
                         <Button color={"primary"} variant="outlined" size={"medium"}
                                 onClick={closeModal}>Cancel</Button>
-                        <Button color={"primary"} variant="contained" size={"medium"}>Next</Button>
+                        <Button color={"primary"} variant="contained" size={"medium"} onClick={closeModal}>Next</Button>
                     </BtnsBlock>
                 </Modal>
             </>

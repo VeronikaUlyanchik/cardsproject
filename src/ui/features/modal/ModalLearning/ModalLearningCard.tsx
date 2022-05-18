@@ -48,10 +48,8 @@ export const ModalLearningCard: FC<ModalLearningCardContainerPropsType> =
 
         return (
             <>
-                {/*<Button color={"primary"} variant="contained" size={"small"} disabled={cards.length === 0} onClick={openModal}>Learn</Button>*/}
                 <Modal
                     isModal={isModal}
-
                 >
                     <Title>Learn “{packName}”</Title>
                     <Text><b>Question:</b> "{currentCard?.question}"</Text>
