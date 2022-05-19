@@ -20,14 +20,19 @@ type ModalLearningAnswerPropsType = {
     question: string
     answer: string
     opacity?: number
+    nextHandler: ()=> void
 }
 export const ModalLearningAnswer: FC<ModalLearningAnswerPropsType> =
-    ({packName, question, answer, opacity}) => {
+    ({packName, question, answer, opacity, nextHandler}) => {
 
         const [isModal, setIsModal] = useState<boolean>(false)
         const openModal = () => setIsModal(true)
         const closeModal = () => setIsModal(false)
 
+        const onClickNextHandler = () => {
+            setIsModal(false)
+            nextHandler()
+        }
         return (
             <>
                 <Button color={"primary"} variant="contained" size={"small"} onClick={openModal}>Show Answer</Button>
@@ -61,7 +66,7 @@ export const ModalLearningAnswer: FC<ModalLearningAnswerPropsType> =
                     <BtnsBlock>
                         <Button color={"primary"} variant="outlined" size={"medium"}
                                 onClick={closeModal}>Cancel</Button>
-                        <Button color={"primary"} variant="contained" size={"medium"} onClick={closeModal}>Next</Button>
+                        <Button color={"primary"} variant="contained" size={"medium"} onClick={onClickNextHandler}>Next</Button>
                     </BtnsBlock>
                 </Modal>
             </>

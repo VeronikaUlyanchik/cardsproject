@@ -10,14 +10,14 @@ import {getCardsTC} from "../../../../bll-redux/reducers/CardsReducer";
 
 type ModalLearningCardContainerPropsType = {
     packName: string
-    packId:string
-    cards?:CardType[]
-    openModalHandler: (value:boolean) => void
+    packId: string
+    cards?: CardType[]
+    openModalHandler: (value: boolean) => void
 }
 const getCard = (cards: CardType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
     const rand = Math.random() * sum;
-    const res = cards.reduce((acc: { sum: number, id: number}, card, i) => {
+    const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
             const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
             return {sum: newSum, id: newSum < rand ? i : acc.id}
         }
@@ -30,33 +30,52 @@ const getCard = (cards: CardType[]) => {
 export const ModalLearningCard: FC<ModalLearningCardContainerPropsType> =
     ({packName, openModalHandler, packId}) => {
 
-        const dispatch = useAppDispatch()
-        const cards = useAppSelector(state => selectCards(state, packId))
-        const [isModal, setIsModal] = useState<boolean>(true)
+        const dispatch = useAppDispatch();
+        const cards = useAppSelector(state => selectCards(state, packId));
+        const [first, setFirst] = useState<boolean>(true);
+        const [isModal, setIsModal] = useState<boolean>(true);
+        const [card, setCard] = useState<CardType>({
+            answer: '',
+            question: '',
+            cardsPack_id: '',
+            grade: 0,
+            shots: 0,
+            user_id: '',
+            created: '',
+            updated: '',
+            _id: '',
+        });
+
         const closeModal = () => {
             setIsModal(false)
             openModalHandler(false)
         }
 
         useEffect(() => {
-            if (packId) {
+
+            if (first) {
                 dispatch(getCardsTC(packId))
+                setFirst(false)
             }
-        }, [dispatch, packId])
+            setCard(getCard(cards))
 
-        const currentCard = getCard(cards) || cards[0]
+        }, [cards, dispatch, first, packId])
 
+        const nextHandler = () => {
+            setCard(getCard(cards))
+        }
         return (
             <>
                 <Modal
                     isModal={isModal}
                 >
                     <Title>Learn “{packName}”</Title>
-                    <Text><b>Question:</b> "{currentCard?.question}"</Text>
+                    <Text><b>Question:</b> "{card?.question}"</Text>
                     <BtnsBlock>
                         <Button color={"primary"} variant="outlined" size={"medium"}
                                 onClick={closeModal}>Cancel</Button>
-                        <ModalLearningAnswer packName={packName} question={currentCard?.question} answer={currentCard?.answer} opacity={0}/>
+                        <ModalLearningAnswer packName={packName} question={card?.question} answer={card?.answer}
+                                             opacity={0} nextHandler={nextHandler}/>
                     </BtnsBlock>
                 </Modal>
             </>
