@@ -53,7 +53,7 @@ export const ModalLearningCard: FC<ModalLearningCardContainerPropsType> =
 
         useEffect(() => {
             if (first) {
-                dispatch(getCardsTC(packId))
+                dispatch(getCardsTC({cardsPack_id : packId}))
                 setFirst(false)
             }
             setCard(getCard(cards))
