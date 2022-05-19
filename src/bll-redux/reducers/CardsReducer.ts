@@ -9,6 +9,13 @@ const slice = createSlice({
             cards: [] as CardType[],
             totalCountCards: 0,
             packPerPage: 0,
+            cardAnswer: '',
+            cardQuestion: '',
+            cardsPack_id: '',
+            //sortCards,
+            page: 1,
+            pageCount: 10,
+
         },
         reducers: {
             setCards(state, action: PayloadAction<CardType[]>) {
@@ -18,18 +25,30 @@ const slice = createSlice({
                 state.totalCountCards = action.payload.cardsTotalCount;
                 state.packPerPage = action.payload.pageCount;
             },
+            changeCardQuestion(state, action: PayloadAction<string>) {
+                state.cardQuestion = action.payload;
+                state.page = 1;
+            },
+            changeCardAnswer(state, action: PayloadAction<string>) {
+                state.cardAnswer = action.payload;
+                state.page = 1;
+            },
+            changePageCount(state, action: PayloadAction<number>) {
+                state.pageCount = action.payload;
+                state.page = 1;
+            },
         }
     }
 )
 
 export const getCardsTC = createAsyncThunk(
     'cards/getCardsTC',
-    async (data: { cardsPack_id: string, page?: number, pageCount?: number },
+    async (data: { cardsPack_id: string, page?: number, pageCount?: number, cardAnswer?:string, cardQuestion?:string },
            {dispatch}) => {
-        const {cardsPack_id, page, pageCount} = data
+        const {cardsPack_id, page, pageCount,cardAnswer, cardQuestion} = data
         dispatch(setAppStatus({status: 'loading'}))
         try {
-            const response = await cardsAPI.getCards({cardsPack_id, page, pageCount})
+            const response = await cardsAPI.getCards({cardsPack_id, page, pageCount, cardAnswer, cardQuestion})
             dispatch(setCards(response.data.cards))
             dispatch(setCardsInformation(response.data))
         } catch (err: any) {
@@ -101,7 +120,7 @@ export const updateCardTC = createAsyncThunk(
 )
 
 
-const {setCards, setCardsInformation} = slice.actions
+export const {setCards, setCardsInformation, changeCardQuestion , changeCardAnswer, changePageCount} = slice.actions
 export const cardsReducer = slice.reducer
 
 export type CardsReducerActionsType = ReturnType<typeof setCards>

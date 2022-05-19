@@ -4,9 +4,11 @@ import Button from "@mui/material/Button";
 import {StyledSearchComponent} from "./SearchComponent.style";
 
 type SearchComponentPropsType = {
-    onClickHandler: (packName:string)=> void
+    onClickHandler: (value:string)=> void
+    label: string
 }
-export const SearchComponent = ({onClickHandler}:SearchComponentPropsType) => {
+
+export const SearchComponent = ({onClickHandler, label}:SearchComponentPropsType) => {
     const [value, setValue] = useState<string>('')
     const onChangeHandler = (e:ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setValue(e.currentTarget.value)
@@ -16,7 +18,7 @@ export const SearchComponent = ({onClickHandler}:SearchComponentPropsType) => {
     }
     return (
         <StyledSearchComponent>
-            <TextField id="outlined-basic" label="Search by name" variant="outlined" value={value} onChange={onChangeHandler} />
+            <TextField id="outlined-basic" label={label} variant="outlined" value={value} onChange={onChangeHandler} />
             <Button type={'submit'}
                     variant={'contained'}
                     color={'primary'}

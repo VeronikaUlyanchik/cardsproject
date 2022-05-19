@@ -99,8 +99,8 @@ export const CardsPacksTablePage = () => {
         dispatch(changePacksPerPage(pageCount))
     }
 
-    const searchItemByName = (packName: string) => {
-        dispatch(searchPackName(packName))
+    const searchItemByName = (value: string) => {
+        dispatch(searchPackName(value))
     }
 
     const searchWithMinMax = ([min, max]: number[]) => {
@@ -140,7 +140,7 @@ export const CardsPacksTablePage = () => {
                 <StyledCardPacksBlock>
                     <StyledTitle>Packs list</StyledTitle>
                     <StyledSearchBlock>
-                        <SearchComponent onClickHandler={searchItemByName}/>
+                        <SearchComponent label ="Search by name" onClickHandler={searchItemByName}/>
                         <ModalAddPack addPack={addCardsPack}/>
                     </StyledSearchBlock>
 
