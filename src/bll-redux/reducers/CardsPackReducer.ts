@@ -14,7 +14,7 @@ const slice = createSlice({
             minCardsCount: 0,
             maxCardSelected: 10000,
             minCardSelected: 0,
-
+            sortPacks:'',
         },
         reducers: {
             getPack(state, action: PayloadAction<CardsPackType[]>) {
@@ -44,6 +44,10 @@ const slice = createSlice({
             changeMinMax(state, action: PayloadAction<number[]>){
                 state.maxCardSelected = action.payload[1]
                 state.minCardSelected = action.payload[0]
+                state.page = 1
+            },
+            changeSortPacks(state, action: PayloadAction<string>){
+                state.sortPacks = action.payload
                 state.page = 1
             },
         }
@@ -119,7 +123,7 @@ export const updateCardsPack = createAsyncThunk(
     })
 
 
-export const {getPack, getPackInformation, getPackName, changePacksPerPage, changePage, searchPackName, changeMinMax} = slice.actions
+export const {getPack, getPackInformation, getPackName, changePacksPerPage, changePage, searchPackName, changeMinMax, changeSortPacks} = slice.actions
 export const packReducer = slice.reducer
 
 export type CardsPackReducerActionsType = ReturnType<typeof getPack> | ReturnType<typeof getPackInformation>

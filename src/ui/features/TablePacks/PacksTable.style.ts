@@ -49,6 +49,10 @@ export const PackHeaderItem = styled.div<PackHeaderItemProps>`
   padding: 15px 0;
   font-weight: bold;
   width: ${props => props.width || "20%"};
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 

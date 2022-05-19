@@ -64,3 +64,6 @@ export const selectMinSelectedCards = (state: AppRootStateType):number=> {
 export const selectMaxSelectedCards = (state: AppRootStateType):number=> {
     return state.packList.maxCardSelected
 }
+export const selectSortPacks = (state: AppRootStateType):string=> {
+    return state.packList.sortPacks
+}

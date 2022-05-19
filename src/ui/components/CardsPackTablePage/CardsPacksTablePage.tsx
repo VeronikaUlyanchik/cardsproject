@@ -4,7 +4,7 @@ import {Navigate} from "react-router-dom";
 import {
     changeMinMax,
     changePacksPerPage,
-    changePage,
+    changePage, changeSortPacks,
     createCardsPack,
     getPackList,
     searchPackName
@@ -37,12 +37,12 @@ import {
     selectMinCards,
     selectMaxCards,
     selectMinSelectedCards,
-    selectMaxSelectedCards
+    selectMaxSelectedCards, selectSortPacks
 } from "../../../selectors/PackSelectors";
 import {ModalAddPack} from "../../features/modal/ModalPacks/ModalAddPack";
 import {ModalSuccess} from "../../features/modal/ModalErrorAndSuccess/ModalSuccess";
-import {selectStatus} from "../../../selectors/AppSelectors";
 import {ModalError} from "../../features/modal/ModalErrorAndSuccess/ModalError";
+
 
 export const CardsPacksTablePage = () => {
     const [isMyPacks, setIsMyPacks] = useState<boolean>(false)
@@ -60,7 +60,7 @@ export const CardsPacksTablePage = () => {
     const max = useAppSelector(selectMaxCards)
     const minSelected = useAppSelector(selectMinSelectedCards)
     const maxSelected = useAppSelector(selectMaxSelectedCards)
-
+    const sortPacks = useAppSelector(selectSortPacks)
     const totalPage = Math.ceil(totalCountPacks / packPerPage)
 
     useEffect(() => {
@@ -73,6 +73,7 @@ export const CardsPacksTablePage = () => {
                     pageCount: packPerPage,
                     min:minSelected > max ? min : minSelected,
                     max:maxSelected,
+                    sortPacks
                 }))
             : dispatch(getPackList(
                 {
@@ -81,8 +82,9 @@ export const CardsPacksTablePage = () => {
                     pageCount: packPerPage,
                     min:minSelected,
                     max:maxSelected,
+                    sortPacks
                 }))
-    }, [dispatch, userId, packPerPage,minSelected, maxSelected, min, max, currentPage, isMyPacks, packName])
+    }, [dispatch, userId, packPerPage, minSelected, maxSelected, min, max, currentPage, isMyPacks, packName, sortPacks])
 
     const setMyPacks = () => {
         setIsMyPacks(true)
@@ -109,7 +111,9 @@ export const CardsPacksTablePage = () => {
     const addCardsPack = (title: string) => {
         dispatch(createCardsPack(title))
     }
-
+    const sortPacksHandler = (value: string) => {
+        dispatch(changeSortPacks(value))
+    }
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
@@ -144,7 +148,7 @@ export const CardsPacksTablePage = () => {
                         <ModalAddPack addPack={addCardsPack}/>
                     </StyledSearchBlock>
 
-                    <PacksTable cardPacks={isMyPacks ? myCardPacks : allCardPacks}/>
+                    <PacksTable sortPacks={sortPacksHandler} cardPacks={isMyPacks ? myCardPacks : allCardPacks}/>
 
                     <StyledPaginationBlock>
                         <div> Show <SelectPageCount onChangeHandler={changeItemPerPage}
