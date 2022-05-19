@@ -52,13 +52,11 @@ export const ModalLearningCard: FC<ModalLearningCardContainerPropsType> =
         }
 
         useEffect(() => {
-
             if (first) {
                 dispatch(getCardsTC(packId))
                 setFirst(false)
             }
             setCard(getCard(cards))
-
         }, [cards, dispatch, first, packId])
 
         const nextHandler = () => {
