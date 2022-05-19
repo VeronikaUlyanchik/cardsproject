@@ -1,4 +1,3 @@
-import axios from "axios";
 import {instance} from "./Api";
 
 export const cardsAPI = {
@@ -43,8 +42,8 @@ export type GetCardsParamsType = {
     cardAnswer?: string
     cardQuestion?: string
     cardsPack_id: string
-    min?: number
-    max?: number
+    min?: string //number
+    max?: string //number
     sortCards?: string
     page?: number
     pageCount?: number

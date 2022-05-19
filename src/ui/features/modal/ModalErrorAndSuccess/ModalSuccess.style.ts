@@ -1,30 +1,44 @@
-import styled, {keyframes} from "styled-components";
+import styled from "styled-components";
 
+interface StyledModalSuccessType {
+    isSuccessful: boolean
+}
 
-const animate = keyframes`
-  0% {
-    top: -10px
-  }
-  100% {
-    top: 30px
-  }
-`
-
-export const StyledModalSuccess = styled.div`
+export const StyledModalSuccess = styled.div<StyledModalSuccessType>`
   width: 120px;
   color: white;
-  background-color: #81cd60;
-  font-size: 24px;
+  background-color: #2e7d32;
+  font-size: 26px;
   text-align: center;
 
   padding: 10px 20px;
   border-radius: 10px;
-  
 
-  position: absolute;
+  position: fixed;
+  top: ${props => props.isSuccessful ? '90px' : '-150px'};
   left: 50%;
-  animation: ${animate} ease-in 1s;
-  transform: translateY(-50%);
+  transform: translateX(-50%);
+  z-index: 1000;
 
 `
 
+interface StyledModalErrorType {
+    isError: boolean
+}
+
+export const StyledModalError = styled.div<StyledModalErrorType>`
+  width: 120px;
+  color: white;
+  background-color: #d32f2f;
+  font-size: 26px;
+  text-align: center;
+
+  padding: 10px 20px;
+  border-radius: 10px;
+
+  position: fixed;
+  top: ${props => props.isError ? '90px' : '-150px'};
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+`

@@ -41,6 +41,8 @@ import {
 } from "../../../selectors/PackSelectors";
 import {ModalAddPack} from "../../features/modal/ModalPacks/ModalAddPack";
 import {ModalSuccess} from "../../features/modal/ModalErrorAndSuccess/ModalSuccess";
+import {selectStatus} from "../../../selectors/AppSelectors";
+import {ModalError} from "../../features/modal/ModalErrorAndSuccess/ModalError";
 
 export const CardsPacksTablePage = () => {
     const [isMyPacks, setIsMyPacks] = useState<boolean>(false)
@@ -113,43 +115,48 @@ export const CardsPacksTablePage = () => {
     }
 
     return (
-        <ContentWrapper flex={"flex"} direction={"row"} width={"65%"} height={"85%"}>
-            <StyledSettings>
-                <StyledButtons>
-                    <h3>Show packs cards</h3>
-                    <ButtonGroup aria-label="outlined button group">
-                        <Button onClick={setMyPacks} variant={isMyPacks ? "contained" : "outlined"}>
-                            My Packs
-                        </Button>
-                        <Button onClick={setAllPacks} variant={isMyPacks ? "outlined" : "contained"}>
-                            All Packs
-                        </Button>
-                    </ButtonGroup>
-                </StyledButtons>
+        <>
+            <ModalSuccess/>
+            <ModalError/>
+            <ContentWrapper flex={"flex"} direction={"row"} width={"65%"} height={"85%"}>
+                <StyledSettings>
+                    <StyledButtons>
+                        <h3>Show packs cards</h3>
+                        <ButtonGroup aria-label="outlined button group">
+                            <Button onClick={setMyPacks} variant={isMyPacks ? "contained" : "outlined"}>
+                                My Packs
+                            </Button>
+                            <Button onClick={setAllPacks} variant={isMyPacks ? "outlined" : "contained"}>
+                                All Packs
+                            </Button>
+                        </ButtonGroup>
+                    </StyledButtons>
 
-                <StyledRange>
-                   <Range searchWithMinMax={searchWithMinMax}/>
-                </StyledRange>
-            </StyledSettings>
+                    <StyledRange>
+                        <Range searchWithMinMax={searchWithMinMax}/>
+                    </StyledRange>
+                </StyledSettings>
 
-            <StyledCardPacksBlock>
-                <StyledTitle>Packs list</StyledTitle>
-                <StyledSearchBlock>
-                    <SearchComponent onClickHandler={searchItemByName}/>
-                    <ModalAddPack addPack={addCardsPack}/>
-                </StyledSearchBlock>
+                <StyledCardPacksBlock>
+                    <StyledTitle>Packs list</StyledTitle>
+                    <StyledSearchBlock>
+                        <SearchComponent onClickHandler={searchItemByName}/>
+                        <ModalAddPack addPack={addCardsPack}/>
+                    </StyledSearchBlock>
 
-                <PacksTable cardPacks={isMyPacks ? myCardPacks : allCardPacks}/>
+                    <PacksTable cardPacks={isMyPacks ? myCardPacks : allCardPacks}/>
 
-                <StyledPaginationBlock>
-                    <div> Show <SelectPageCount onChangeHandler={changeItemPerPage} packPerPage={packPerPage}/> packs
-                        per page
-                    </div>
-                    <PaginationComponent onClickHandler={paginatePacks} totalPage={totalPage}
-                                         currentPage={currentPage}/>
-                </StyledPaginationBlock>
+                    <StyledPaginationBlock>
+                        <div> Show <SelectPageCount onChangeHandler={changeItemPerPage}
+                                                    packPerPage={packPerPage}/> packs
+                            per page
+                        </div>
+                        <PaginationComponent onClickHandler={paginatePacks} totalPage={totalPage}
+                                             currentPage={currentPage}/>
+                    </StyledPaginationBlock>
 
-            </StyledCardPacksBlock>
-        </ContentWrapper>
+                </StyledCardPacksBlock>
+            </ContentWrapper>
+        </>
     );
 };

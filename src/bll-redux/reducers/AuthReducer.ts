@@ -24,18 +24,20 @@ const slice = createSlice({
 export const fetchLogin = createAsyncThunk(
     'auth/fetchLogin',
     async (data: LoginParamsType, {dispatch}) => {
+        dispatch(setAppStatus({status: 'loading'}))
         try {
-            dispatch(setAppStatus({status: 'loading'}))
             const res = await authAPI.login(data);
             dispatch(loggedIn(true))
             dispatch(getToken(res.data.token))
+            dispatch(setAppStatus({status: 'succeeded'}))
         } catch (e: any) {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
             console.log('Error: ', {...e})
+            dispatch(setAppStatus({status: 'failed'}))
         } finally {
-            dispatch(setAppStatus({status: 'succeeded'}))
+            dispatch(setAppStatus({status: 'idle'}))
         }
     }
 );
@@ -43,14 +45,16 @@ export const fetchLogin = createAsyncThunk(
 export const fetchLogout = createAsyncThunk(
     'auth/fetchLogout',
     async (_, {dispatch}) => {
+        dispatch(setAppStatus({status: 'loading'}))
         try {
-            dispatch(setAppStatus({status: 'loading'}))
             await authAPI.logout();
             dispatch(loggedIn(false))
+            dispatch(setAppStatus({status: 'succeeded'}))
         } catch (err: any) {
             console.log(err)
+            dispatch(setAppStatus({status: 'failed'}))
         } finally {
-            dispatch(setAppStatus({status: 'succeeded'}))
+            dispatch(setAppStatus({status: 'idle'}))
         }
     }
 );
