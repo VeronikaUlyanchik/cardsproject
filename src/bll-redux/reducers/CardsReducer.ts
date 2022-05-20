@@ -1,6 +1,7 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {cardsAPI, CardType, GetCardsResponseType} from "../../api/CardsAPI";
 import {setAppStatus, setIsError, setIsSuccessful} from "./AppReducer";
+import {modalGradeAPI, UpdatedGradeType} from "../../api/ModalGradeAPI";
 
 
 const slice = createSlice({
@@ -37,15 +38,21 @@ const slice = createSlice({
                 state.pageCount = action.payload;
                 state.page = 1;
             },
+            updateCardsGrade(state, action: PayloadAction<UpdatedGradeType>) {
+                state.cards = state.cards.map(m => m._id === action.payload.card_id ? {
+                    ...m,
+                    grade: action.payload.grade
+                } : m)
+            }
         }
     }
 )
 
 export const getCardsTC = createAsyncThunk(
     'cards/getCardsTC',
-    async (data: { cardsPack_id: string, page?: number, pageCount?: number, cardAnswer?:string, cardQuestion?:string },
+    async (data: { cardsPack_id: string, page?: number, pageCount?: number, cardAnswer?: string, cardQuestion?: string },
            {dispatch}) => {
-        const {cardsPack_id, page, pageCount,cardAnswer, cardQuestion} = data
+        const {cardsPack_id, page, pageCount, cardAnswer, cardQuestion} = data
         dispatch(setAppStatus({status: 'loading'}))
         try {
             const response = await cardsAPI.getCards({cardsPack_id, page, pageCount, cardAnswer, cardQuestion})
@@ -119,8 +126,28 @@ export const updateCardTC = createAsyncThunk(
     }
 )
 
+export const updateModalGrade = (grade: number, card_id: string) => async (dispatch: Dispatch) => {
 
-export const {setCards, setCardsInformation, changeCardQuestion , changeCardAnswer, changePageCount} = slice.actions
+    try {
+        dispatch(setAppStatus({status: 'loading'}))
+        const res = await modalGradeAPI.updateGrade({grade, card_id})
+        dispatch(updateCardsGrade(res.data))
+    } catch (err: any) {
+        console.log(err)
+    } finally {
+        dispatch(setAppStatus({status: 'succeeded'}))
+    }
+
+}
+
+export const {
+    setCards,
+    setCardsInformation,
+    changeCardQuestion,
+    changeCardAnswer,
+    changePageCount,
+    updateCardsGrade
+} = slice.actions
 export const cardsReducer = slice.reducer
 
 export type CardsReducerActionsType = ReturnType<typeof setCards>
