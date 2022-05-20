@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/t
 import {cardsAPI, CardType, GetCardsResponseType} from "../../api/CardsAPI";
 import {setAppStatus, setIsError, setIsSuccessful} from "./AppReducer";
 import {modalGradeAPI, UpdatedGradeType} from "../../api/ModalGradeAPI";
-import {setAppError, setAppStatus, setIsError, setIsSuccessful} from "./AppReducer";
 
 
 const slice = createSlice({
