@@ -3,8 +3,8 @@ import {Modal} from "../Modal";
 import Button from "@mui/material/Button";
 import {BtnsBlock, Text, Title} from "../Modal.style";
 import {useAppDispatch} from "../../../../hooks/ReduxHooks";
-import {updateModalGrade} from "../../../../bll-redux/reducers/ModalGradeReducer";
 import {Rating} from "../../rating/Rating";
+import {updateModalGrade} from "../../../../bll-redux/reducers/CardsReducer";
 
 
 type ModalLearningAnswerPropsType = {
