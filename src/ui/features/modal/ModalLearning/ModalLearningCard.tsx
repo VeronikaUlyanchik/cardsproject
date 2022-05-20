@@ -9,6 +9,7 @@ import {selectCards} from "../../../../selectors/CardsSelectors";
 import {getCardsTC} from "../../../../bll-redux/reducers/CardsReducer";
 import {getCard} from "../../../../utils/GetCardRandom";
 
+
 type ModalLearningCardContainerPropsType = {
     packName: string
     packId: string
