@@ -29,11 +29,6 @@ export const Profile = () => {
         dispatch(updateUserProfile(nickName))
     }
 
-    const logOut = () => {
-        dispatch(fetchLogout())
-        return <Navigate to={PATH.LOGIN}/>
-    }
-
     const updateNickname = (e: ChangeEvent<HTMLInputElement>) => {
         setNickName(e.currentTarget.value)
     }
@@ -49,6 +44,7 @@ export const Profile = () => {
                     <Title>Personal Information</Title>
                     <ImageBlock>
                         <Image
+
                             src={userAvatar}
                             alt=""/>
                     </ImageBlock>
@@ -72,10 +68,6 @@ export const Profile = () => {
                         <Button variant="contained"
                                 onClick={updateUser}>
                             Save
-                        </Button>
-                        <Button variant="contained"
-                                onClick={logOut}>
-                            Log Out
                         </Button>
                     </div>
                 </ProfileWrapper>

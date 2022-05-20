@@ -15,7 +15,7 @@ const reducers = combineReducers({
     auth: authReducer,
     packList: packReducer,
     cards: cardsReducer,
-    recoveryPassword: recoveryPasswordReducer
+    recoveryPassword: recoveryPasswordReducer,
 })
 
 const store = configureStore({
@@ -35,9 +35,8 @@ export type AppAllActionsType =
 
 export default store
 
-
 // @ts-ignore
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppAllActionsType>
 
 // @ts-ignore
-window.store= store
+window.store = store
