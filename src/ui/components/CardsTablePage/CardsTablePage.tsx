@@ -33,7 +33,7 @@ export const CardsTablePage = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const id = searchParams.get('cardsPack_id')
-    const page = searchParams.get('page')
+    const page = useAppSelector(state => state.cards.page)
     const totalCountCards = useAppSelector(selectTotalCountCards)
     const packPerPage = useAppSelector(selectPackPerPage)
     const cardAnswer = useAppSelector(selectCardsAnswer)
@@ -44,7 +44,7 @@ export const CardsTablePage = () => {
 
     useEffect(() => {
         if (id && page) {
-            dispatch(getCardsTC({cardsPack_id: id, page: +page, cardQuestion, cardAnswer, pageCount}))
+            dispatch(getCardsTC({cardsPack_id: id, page: page, cardQuestion, cardAnswer, pageCount}))
         }
     }, [cardAnswer, cardQuestion, dispatch, id, page, pageCount])
 
@@ -87,12 +87,15 @@ export const CardsTablePage = () => {
                         <ArrowCircleLeftIcon fontSize={"large"} onClick={goBackToPacks} style={{cursor: "pointer"}}/>
                         <h2 style={{marginLeft: "20px"}}>Pack Name</h2>
                     </span>
-                    <div style={{display: "flex"}}>
+                    <div style={{width: '100%', display: "flex", justifyContent: 'space-around'}}>
                         <SearchComponent label="Search by question" onClickHandler={searchItemByQuestion}/>
                         <SearchComponent label="Search by answer" onClickHandler={searchItemByAnswer}/>
-                    </div>
 
-                    <ModalAddCard addCard={addCardHandler}/>
+                        <div style={{alignSelf: 'end'}}>
+                             <ModalAddCard addCard={addCardHandler}/>
+                        </div>
+
+                    </div>
                 </StyledSearchForm>
 
                 <CardsTable id={id ? id : ''}/>

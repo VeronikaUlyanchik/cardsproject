@@ -73,7 +73,7 @@ export const ModalLearningCard: FC<ModalLearningCardContainerPropsType> =
                         <Button color={"primary"} variant="outlined" size={"medium"}
                                 onClick={closeModal}>Cancel</Button>
                         <ModalLearningAnswer packName={packName} question={card?.question} answer={card?.answer}
-                                             opacity={0} nextHandler={nextHandler} card_id={card._id}/>
+                                             opacity={0} nextHandler={nextHandler} card_id={card?._id}/>
                     </BtnsBlock>
                 </Modal>
             </>
