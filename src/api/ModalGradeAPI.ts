@@ -2,7 +2,7 @@ import {instance} from "./Api";
 
 export const modalGradeAPI = {
     updateGrade(data: ModalGradeRequestType) {
-        return instance.put<UpdatedGradeType>(`cards/grade`, {...data})
+        return instance.put<UpdatedGradeType>(`cards/grade`, data)
     }
 }
 

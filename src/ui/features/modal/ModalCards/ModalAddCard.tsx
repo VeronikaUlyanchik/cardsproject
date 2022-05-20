@@ -16,6 +16,10 @@ export const ModalAddCard: FC<ModalAddCardPropsType> = ({addCard}) => {
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
             setTitle(e.currentTarget.value)
         }
+        const addNewCard = () => {
+            addCard(title)
+            setIsModal(false)
+        }
 
         return (
             <>
@@ -42,7 +46,7 @@ export const ModalAddCard: FC<ModalAddCardPropsType> = ({addCard}) => {
                         </Button>
                         <Button
                             color={"primary"} variant="contained" size={"medium"}
-                            onClick={() => addCard(title)}
+                            onClick={addNewCard}
                         >
                             Save
                         </Button>

@@ -50,6 +50,10 @@ const CardInfoBlock: FC<CardInfoBlockPropsType> = ({question, answer, closeModal
     const onChangeAnswerHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setAnswerTitle(e.currentTarget.value)
     }
+    const editCard = () => {
+        updateCard(questionTitle, answerTitle);
+        closeModal()
+    }
 
 
     return (
@@ -77,7 +81,7 @@ const CardInfoBlock: FC<CardInfoBlockPropsType> = ({question, answer, closeModal
             <BtnsBlock>
                 <Button color={"primary"} variant="contained" size={"medium"} onClick={closeModal}>Back</Button>
                 <Button color={"success"} variant="contained" size={"medium"}
-                        onClick={() => updateCard(questionTitle, answerTitle)}>Save</Button>
+                        onClick={editCard}>Save</Button>
             </BtnsBlock>
         </>
     )
