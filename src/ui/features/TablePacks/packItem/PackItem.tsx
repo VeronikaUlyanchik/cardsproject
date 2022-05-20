@@ -46,7 +46,7 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
         dispatch(updateCardsPack({_id: packId, title}))
     }
     const showCards = () => {
-        navigate(`${PATH.CARDS}?cardsPack_id=${packId}&page=1`)
+        navigate(`${PATH.CARDS}?cardsPack_id=${packId}`)
     }
     const openModalHandler = (value: boolean) => {
         setOpenModal(value)
