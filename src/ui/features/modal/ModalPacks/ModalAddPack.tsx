@@ -29,6 +29,10 @@ export const ModalAddPack: FC<ModalAddCardPropsType> =
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
             setTitle(e.currentTarget.value)
         }
+        const addNewPack = () => {
+            addPack(title)
+            setIsModal(false)
+        }
 
         return (
             <>
@@ -55,7 +59,7 @@ export const ModalAddPack: FC<ModalAddCardPropsType> =
                         </Button>
                         <Button
                             color={"primary"} variant="contained" size={"medium"}
-                            onClick={() => addPack(title)}
+                            onClick={addNewPack}
                         >
                             Save
                         </Button>

@@ -18,6 +18,10 @@ export const ModalEditPack: FC<ModalEditPackPropsType> =
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setTitle(e.currentTarget.value)
         }
+        const editPack = () => {
+            updatePack(title)
+            closeModal()
+        }
 
         return (
             <>
@@ -37,7 +41,7 @@ export const ModalEditPack: FC<ModalEditPackPropsType> =
                         <Button color={"primary"} variant="contained" size={"medium"}
                                 onClick={closeModal}>Cancel</Button>
                         <Button color={"success"} variant="contained" size={"medium"}
-                                onClick={() => updatePack(title)}>Save</Button>
+                                onClick={editPack}>Save</Button>
                     </BtnsBlock>
                 </Modal>
             </>

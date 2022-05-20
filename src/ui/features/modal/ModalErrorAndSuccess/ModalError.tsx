@@ -3,12 +3,14 @@ import ReactDOM from "react-dom";
 import {StyledModalError} from "./ModalSuccess.style";
 import {useAppDispatch, useAppSelector} from "../../../../hooks/ReduxHooks";
 import {setIsError} from "../../../../bll-redux/reducers/AppReducer";
+import {selectError} from "../../../../selectors/AppSelectors";
 
 
 export const ModalError: FC = () => {
 
     const dispatch = useAppDispatch()
     const isError = useAppSelector(state => state.app.isError)
+    const errorText = useAppSelector(selectError)
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -29,7 +31,7 @@ export const ModalError: FC = () => {
 
     return ReactDOM.createPortal(
         <StyledModalError isError={isOpen} onClick={closeModal}>
-            Error
+            Error {errorText}
         </StyledModalError>,
         document.body);
 };
