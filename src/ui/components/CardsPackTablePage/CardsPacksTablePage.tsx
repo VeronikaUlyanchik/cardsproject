@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {Navigate} from "react-router-dom";
 import {
-    changeMinMax,
     changePacksPerPage,
     changePage, changeSortPacks,
     createCardsPack,
@@ -37,8 +36,7 @@ import {
     selectCurrentPage,
     selectMinCards,
     selectMaxCards,
-    selectMinSelectedCards,
-    selectMaxSelectedCards, selectSortPacks
+    selectSortPacks
 } from "../../../selectors/PackSelectors";
 import {ModalAddPack} from "../../features/modal/ModalPacks/ModalAddPack";
 import {ModalSuccess} from "../../features/modal/ModalErrorAndSuccess/ModalSuccess";
@@ -59,10 +57,10 @@ export const CardsPacksTablePage = () => {
     const currentPage = useAppSelector(selectCurrentPage)
     const min = useAppSelector(selectMinCards)
     const max = useAppSelector(selectMaxCards)
-    const minSelected = useAppSelector(selectMinSelectedCards)
-    const maxSelected = useAppSelector(selectMaxSelectedCards)
     const sortPacks = useAppSelector(selectSortPacks)
     const totalPage = Math.ceil(totalCountPacks / packPerPage)
+    const [minSelected, setMinSelected] = useState<number>(min)
+    const [maxSelected, setMaxSelected] = useState<number>(max)
 
     useEffect(() => {
         isMyPacks
@@ -71,7 +69,7 @@ export const CardsPacksTablePage = () => {
                 page: currentPage,
                 packName,
                 pageCount: packPerPage,
-                min: minSelected > max ? min : minSelected,
+                min: minSelected > max ? min : minSelected ,
                 max: maxSelected,
                 sortPacks
             }))
@@ -83,7 +81,7 @@ export const CardsPacksTablePage = () => {
                 max: maxSelected,
                 sortPacks
             }))
-    }, [dispatch, userId, packPerPage, minSelected, maxSelected, min, max, currentPage, isMyPacks, packName, sortPacks])
+    }, [dispatch, userId, packPerPage, minSelected, maxSelected, currentPage, isMyPacks, packName, sortPacks, max, min])
 
     const setMyPacks = () => {
         setIsMyPacks(true)
@@ -105,7 +103,9 @@ export const CardsPacksTablePage = () => {
     }
 
     const searchWithMinMax = ([min, max]: number[]) => {
-        dispatch(changeMinMax([min, max]))
+        dispatch(changePage(1))
+        setMinSelected(min)
+        setMaxSelected(max)
     }
     const addCardsPack = (title: string) => {
         dispatch(createCardsPack(title))

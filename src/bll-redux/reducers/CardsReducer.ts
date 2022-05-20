@@ -26,14 +26,6 @@ const slice = createSlice({
                 state.totalCountCards = action.payload.cardsTotalCount;
                 state.packPerPage = action.payload.pageCount;
             },
-            changeCardQuestion(state, action: PayloadAction<string>) {
-                state.cardQuestion = action.payload;
-                state.page = 1;
-            },
-            changeCardAnswer(state, action: PayloadAction<string>) {
-                state.cardAnswer = action.payload;
-                state.page = 1;
-            },
             changePageCount(state, action: PayloadAction<number>) {
                 state.pageCount = action.payload;
                 state.page = 1;
@@ -142,8 +134,6 @@ export const updateModalGrade = (grade: number, card_id: string) => async (dispa
 export const {
     setCards,
     setCardsInformation,
-    changeCardQuestion,
-    changeCardAnswer,
     changePageCount,
     updateCardsGrade
 } = slice.actions

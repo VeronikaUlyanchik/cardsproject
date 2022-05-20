@@ -1,10 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {CardsTable} from "../../features/TableCards/CardsTable";
 import {
-    changeCardAnswer,
-    changeCardQuestion,
     changePageCount,
     createCard,
     getCardsTC
@@ -16,8 +14,7 @@ import {PaginationComponent} from "../../features/Pagination/Pagination";
 import {SelectPageCount} from "../../features/SelectPageCount/SelectPageCount";
 import {PATH} from "../../../enum/Path";
 import {
-    selectCardsAnswer, selectCardsPageCount,
-    selectCardsQuestion,
+    selectCardsPageCount,
     selectPackPerPage,
     selectTotalCountCards
 } from "../../../selectors/CardsSelectors";
@@ -37,12 +34,11 @@ export const CardsTablePage = () => {
     const page = useAppSelector(state => state.cards.page)
     const totalCountCards = useAppSelector(selectTotalCountCards)
     const packPerPage = useAppSelector(selectPackPerPage)
-    const cardAnswer = useAppSelector(selectCardsAnswer)
-    const cardQuestion = useAppSelector(selectCardsQuestion)
     const pageCount = useAppSelector(selectCardsPageCount)
     const totalPage = Math.ceil(totalCountCards / packPerPage)
     const packName = useAppSelector(state => selectUserPackName(state, id ? id : ''))
-
+    const [cardAnswer, setCardAnswer] = useState<string>('')
+    const [cardQuestion, setCardQuestion] = useState<string>('')
 
     useEffect(() => {
         if (id && page) {
@@ -67,10 +63,11 @@ export const CardsTablePage = () => {
         id && dispatch(createCard({cardsPack_id: id, question}))
     }
     const searchItemByQuestion = (value: string) => {
-        dispatch(changeCardQuestion(value))
+        setCardQuestion(value)
+
     }
     const searchItemByAnswer = (value: string) => {
-        dispatch(changeCardAnswer(value))
+        setCardAnswer(value)
     }
 
     return (

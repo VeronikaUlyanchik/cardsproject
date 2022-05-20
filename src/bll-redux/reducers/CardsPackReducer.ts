@@ -12,8 +12,6 @@ const slice = createSlice({
             page: 1,
             maxCardsCount: 10000,
             minCardsCount: 0,
-            maxCardSelected: 10000,
-            minCardSelected: 0,
             sortPacks: '',
         },
         reducers: {
@@ -39,11 +37,6 @@ const slice = createSlice({
             },
             searchPackName(state, action: PayloadAction<string>) {
                 state.packName = action.payload
-                state.page = 1
-            },
-            changeMinMax(state, action: PayloadAction<number[]>) {
-                state.maxCardSelected = action.payload[1]
-                state.minCardSelected = action.payload[0]
                 state.page = 1
             },
             changeSortPacks(state, action: PayloadAction<string>) {
@@ -130,7 +123,6 @@ export const {
     changePacksPerPage,
     changePage,
     searchPackName,
-    changeMinMax,
     changeSortPacks
 } = slice.actions
 export const packReducer = slice.reducer

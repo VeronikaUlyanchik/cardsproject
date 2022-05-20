@@ -38,12 +38,6 @@ export const selectPackPerPage = (state: AppRootStateType): number => {
     return state.cards.packPerPage
 }
 
-export const selectCardsAnswer = (state: AppRootStateType): string => {
-    return state.cards.cardAnswer
-}
-export const selectCardsQuestion = (state: AppRootStateType): string => {
-    return state.cards.cardQuestion
-}
 export const selectCardsPageCount = (state: AppRootStateType): number => {
     return state.cards.pageCount
 }

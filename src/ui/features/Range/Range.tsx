@@ -26,6 +26,7 @@ type RangePropsType = {
     searchWithMinMax: ([min, max]: number[]) => void
 }
 export const Range = ({searchWithMinMax}: RangePropsType) => {
+
     const max = useAppSelector(state => state.packList.maxCardsCount)
     const min = useAppSelector(state => state.packList.minCardsCount)
 
