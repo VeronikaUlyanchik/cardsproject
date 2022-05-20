@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {setAppError, setAppStatus} from "./AppReducer";
-import { NewPasswordDataType, passwordAPI} from "../../api/PasswordAPI";
+import {NewPasswordDataType, passwordAPI} from "../../api/PasswordAPI";
 import {PATH} from "../../enum/Path";
 
 const slice = createSlice({
@@ -19,7 +19,7 @@ const slice = createSlice({
                     state.email = action.payload.email
                 }
             })
-            builder.addCase(fetchChangePassword.fulfilled, (state, action)=>{
+            builder.addCase(fetchChangePassword.fulfilled, (state, action) => {
                 state.token = null
                 state.email = null
                 state.changePassword = true
@@ -35,18 +35,17 @@ export const fetchRecoveryPassword = createAsyncThunk(
             dispatch(setAppStatus({status: 'loading'}))
             const res = await passwordAPI.forgot({
                 email, from: 'A',
-                message: `<div style="background-color: lime; padding: 15px">
+                message: `<div style="background-color: ghostwhite; padding: 15px">
                                             password recovery link: 
                                             <a href='http://localhost:3000/cardsproject#${PATH.CREATE_PASS}/$token$'>
                                             link</a></div>\``
             });
-
-            dispatch(setAppStatus({status: 'succeeded'}))
             return {success: res.data.success, email}
-
         } catch (err) {
             dispatch(setAppError('Email address not found'))
             return rejectWithValue({})
+        } finally {
+            dispatch(setAppStatus({status: 'succeeded'}))
         }
     }
 );

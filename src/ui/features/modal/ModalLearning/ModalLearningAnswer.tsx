@@ -6,6 +6,9 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import {useAppDispatch} from "../../../../hooks/ReduxHooks";
+import {updateModalGrade} from "../../../../bll-redux/reducers/ModalGradeReducer";
+import {useParams} from "react-router-dom";
 
 
 const ratesArray = [
@@ -20,18 +23,22 @@ type ModalLearningAnswerPropsType = {
     question: string
     answer: string
     opacity?: number
-    nextHandler: ()=> void
+    nextHandler: () => void
+    card_id: string
 }
 export const ModalLearningAnswer: FC<ModalLearningAnswerPropsType> =
-    ({packName, question, answer, opacity, nextHandler}) => {
+    ({packName, question, answer, opacity, nextHandler, card_id}) => {
 
+        const dispatch = useAppDispatch()
         const [isModal, setIsModal] = useState<boolean>(false)
+        const [grade, setGrade] = useState<number>(1)
         const openModal = () => setIsModal(true)
         const closeModal = () => setIsModal(false)
 
         const onClickNextHandler = () => {
             setIsModal(false)
             nextHandler()
+            dispatch(updateModalGrade(grade, card_id))
         }
         return (
             <>
@@ -45,30 +52,31 @@ export const ModalLearningAnswer: FC<ModalLearningAnswerPropsType> =
                     <Text><b>Question:</b> "{question}"</Text>
                     <Text><b>Answer:</b> "{answer}"</Text>
 
-                        <FormControl>
-                            <Text><b>Rate yourself:</b></Text>
-                            <RadioGroup
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                defaultValue={3}
-                                name="radio-buttons-group"
-                            >
-                                {ratesArray.map(item => {
-                                    return <FormControlLabel
-                                        key={item.value}
-                                        value={item.value}
-                                        control={<Radio/>}
-                                        label={item.label}
-                                    />
-                                })}
-                            </RadioGroup>
-                        </FormControl>
+                    <FormControl>
+                        <Text><b>Rate yourself:</b></Text>
+                        <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue={1}
+                            name="radio-buttons-group"
+                        >
+                            {ratesArray.map(item => {
+                                return <FormControlLabel
+                                    key={item.value}
+                                    value={item.value}
+                                    control={<Radio onClick={() => setGrade(item.value)}/>}
+                                    label={item.label}
+                                />
+                            })}
+                        </RadioGroup>
+                    </FormControl>
 
                     <BtnsBlock>
                         <Button color={"primary"} variant="outlined" size={"medium"}
                                 onClick={closeModal}>Cancel</Button>
-                        <Button color={"primary"} variant="contained" size={"medium"} onClick={onClickNextHandler}>Next</Button>
+                        <Button color={"primary"} variant="contained" size={"medium"}
+                                onClick={onClickNextHandler}>Next</Button>
                     </BtnsBlock>
                 </Modal>
             </>
-        );
+        )
     };
