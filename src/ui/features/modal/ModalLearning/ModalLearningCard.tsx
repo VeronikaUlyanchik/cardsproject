@@ -7,24 +7,13 @@ import {CardType} from "../../../../api/CardsAPI";
 import {useAppDispatch, useAppSelector} from "../../../../hooks/ReduxHooks";
 import {selectCards} from "../../../../selectors/CardsSelectors";
 import {getCardsTC} from "../../../../bll-redux/reducers/CardsReducer";
+import {getCard} from "../../../../utils/GetCardRandom";
 
 type ModalLearningCardContainerPropsType = {
     packName: string
     packId: string
     cards?: CardType[]
     openModalHandler: (value: boolean) => void
-}
-const getCard = (cards: CardType[]) => {
-    const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
-    const rand = Math.random() * sum;
-    const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
-            return {sum: newSum, id: newSum < rand ? i : acc.id}
-        }
-        , {sum: 0, id: -1});
-    console.log('test: ', sum, rand, res)
-
-    return cards[res.id + 1];
 }
 
 export const ModalLearningCard: FC<ModalLearningCardContainerPropsType> =
@@ -53,7 +42,7 @@ export const ModalLearningCard: FC<ModalLearningCardContainerPropsType> =
 
         useEffect(() => {
             if (first) {
-                dispatch(getCardsTC({cardsPack_id : packId}))
+                dispatch(getCardsTC({cardsPack_id: packId}))
                 setFirst(false)
             }
             setCard(getCard(cards))
@@ -62,18 +51,30 @@ export const ModalLearningCard: FC<ModalLearningCardContainerPropsType> =
         const nextHandler = () => {
             setCard(getCard(cards))
         }
+
         return (
             <>
-                <Modal
-                    isModal={isModal}
-                >
+                <Modal isModal={isModal}>
                     <Title>Learn “{packName}”</Title>
-                    <Text><b>Question:</b> "{card?.question}"</Text>
+                    <Text>
+                        <b>Question:</b> "{card?.question}"
+                    </Text>
                     <BtnsBlock>
-                        <Button color={"primary"} variant="outlined" size={"medium"}
-                                onClick={closeModal}>Cancel</Button>
-                        <ModalLearningAnswer packName={packName} question={card?.question} answer={card?.answer}
-                                             opacity={0} nextHandler={nextHandler} card_id={card?._id}/>
+                        <Button
+                            color={"primary"}
+                            variant="outlined"
+                            size={"medium"}
+                            onClick={closeModal}>
+                            Cancel
+                        </Button>
+                        <ModalLearningAnswer
+                            packName={packName}
+                            question={card?.question}
+                            answer={card?.answer}
+                            opacity={0}
+                            nextHandler={nextHandler}
+                            card_id={card?._id}
+                        />
                     </BtnsBlock>
                 </Modal>
             </>

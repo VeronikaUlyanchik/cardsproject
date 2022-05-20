@@ -11,6 +11,7 @@ import {selectUserId} from "../../../../selectors/UserSelectors";
 import {ModalEditCard} from "../../modal/ModalCards/ModalEditCard";
 import {deleteCardTC, updateCardTC} from "../../../../bll-redux/reducers/CardsReducer";
 import {ModalDeleteCard} from "../../modal/ModalCards/ModalDeleteCard";
+import Rating from '@mui/material/Rating';
 
 
 type CardItemPropsType = {
@@ -45,7 +46,9 @@ export const CardTableItem: FC<CardItemPropsType> = ({cardId, index}) => {
             <CardLineItem width={'30%'}>{question}</CardLineItem>
             <CardLineItem width={'30%'}>{answer}</CardLineItem>
             <CardLineItem>{updatedTime}</CardLineItem>
-            <CardLineItem>{starsGrade}</CardLineItem>
+            <CardLineItem>
+                <Rating name="read-only" value={starsGrade} readOnly />
+            </CardLineItem>
             {
                 cardUserId === userId &&
                 <CardLineItem>

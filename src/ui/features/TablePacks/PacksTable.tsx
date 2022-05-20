@@ -8,7 +8,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 type PacksTablePropsType = {
     cardPacks: CardsPackType[]
-    sortPacks: (value:string) => void
+    sortPacks: (value: string) => void
 }
 export const PacksTable: FC<PacksTablePropsType> = ({cardPacks, sortPacks}) => {
     const [ascName, setAscName] = useState<boolean>(true)
@@ -16,9 +16,9 @@ export const PacksTable: FC<PacksTablePropsType> = ({cardPacks, sortPacks}) => {
     const [ascUpdated, setAscUpdated] = useState<boolean>(true)
     const [ascCreated, setAscCreated] = useState<boolean>(true)
 
-    const onClickSortHandler = (criteria:boolean, value: string) => {
+    const onClickSortHandler = (criteria: boolean, value: string) => {
         sortPacks(`${criteria ? '0' : '1'}${value}`)
-        switch (value){
+        switch (value) {
             case 'name':
                 setAscName(!criteria)
                 return
@@ -32,25 +32,39 @@ export const PacksTable: FC<PacksTablePropsType> = ({cardPacks, sortPacks}) => {
                 setAscCreated(!criteria);
         }
     }
-        // 0 - по возрастанию
+    // 0 - по возрастанию
     return (
         <StyledTable>
             <PackHeader>
-                <PackHeaderItem onClick={()=>onClickSortHandler(ascName, 'name')}>Name
-                    {ascName ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/> }</PackHeaderItem>
-                <PackHeaderItem onClick={()=>onClickSortHandler(ascCards, 'cardsCount')} width={'10%'}>Cards
-                    {ascCards ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</PackHeaderItem>
-                <PackHeaderItem onClick={()=>onClickSortHandler(ascUpdated, 'updated')} >Last Updated
-                    {ascUpdated ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</PackHeaderItem>
-                <PackHeaderItem onClick={()=>onClickSortHandler(ascCreated, 'created')} >Created by
-                    {ascCreated ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</PackHeaderItem>
-                <PackHeaderItem width={'30%'}>Actions</PackHeaderItem>
+                <PackHeaderItem
+                    onClick={() => onClickSortHandler(ascName, 'name')}>
+                    Name
+                    {ascName ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}
+                </PackHeaderItem>
+                <PackHeaderItem
+                    onClick={() => onClickSortHandler(ascCards, 'cardsCount')} width={'10%'}>
+                    Cards
+                    {ascCards ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}
+                </PackHeaderItem>
+                <PackHeaderItem
+                    onClick={() => onClickSortHandler(ascUpdated, 'updated')}>
+                    Last Updated
+                    {ascUpdated ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}
+                </PackHeaderItem>
+                <PackHeaderItem
+                    onClick={() => onClickSortHandler(ascCreated, 'created')}>
+                    Created by
+                    {ascCreated ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}
+                </PackHeaderItem>
+                <PackHeaderItem width={'30%'}>
+                    Actions
+                </PackHeaderItem>
             </PackHeader>
             {
                 cardPacks.map((item, i) => {
                         return <PackItem key={item._id} packId={item._id} index={i}/>
-                    }
-                )}
+                    })
+            }
         </StyledTable>
     );
 };

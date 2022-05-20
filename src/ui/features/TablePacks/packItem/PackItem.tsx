@@ -53,32 +53,58 @@ export const PackItem: FC<PackItemPropsType> = ({packId, index}) => {
     }
 
     return <CardLine bgColor={index % 2 !== 0 ? '#0760b869' : '#77b2ebb0'}>
-        <CardItem onClick={showCards} style={{cursor: "pointer"}}>{packName}</CardItem>
-        <CardItem width={'10%'}>{cardsCount}</CardItem>
-        <CardItem>{updatedDate}</CardItem>
-        <CardItem>{createdDate}</CardItem>
+        <CardItem onClick={showCards} style={{cursor: "pointer"}}>
+            {packName}
+        </CardItem>
+        <CardItem width={'10%'}>
+            {cardsCount}
+        </CardItem>
+        <CardItem>
+            {updatedDate}
+        </CardItem>
+        <CardItem>
+            {createdDate}
+        </CardItem>
         <CardItem width={'30%'}>
             {
                 isMyCards
                     ? <ButtonGroup color={"primary"} size="small" variant="contained" aria-label="small button group">
-                        <ModalDeletePack deletePack={deletePack} packName={packName}/>
-                        <ModalEditPack packName={packName} updatePack={updatePack}/>
-                        <Button color={"primary"} variant="contained" size={"small"} disabled={cardsCount === 0}
-                                onClick={() => openModalHandler(true)}>Learn</Button>
-                        {openModal && <ModalLearningCard
-                            openModalHandler={openModalHandler}
-                            packId={packId}
+                        <ModalDeletePack
+                            deletePack={deletePack}
                             packName={packName}
-                        />}
+                        />
+                        <ModalEditPack
+                            packName={packName}
+                            updatePack={updatePack}
+                        />
+                        <Button color={"primary"} variant="contained" size={"small"}
+                                disabled={cardsCount === 0}
+                                onClick={() => openModalHandler(true)}>
+                            Learn
+                        </Button>
+                        {
+                            openModal &&
+                            <ModalLearningCard
+                                openModalHandler={openModalHandler}
+                                packId={packId}
+                                packName={packName}
+                            />
+                        }
                     </ButtonGroup>
                     : <>
-                        <Button color={"primary"} variant="contained" size={"small"} disabled={cardsCount === 0}
-                                onClick={() => openModalHandler(true)}>Learn</Button>
-                        {openModal && <ModalLearningCard
-                            openModalHandler={openModalHandler}
-                            packId={packId}
-                            packName={packName}
-                        />}
+                        <Button color={"primary"} variant="contained" size={"small"}
+                                disabled={cardsCount === 0}
+                                onClick={() => openModalHandler(true)}>
+                            Learn
+                        </Button>
+                        {
+                            openModal &&
+                            <ModalLearningCard
+                                openModalHandler={openModalHandler}
+                                packId={packId}
+                                packName={packName}
+                            />
+                        }
                     </>
             }
         </CardItem>

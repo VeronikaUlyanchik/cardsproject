@@ -25,6 +25,7 @@ import {ModalAddCard} from "../../features/modal/ModalCards/ModalAddCard";
 import {ModalSuccess} from "../../features/modal/ModalErrorAndSuccess/ModalSuccess";
 import {ModalError} from "../../features/modal/ModalErrorAndSuccess/ModalError";
 import {SearchComponent} from "../../features/SearchComponent/TextField";
+import {selectUserPackName} from "../../../selectors/PackSelectors";
 
 
 export const CardsTablePage = () => {
@@ -40,6 +41,7 @@ export const CardsTablePage = () => {
     const cardQuestion = useAppSelector(selectCardsQuestion)
     const pageCount = useAppSelector(selectCardsPageCount)
     const totalPage = Math.ceil(totalCountCards / packPerPage)
+    const packName = useAppSelector(state => selectUserPackName(state, id ? id : ''))
 
 
     useEffect(() => {
@@ -51,7 +53,6 @@ export const CardsTablePage = () => {
     const goBackToPacks = () => {
         return navigate(`${PATH.PACKS}`)
     }
-
     const paginateCards = (page: number) => {
         if (id) {
             setSearchParams({cardsPack_id: id.toString(), page: page.toString()});
@@ -59,15 +60,11 @@ export const CardsTablePage = () => {
             setSearchParams({});
         }
     }
-
     const changeItemPerPage = (pageCount: number) => {
         id && dispatch(changePageCount(pageCount))
     }
-
     const addCardHandler = (question: string) => {
-        if (id) {
-            dispatch(createCard({cardsPack_id: id, question}))
-        }
+        id && dispatch(createCard({cardsPack_id: id, question}))
     }
     const searchItemByQuestion = (value: string) => {
         dispatch(changeCardQuestion(value))
@@ -80,32 +77,53 @@ export const CardsTablePage = () => {
         <>
             <ModalSuccess/>
             <ModalError/>
-            <ContentWrapper width={"65%"} height={"85%"} flex={"flex"} direction={"column"}>
 
+            <ContentWrapper width={"65%"} height={"85%"} flex={"flex"} direction={"column"}>
                 <StyledSearchForm>
                     <span style={{padding: "10px", display: "inline-flex", alignItems: "center"}}>
-                        <ArrowCircleLeftIcon fontSize={"large"} onClick={goBackToPacks} style={{cursor: "pointer"}}/>
-                        <h2 style={{marginLeft: "20px"}}>Pack Name</h2>
+                        <ArrowCircleLeftIcon
+                            fontSize={"large"}
+                            onClick={goBackToPacks}
+                            style={{cursor: "pointer"}}
+                        />
+                        <h2 style={{marginLeft: "20px"}}>
+                            {packName}
+                        </h2>
                     </span>
                     <div style={{width: '100%', display: "flex", justifyContent: 'space-around'}}>
-                        <SearchComponent label="Search by question" onClickHandler={searchItemByQuestion}/>
-                        <SearchComponent label="Search by answer" onClickHandler={searchItemByAnswer}/>
+                        <SearchComponent
+                            label="Search by question"
+                            onClickHandler={searchItemByQuestion}
+                        />
+                        <SearchComponent
+                            label="Search by answer"
+                            onClickHandler={searchItemByAnswer}
+                        />
 
                         <div style={{alignSelf: 'end'}}>
-                             <ModalAddCard addCard={addCardHandler}/>
+                            <ModalAddCard
+                                addCard={addCardHandler}
+                            />
                         </div>
-
                     </div>
                 </StyledSearchForm>
 
                 <CardsTable id={id ? id : ''}/>
 
                 <StyledPaginationBox>
-                    <div> Show <SelectPageCount onChangeHandler={changeItemPerPage}/> packs per page</div>
-                    <PaginationComponent currentPage={page ? +page : 1} onClickHandler={paginateCards}
-                                         totalPage={totalPage}/>
+                    <div>
+                        Show
+                        <SelectPageCount
+                            onChangeHandler={changeItemPerPage}
+                        />
+                        packs per page
+                    </div>
+                    <PaginationComponent
+                        currentPage={page ? +page : 1}
+                        onClickHandler={paginateCards}
+                        totalPage={totalPage}
+                    />
                 </StyledPaginationBox>
-
             </ContentWrapper>
         </>
     );
