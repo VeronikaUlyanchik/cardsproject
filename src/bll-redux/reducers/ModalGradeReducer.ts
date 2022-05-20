@@ -3,7 +3,6 @@ import {modalGradeAPI, UpdatedGradeType} from "../../api/ModalGradeAPI";
 import {CardType} from "../../api/CardsAPI";
 import {setAppStatus} from "./AppReducer";
 
-
 const slice = createSlice({
         name: "modalGrade",
         initialState: {
@@ -32,7 +31,5 @@ export const updateModalGrade = (grade: number, card_id: string) => async (dispa
 
 }
 
-
-export const modalGradeReducer = slice.reducer
 export const {updateCardsGrade} = slice.actions
 

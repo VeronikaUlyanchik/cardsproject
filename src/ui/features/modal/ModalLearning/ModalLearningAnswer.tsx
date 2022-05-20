@@ -8,8 +8,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import {useAppDispatch} from "../../../../hooks/ReduxHooks";
 import {updateModalGrade} from "../../../../bll-redux/reducers/ModalGradeReducer";
-import {useParams} from "react-router-dom";
-
 
 const ratesArray = [
     {value: 1, label: "Did not know"},

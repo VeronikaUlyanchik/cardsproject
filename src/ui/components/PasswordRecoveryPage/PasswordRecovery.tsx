@@ -7,7 +7,7 @@ import {fetchRecoveryPassword} from "../../../bll-redux/reducers/RecoveryPasswor
 import {PATH} from "../../../enum/Path";
 import {selectError} from "../../../selectors/AppSelectors";
 import {useSelector} from "react-redux";
-import {selectPasswordChange, selectSuccess} from "../../../selectors/PasswordSelectors";
+import {selectSuccess} from "../../../selectors/PasswordSelectors";
 
 type FormikErrorType = {
     email?: string
