@@ -15,6 +15,7 @@ import Button from "@mui/material/Button"
 import ButtonGroup from '@mui/material/ButtonGroup';
 import {selectUserId} from "../../../selectors/UserSelectors";
 import {
+    AnimatedPage,
     StyledButtons,
     StyledCardPacksBlock,
     StyledPaginationBlock,
@@ -65,25 +66,23 @@ export const CardsPacksTablePage = () => {
 
     useEffect(() => {
         isMyPacks
-            ? dispatch(getPackList(
-                {
-                    user_id: userId,
-                    page: currentPage,
-                    packName,
-                    pageCount: packPerPage,
-                    min:minSelected > max ? min : minSelected,
-                    max:maxSelected,
-                    sortPacks
-                }))
-            : dispatch(getPackList(
-                {
-                    page: currentPage,
-                    packName,
-                    pageCount: packPerPage,
-                    min:minSelected,
-                    max:maxSelected,
-                    sortPacks
-                }))
+            ? dispatch(getPackList({
+                user_id: userId,
+                page: currentPage,
+                packName,
+                pageCount: packPerPage,
+                min: minSelected > max ? min : minSelected,
+                max: maxSelected,
+                sortPacks
+            }))
+            : dispatch(getPackList({
+                page: currentPage,
+                packName,
+                pageCount: packPerPage,
+                min: minSelected,
+                max: maxSelected,
+                sortPacks
+            }))
     }, [dispatch, userId, packPerPage, minSelected, maxSelected, min, max, currentPage, isMyPacks, packName, sortPacks])
 
     const setMyPacks = () => {
@@ -106,7 +105,7 @@ export const CardsPacksTablePage = () => {
     }
 
     const searchWithMinMax = ([min, max]: number[]) => {
-        dispatch(changeMinMax([min,max]))
+        dispatch(changeMinMax([min, max]))
     }
     const addCardsPack = (title: string) => {
         dispatch(createCardsPack(title))
@@ -144,7 +143,7 @@ export const CardsPacksTablePage = () => {
                 <StyledCardPacksBlock>
                     <StyledTitle>Packs list</StyledTitle>
                     <StyledSearchBlock>
-                        <SearchComponent label ="Search by name" onClickHandler={searchItemByName}/>
+                        <SearchComponent label="Search by name" onClickHandler={searchItemByName}/>
                         <ModalAddPack addPack={addCardsPack}/>
                     </StyledSearchBlock>
 

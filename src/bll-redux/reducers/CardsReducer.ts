@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {cardsAPI, CardType, GetCardsResponseType} from "../../api/CardsAPI";
-import {setAppStatus, setIsError, setIsSuccessful} from "./AppReducer";
+import {setAppError, setAppStatus, setIsError, setIsSuccessful} from "./AppReducer";
 
 
 const slice = createSlice({
@@ -43,9 +43,9 @@ const slice = createSlice({
 
 export const getCardsTC = createAsyncThunk(
     'cards/getCardsTC',
-    async (data: { cardsPack_id: string, page?: number, pageCount?: number, cardAnswer?:string, cardQuestion?:string },
+    async (data: { cardsPack_id: string, page?: number, pageCount?: number, cardAnswer?: string, cardQuestion?: string },
            {dispatch}) => {
-        const {cardsPack_id, page, pageCount,cardAnswer, cardQuestion} = data
+        const {cardsPack_id, page, pageCount, cardAnswer, cardQuestion} = data
         dispatch(setAppStatus({status: 'loading'}))
         try {
             const response = await cardsAPI.getCards({cardsPack_id, page, pageCount, cardAnswer, cardQuestion})
@@ -72,7 +72,6 @@ export const createCard = createAsyncThunk(
             dispatch(setIsSuccessful(true))
             return response
         } catch (error) {
-            console.warn(error)
             dispatch(setIsError(true))
         } finally {
             dispatch(setAppStatus({status: 'idle'}))
@@ -120,7 +119,7 @@ export const updateCardTC = createAsyncThunk(
 )
 
 
-export const {setCards, setCardsInformation, changeCardQuestion , changeCardAnswer, changePageCount} = slice.actions
+export const {setCards, setCardsInformation, changeCardQuestion, changeCardAnswer, changePageCount} = slice.actions
 export const cardsReducer = slice.reducer
 
 export type CardsReducerActionsType = ReturnType<typeof setCards>

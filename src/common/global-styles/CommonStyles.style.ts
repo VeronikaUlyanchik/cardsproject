@@ -36,9 +36,6 @@ export const GlobalStyle = createGlobalStyle`
 export const AppWrapper = styled.div`
   width: 100%;
   height: 100vh;
-  //background: linear-gradient(75deg, #1eb6b1, #c29aa7);
-  //background: linear-gradient(75deg,#1976d2a3,#0d4175);
-  //background: linear-gradient(0deg,#519ce6a3,#1976d2);
   background: linear-gradient(180deg, #519ce65c, #1976d2);
   box-sizing: border-box;
   display: flex;
@@ -54,6 +51,7 @@ interface ContentWrapperProps {
     height?: string
     direction?: string
 }
+
 export const ContentWrapper = styled.div<ContentWrapperProps>`
   width: ${props => props.width};
   height: ${props => props.height};
@@ -61,8 +59,7 @@ export const ContentWrapper = styled.div<ContentWrapperProps>`
   flex-direction: ${props => props.direction};
   justify-content: space-between;
   padding: 30px;
-
-  //background: rgba(255, 255, 255, 0.18);
+  
   background: rgb(255 255 255 / 45%);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);

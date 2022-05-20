@@ -31,7 +31,7 @@ export const Range = ({searchWithMinMax}: RangePropsType) => {
 
     const [value, setValue] = React.useState<number[]>([min, max]);
 
-    const onMouseLeaveHandler = ()=> {
+    const onMouseLeaveHandler = () => {
         searchWithMinMax([value[0], value[1]]);
     }
 
@@ -50,6 +50,7 @@ export const Range = ({searchWithMinMax}: RangePropsType) => {
             setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
         }
     };
+
     return (
         <div>
             <h3>Number of cards</h3>
@@ -57,7 +58,7 @@ export const Range = ({searchWithMinMax}: RangePropsType) => {
                 getAriaLabel={() => 'Minimum distance shift'}
                 value={value}
                 onChange={handleChange}
-                onMouseUp = {onMouseLeaveHandler}
+                onMouseUp={onMouseLeaveHandler}
                 valueLabelDisplay="on"
                 getAriaValueText={valuetext}
                 disableSwap

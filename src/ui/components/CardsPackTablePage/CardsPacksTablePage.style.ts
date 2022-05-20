@@ -43,3 +43,7 @@ export const StyledPaginationBlock = styled.div`
   margin-top: 20px;
   font-size: 18px;
 `;
+
+export const AnimatedPage = styled.div`
+  //transform: translate();
+`;
